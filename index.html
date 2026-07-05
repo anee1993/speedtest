@@ -115,7 +115,7 @@
 <footer>Results are approximate. Speed varies with network conditions.</footer>
 
 <script>
-const DL_URL = 'https://speed.cloudflare.com/__down?bytes=25000000';
+const DL_URL = 'https://speed.cloudflare.com/__down?bytes=100000000';
 const UL_URL = 'https://speed.cloudflare.com/__up';
 
 const auraCanvas = document.getElementById('aura-canvas');
@@ -303,16 +303,33 @@ async function measureDownload() {
   liveMbps=0; running=true;
   dirBadge.textContent='↓  DOWNLOAD'; dirBadge.style.color='#60a5fa';
   try {
-    const t0=performance.now(), res=await fetch(DL_URL,{cache:'no-store'}), reader=res.body.getReader();
-    let loaded=0,lastTick=t0,lastBytes=0;
-    while(true){
-      const{done,value}=await reader.read(); if(done)break;
-      loaded+=value.byteLength;
-      const now=performance.now(),el=(now-lastTick)/1000;
-      if(el>=0.25){liveMbps=((loaded-lastBytes)*8/1e6)/el;dlVal.textContent=liveMbps.toFixed(1);lastTick=now;lastBytes=loaded;}
+    const MIN_SECS = 6;
+    let totalLoaded = 0, totalSec = 0, round = 0;
+
+    while (true) {
+      round++;
+      const t0 = performance.now();
+      const res = await fetch(DL_URL, {cache:'no-store'});
+      const reader = res.body.getReader();
+      let loaded=0, lastTick=t0, lastBytes=0;
+      while(true){
+        const{done,value}=await reader.read(); if(done)break;
+        loaded+=value.byteLength; totalLoaded+=value.byteLength;
+        const now=performance.now(), el=(now-lastTick)/1000;
+        if(el>=0.25){
+          liveMbps=((loaded-lastBytes)*8/1e6)/el;
+          dlVal.textContent=liveMbps.toFixed(1);
+          lastTick=now; lastBytes=loaded;
+        }
+      }
+      totalSec += (performance.now()-t0)/1000;
+      // Stop if we've hit the minimum duration
+      if (totalSec >= MIN_SECS) break;
     }
-    const sec=(performance.now()-t0)/1000; running=false; liveMbps=0;
-    return (loaded*8/1e6)/sec;
+
+    const finalMbps = (totalLoaded*8/1e6)/totalSec;
+    running=false; liveMbps=0;
+    return finalMbps;
   } catch(e){running=false;liveMbps=0;throw e;}
 }
 
