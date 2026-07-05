@@ -51,6 +51,11 @@
     .meter-label { font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: #94a3b8; margin-bottom: 6px; }
     .meter-value { font-size: clamp(1.5rem, 6vw, 2.2rem); font-weight: 700; line-height: 1; }
     .meter-unit  { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
+    .meter-rank  {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-top: 5px; min-height: 14px;
+      transition: color 0.5s;
+    }
     .dl-value  { color: #60a5fa; }
     .ul-value  { color: #a78bfa; }
     .ping-value{ color: #34d399; }
@@ -94,11 +99,13 @@
       <div class="meter-label">Download</div>
       <div class="meter-value dl-value" id="dl-val">–</div>
       <div class="meter-unit">Mbps</div>
+      <div class="meter-rank" id="dl-rank"></div>
     </div>
     <div class="meter-box">
       <div class="meter-label">Upload</div>
       <div class="meter-value ul-value" id="ul-val">–</div>
       <div class="meter-unit">Mbps</div>
+      <div class="meter-rank" id="ul-rank"></div>
     </div>
     <div class="meter-box">
       <div class="meter-label">Ping</div>
@@ -129,9 +136,17 @@ const statusEl   = document.getElementById('status');
 const startBtn   = document.getElementById('start-btn');
 const dirBadge   = document.getElementById('dir-badge');
 const formLabel  = document.getElementById('form-label');
+const dlRank     = document.getElementById('dl-rank');
+const ulRank     = document.getElementById('ul-rank');
 
 function setStatus(m)  { statusEl.textContent = m; }
 function setProgress(p){ progressBar.style.width = p + '%'; }
+
+function setRank(el, mbps) {
+  const form = getForm(mbps);
+  el.textContent  = form.name === '—' ? '' : form.name;
+  el.style.color  = LABEL_COLORS[form.name] || '#94a3b8';
+}
 
 function resizeCanvas() {
   const r = auraCanvas.parentElement.getBoundingClientRect();
@@ -363,6 +378,7 @@ async function measureUpload() {
 async function runTest() {
   startBtn.disabled=true;
   dlVal.textContent=ulVal.textContent=pingVal.textContent='–';
+  dlRank.textContent=ulRank.textContent='';
   setProgress(0); running=false; liveMbps=0;
   try {
     setStatus('Measuring ping…'); setProgress(5);
@@ -370,11 +386,11 @@ async function runTest() {
     const ping=await measurePing(); pingVal.textContent=ping; setProgress(15);
 
     setStatus('Testing download speed…');
-    const dl=await measureDownload(); dlVal.textContent=dl.toFixed(1); setProgress(60);
+    const dl=await measureDownload(); dlVal.textContent=dl.toFixed(1); setRank(dlRank, dl); setProgress(60);
     await new Promise(r=>setTimeout(r,800));
 
     setStatus('Testing upload speed…'); setProgress(65);
-    const ul=await measureUpload(); ulVal.textContent=ul.toFixed(1); setProgress(100);
+    const ul=await measureUpload(); ulVal.textContent=ul.toFixed(1); setRank(ulRank, ul); setProgress(100);
 
     dirBadge.textContent='DONE ✓'; dirBadge.style.color='#34d399';
     setStatus(`Download ${dl.toFixed(1)} Mbps · Upload ${ul.toFixed(1)} Mbps · Ping ${ping} ms`);
