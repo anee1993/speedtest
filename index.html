@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speed Test</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      margin-top: 24px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: #a5b4fc;
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 480px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    /* ── Track scene ── */
+    .scene {
+      position: relative;
+      height: 90px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #1e1b4b 0%, #14532d 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ground strip */
+    .scene::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 28px;
+      background: #15803d;
+      border-top: 2px solid #16a34a;
+    }
+
+    #rabbit {
+      position: absolute;
+      bottom: 18px;
+      font-size: 2rem;
+      line-height: 1;
+      will-change: transform;
+      transform: translateX(0px) scaleX(-1); /* scaleX(-1) flips to face right */
+      animation: hop 0.4s infinite ease-in-out;
+      animation-play-state: paused;
+    }
+
+    @keyframes hop {
+      0%, 100% { bottom: 18px; }
+      50%       { bottom: 28px; }
+    }
+
+    /* speed-line streak behind rabbit */
+    #speed-lines {
+      position: absolute;
+      bottom: 22px;
+      height: 20px;
+      width: 60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    #speed-lines span {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.35);
+      margin-bottom: 4px;
+    }
+    #speed-lines span:nth-child(1) { width: 60px; }
+    #speed-lines span:nth-child(2) { width: 40px; }
+    #speed-lines span:nth-child(3) { width: 50px; }
+
+    /* ── Phase badge ── */
+    #dir-badge {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* ── Speed meters ── */
+    .meters {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .meter-box {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .meter-label {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .meter-value {
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .meter-unit { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
+    .dl-value   { color: #60a5fa; }
+    .ul-value   { color: #a78bfa; }
+    .ping-value { color: #34d399; }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      transition: width 0.3s ease;
+    }
+
+    #status {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #a5b4fc;
+      min-height: 20px;
+      margin-bottom: 20px;
+    }
+
+    #start-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    #start-btn:hover   { opacity: 0.9; }
+    #start-btn:active  { transform: scale(0.98); }
+    #start-btn:disabled{ opacity: 0.45; cursor: not-allowed; }
+
+    footer {
+      margin-top: 28px;
+      font-size: 0.7rem;
+      color: #475569;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>⚡ Speed Test</h1>
+<p class="subtitle">Check your internet connection speed</p>
+
+<div class="card">
+
+  <div class="scene">
+    <div id="speed-lines">
+      <span></span><span></span><span></span>
+    </div>
+    <div id="rabbit">🐇</div>
+  </div>
+
+  <div id="dir-badge">IDLE</div>
+
+  <div class="meters">
+    <div class="meter-box">
+      <div class="meter-label">Download</div>
+      <div class="meter-value dl-value" id="dl-val">–</div>
+      <div class="meter-unit">Mbps</div>
+    </div>
+    <div class="meter-box">
+      <div class="meter-label">Upload</div>
+      <div class="meter-value ul-value" id="ul-val">–</div>
+      <div class="meter-unit">Mbps</div>
+    </div>
+    <div class="meter-box">
+      <div class="meter-label">Ping</div>
+      <div class="meter-value ping-value" id="ping-val">–</div>
+      <div class="meter-unit">ms</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="status">Ready to test your speed</div>
+  <button id="start-btn">START TEST</button>
+</div>
+
+<footer>Results are approximate. Speed varies with network conditions.</footer>
+
+<script>
+const DL_URL = 'https://speed.cloudflare.com/__down?bytes=25000000';
+const UL_URL = 'https://speed.cloudflare.com/__up';
+
+const dlVal       = document.getElementById('dl-val');
+const ulVal       = document.getElementById('ul-val');
+const pingVal     = document.getElementById('ping-val');
+const progressBar = document.getElementById('progress-bar');
+const statusEl    = document.getElementById('status');
+const startBtn    = document.getElementById('start-btn');
+const dirBadge    = document.getElementById('dir-badge');
+const rabbit      = document.getElementById('rabbit');
+const speedLines  = document.getElementById('speed-lines');
+
+function setStatus(m)  { statusEl.textContent = m; }
+function setProgress(p){ progressBar.style.width = p + '%'; }
+
+// ── Rabbit animation ──────────────────────────────────────────────────────────
+let rabbitX  = 40;   // current x position in px
+let rafId    = null;
+let lastNow  = null;
+let liveMbps = 0;
+let running  = false;
+
+const TRACK_W = () => rabbit.parentElement.offsetWidth;
+
+// Map Mbps → px/s (log scale, 30–600)
+function mbpsToPx(mbps) {
+  if (!mbps || mbps <= 0) return 0;
+  const t = Math.log10(mbps + 1) / Math.log10(1001);
+  return 30 + t * 570;
+}
+
+// Map Mbps → hop duration in seconds (fast = short hop interval = rapid bounce)
+function mbpsToHopDuration(mbps) {
+  if (!mbps || mbps <= 0) return 0.5;
+  const t = Math.log10(mbps + 1) / Math.log10(1001);
+  return Math.max(0.12, 0.5 - t * 0.38);
+}
+
+function updateRabbit(mbps) {
+  const pps = mbpsToPx(mbps);
+  const hopDur = mbpsToHopDuration(mbps);
+  const fast = Math.min(mbps / 150, 1);
+
+  rabbit.style.animationDuration   = hopDur + 's';
+  rabbit.style.animationPlayState  = running && mbps > 0 ? 'running' : 'paused';
+  speedLines.style.opacity         = fast > 0.25 ? fast * 0.9 : 0;
+
+  // Position speed lines just behind rabbit
+  speedLines.style.left = Math.max(0, rabbitX - 68) + 'px';
+}
+
+function animLoop(now) {
+  rafId = requestAnimationFrame(animLoop);
+  const dt = lastNow ? Math.min((now - lastNow) / 1000, 0.05) : 0;
+  lastNow = now;
+
+  if (running && liveMbps > 0) {
+    rabbitX += mbpsToPx(liveMbps) * dt;
+    const w = TRACK_W();
+    if (rabbitX > w + 40) rabbitX = -40; // wrap
+  }
+
+  rabbit.style.transform = `translateX(${rabbitX}px) scaleX(-1)`;
+  updateRabbit(liveMbps);
+}
+
+rafId = requestAnimationFrame(animLoop);
+
+// ── Measurement functions ─────────────────────────────────────────────────────
+async function measurePing() {
+  const runs = 4; let total = 0;
+  for (let i = 0; i < runs; i++) {
+    const t0 = performance.now();
+    try { await fetch('https://speed.cloudflare.com/__down?bytes=1', { cache: 'no-store' }); } catch(e) {}
+    total += performance.now() - t0;
+  }
+  return Math.round(total / runs);
+}
+
+async function measureDownload() {
+  liveMbps = 0; running = true;
+  dirBadge.textContent = '↓  DOWNLOAD'; dirBadge.style.color = '#60a5fa';
+  try {
+    const t0 = performance.now();
+    const response = await fetch(DL_URL, { cache: 'no-store' });
+    const reader = response.body.getReader();
+    let loaded = 0, lastTick = t0, lastBytes = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      loaded += value.byteLength;
+      const now = performance.now(), el = (now - lastTick) / 1000;
+      if (el >= 0.25) {
+        liveMbps = ((loaded - lastBytes) * 8 / 1e6) / el;
+        dlVal.textContent = liveMbps.toFixed(1);
+        lastTick = now; lastBytes = loaded;
+      }
+    }
+    const totalSec = (performance.now() - t0) / 1000;
+    running = false; liveMbps = 0;
+    return (loaded * 8 / 1e6) / totalSec;
+  } catch(e) { running = false; liveMbps = 0; throw e; }
+}
+
+async function measureUpload() {
+  liveMbps = 0; running = true;
+  dirBadge.textContent = '↑  UPLOAD'; dirBadge.style.color = '#a78bfa';
+
+  const UNIT = 65536, REPS = 8, CHUNK = UNIT * REPS;
+  const buf = new Uint8Array(CHUNK);
+  for (let i = 0; i < REPS; i++) crypto.getRandomValues(buf.subarray(i*UNIT,(i+1)*UNIT));
+  const blob = new Blob([buf]);
+  await new Promise(r => setTimeout(r, 30));
+
+  const MIN_SECS = 6, MAX_SECS = 15;
+  const speeds = []; const testStart = performance.now(); let round = 0;
+
+  while (true) {
+    const elapsed = (performance.now() - testStart) / 1000;
+    if (elapsed > MAX_SECS) break;
+    if (elapsed >= MIN_SECS && speeds.length >= 4) break;
+    round++;
+    setStatus(`Testing upload… (${round} rounds, ${elapsed.toFixed(1)}s)`);
+    const t0 = performance.now();
+    try {
+      await fetch(UL_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:blob, mode:'no-cors' });
+    } catch(e) { console.warn('Upload round failed:', e); continue; }
+    const secs = (performance.now() - t0) / 1000;
+    const mbps = (CHUNK * 8 / 1e6) / secs;
+    speeds.push(mbps);
+    liveMbps = speeds.slice(-3).reduce((a,b)=>a+b,0) / Math.min(speeds.length, 3);
+    ulVal.textContent = liveMbps.toFixed(1);
+    await new Promise(r => setTimeout(r, 0));
+  }
+
+  running = false; liveMbps = 0;
+  if (speeds.length === 0) return 0;
+  const trimmed = speeds.length > 2 ? speeds.slice(1) : speeds;
+  return trimmed.reduce((a,b)=>a+b,0) / trimmed.length;
+}
+
+// ── Orchestrator ──────────────────────────────────────────────────────────────
+async function runTest() {
+  startBtn.disabled = true;
+  dlVal.textContent = ulVal.textContent = pingVal.textContent = '–';
+  setProgress(0); running = false; liveMbps = 0; rabbitX = 40;
+
+  try {
+    setStatus('Measuring ping…'); setProgress(5);
+    dirBadge.textContent = 'PING'; dirBadge.style.color = '#34d399';
+    const ping = await measurePing();
+    pingVal.textContent = ping; setProgress(15);
+
+    setStatus('Testing download speed…');
+    const dl = await measureDownload();
+    dlVal.textContent = dl.toFixed(1); setProgress(60);
+
+    await new Promise(r => setTimeout(r, 600)); // brief pause, rabbit slows
+
+    setStatus('Testing upload speed…'); setProgress(65);
+    const ul = await measureUpload();
+    ulVal.textContent = ul.toFixed(1); setProgress(100);
+
+    dirBadge.textContent = 'DONE ✓'; dirBadge.style.color = '#34d399';
+    setStatus(`Download ${dl.toFixed(1)} Mbps · Upload ${ul.toFixed(1)} Mbps · Ping ${ping} ms`);
+  } catch(err) {
+    running = false; liveMbps = 0;
+    setStatus('⚠ Test failed: ' + (err.message || err));
+    dirBadge.textContent = 'ERROR'; dirBadge.style.color = '#f87171';
+    console.error(err);
+  }
+
+  startBtn.disabled = false;
+}
+
+startBtn.addEventListener('click', runTest);
+</script>
+</body>
+</html>
