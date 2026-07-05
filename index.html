@@ -6,203 +6,73 @@
   <title>Speed Test</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+      min-height: 100vh; background: #0a0a0f;
+      font-family: 'Segoe UI', sans-serif; color: #fff;
+      display: flex; flex-direction: column; align-items: center; padding: 20px;
     }
-
     h1 {
-      font-size: clamp(1.4rem, 4vw, 2.2rem);
-      margin-top: 24px;
-      letter-spacing: 2px;
+      font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 24px; letter-spacing: 2px;
       background: linear-gradient(90deg, #a78bfa, #60a5fa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    .subtitle {
-      font-size: 0.85rem;
-      color: #a5b4fc;
-      margin-top: 4px;
-      margin-bottom: 24px;
-    }
-
+    .subtitle { font-size: 0.85rem; color: #a5b4fc; margin-top: 4px; margin-bottom: 24px; }
     .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 24px;
-      padding: 28px 24px;
-      width: 100%;
-      max-width: 480px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 480px;
+      backdrop-filter: blur(12px); box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     }
-
-    /* ── Track scene ── */
     .scene {
-      position: relative;
-      height: 90px;
-      margin-bottom: 20px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(180deg, #1e1b4b 0%, #14532d 100%);
-      border: 1px solid rgba(255,255,255,0.08);
+      position: relative; height: 260px; margin-bottom: 16px;
+      border-radius: 16px; overflow: hidden; background: #000;
     }
-
-    /* ground strip */
-    .scene::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 28px;
-      background: #15803d;
-      border-top: 2px solid #16a34a;
+    #aura-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
     }
-
-    #rabbit {
-      position: absolute;
-      bottom: 18px;
-      font-size: 2rem;
-      line-height: 1;
-      will-change: transform;
-      transform: translateX(0px) scaleX(-1); /* scaleX(-1) flips to face right */
-      animation: hop 0.4s infinite ease-in-out;
-      animation-play-state: paused;
+    #goku-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: contain; object-position: center;
+      transition: filter 0.6s ease;
     }
-
-    @keyframes hop {
-      0%, 100% { bottom: 18px; }
-      50%       { bottom: 28px; }
+    #form-label {
+      text-align: center; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; min-height: 22px;
+      margin-bottom: 10px; transition: color 0.6s; color: #475569;
     }
-
-    /* speed-line streak behind rabbit */
-    #speed-lines {
-      position: absolute;
-      bottom: 22px;
-      height: 20px;
-      width: 60px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    #speed-lines span {
-      display: block;
-      height: 2px;
-      border-radius: 2px;
-      background: rgba(255,255,255,0.35);
-      margin-bottom: 4px;
-    }
-    #speed-lines span:nth-child(1) { width: 60px; }
-    #speed-lines span:nth-child(2) { width: 40px; }
-    #speed-lines span:nth-child(3) { width: 50px; }
-
-    /* ── Phase badge ── */
     #dir-badge {
-      display: block;
-      text-align: center;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #94a3b8;
-      margin-bottom: 10px;
-      text-transform: uppercase;
+      display: block; text-align: center; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 2px; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase;
     }
-
-    /* ── Speed meters ── */
-    .meters {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
+    .meters { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
     .meter-box {
-      flex: 1;
-      background: rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 14px 10px;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.1);
+      flex: 1; background: rgba(255,255,255,0.05); border-radius: 16px;
+      padding: 14px 10px; text-align: center; border: 1px solid rgba(255,255,255,0.08);
     }
-
-    .meter-label {
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #94a3b8;
-      margin-bottom: 6px;
-    }
-
-    .meter-value {
-      font-size: clamp(1.5rem, 6vw, 2.2rem);
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .meter-unit { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
-    .dl-value   { color: #60a5fa; }
-    .ul-value   { color: #a78bfa; }
-    .ping-value { color: #34d399; }
-
-    /* ── Progress bar ── */
+    .meter-label { font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: #94a3b8; margin-bottom: 6px; }
+    .meter-value { font-size: clamp(1.5rem, 6vw, 2.2rem); font-weight: 700; line-height: 1; }
+    .meter-unit  { font-size: 0.7rem; color: #94a3b8; margin-top: 4px; }
+    .dl-value  { color: #60a5fa; }
+    .ul-value  { color: #a78bfa; }
+    .ping-value{ color: #34d399; }
     .progress-wrap {
-      background: rgba(255,255,255,0.08);
-      border-radius: 99px;
-      height: 6px;
-      overflow: hidden;
-      margin-bottom: 20px;
+      background: rgba(255,255,255,0.08); border-radius: 99px;
+      height: 6px; overflow: hidden; margin-bottom: 20px;
     }
-
     #progress-bar {
-      height: 100%;
-      width: 0%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, #a78bfa, #60a5fa);
-      transition: width 0.3s ease;
+      height: 100%; width: 0%; border-radius: 99px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa); transition: width 0.3s ease;
     }
-
-    #status {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #a5b4fc;
-      min-height: 20px;
-      margin-bottom: 20px;
-    }
-
+    #status { text-align: center; font-size: 0.85rem; color: #a5b4fc; min-height: 20px; margin-bottom: 20px; }
     #start-btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 14px;
+      display: block; width: 100%; padding: 14px; border: none; border-radius: 14px;
       background: linear-gradient(135deg, #a78bfa, #60a5fa);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
+      color: #fff; font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s;
     }
-
-    #start-btn:hover   { opacity: 0.9; }
-    #start-btn:active  { transform: scale(0.98); }
-    #start-btn:disabled{ opacity: 0.45; cursor: not-allowed; }
-
-    footer {
-      margin-top: 28px;
-      font-size: 0.7rem;
-      color: #475569;
-      text-align: center;
-    }
+    #start-btn:hover    { opacity: 0.9; }
+    #start-btn:active   { transform: scale(0.98); }
+    #start-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    footer { margin-top: 28px; font-size: 0.7rem; color: #475569; text-align: center; }
   </style>
 </head>
 <body>
@@ -211,14 +81,12 @@
 <p class="subtitle">Check your internet connection speed</p>
 
 <div class="card">
-
   <div class="scene">
-    <div id="speed-lines">
-      <span></span><span></span><span></span>
-    </div>
-    <div id="rabbit">🐇</div>
+    <canvas id="aura-canvas"></canvas>
+    <img id="goku-img" src="Goku.svg" alt="Goku" />
   </div>
 
+  <div id="form-label">—</div>
   <div id="dir-badge">IDLE</div>
 
   <div class="meters">
@@ -250,177 +118,256 @@
 const DL_URL = 'https://speed.cloudflare.com/__down?bytes=25000000';
 const UL_URL = 'https://speed.cloudflare.com/__up';
 
-const dlVal       = document.getElementById('dl-val');
-const ulVal       = document.getElementById('ul-val');
-const pingVal     = document.getElementById('ping-val');
-const progressBar = document.getElementById('progress-bar');
-const statusEl    = document.getElementById('status');
-const startBtn    = document.getElementById('start-btn');
-const dirBadge    = document.getElementById('dir-badge');
-const rabbit      = document.getElementById('rabbit');
-const speedLines  = document.getElementById('speed-lines');
+const auraCanvas = document.getElementById('aura-canvas');
+const ctx        = auraCanvas.getContext('2d');
+const gokuImg    = document.getElementById('goku-img');
+const dlVal      = document.getElementById('dl-val');
+const ulVal      = document.getElementById('ul-val');
+const pingVal    = document.getElementById('ping-val');
+const progressBar= document.getElementById('progress-bar');
+const statusEl   = document.getElementById('status');
+const startBtn   = document.getElementById('start-btn');
+const dirBadge   = document.getElementById('dir-badge');
+const formLabel  = document.getElementById('form-label');
 
 function setStatus(m)  { statusEl.textContent = m; }
 function setProgress(p){ progressBar.style.width = p + '%'; }
 
-// ── Rabbit animation ──────────────────────────────────────────────────────────
-let rabbitX  = 40;   // current x position in px
-let rafId    = null;
-let lastNow  = null;
-let liveMbps = 0;
-let running  = false;
+function resizeCanvas() {
+  const r = auraCanvas.parentElement.getBoundingClientRect();
+  auraCanvas.width = r.width; auraCanvas.height = r.height;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-const TRACK_W = () => rabbit.parentElement.offsetWidth;
+const CW  = () => auraCanvas.width;
+const CH  = () => auraCanvas.height;
+const CCX = () => CW() * 0.5;
+const CCY = () => CH() * 0.5;
 
-// Map Mbps → px/s (log scale, 30–600)
-function mbpsToPx(mbps) {
-  if (!mbps || mbps <= 0) return 0;
-  const t = Math.log10(mbps + 1) / Math.log10(1001);
-  return 30 + t * 570;
+// ── Power forms ───────────────────────────────────────────────────────────────
+const FORMS = [
+  { name: '—',               minMbps: 0,
+    aura: null, rings: 0, lightning: false,
+    imgFilter: 'none' },
+  { name: 'KAIOKEN',         minMbps: 1,
+    aura: ['#ff3300','#ff6600','#ff1100'], rings: 1, lightning: false,
+    imgFilter: 'drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)' },
+  { name: 'SUPER SAIYAN',    minMbps: 20,
+    aura: ['#ffe600','#ffaa00','#fff4aa'], rings: 2, lightning: true,
+    imgFilter: 'hue-rotate(40deg) saturate(4) brightness(1.4) drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)' },
+  { name: 'SUPER SAIYAN 2',  minMbps: 80,
+    aura: ['#ffffff','#ffe600','#ffdd44'], rings: 3, lightning: true,
+    imgFilter: 'hue-rotate(40deg) saturate(2) brightness(2.4) drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)' },
+  { name: 'SUPER SAIYAN BLUE', minMbps: 200,
+    aura: ['#00cfff','#0077ff','#aaddff'], rings: 3, lightning: true,
+    imgFilter: 'hue-rotate(200deg) saturate(4) brightness(1.5) drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)' },
+  { name: 'ULTRA INSTINCT',  minMbps: 500,
+    aura: ['#ffffff','#ccccff','#e8e8ff'], rings: 4, lightning: true,
+    imgFilter: 'grayscale(0.5) brightness(2.2) drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)' },
+];
+
+function getForm(mbps) {
+  let f = FORMS[0];
+  for (const form of FORMS) { if (mbps >= form.minMbps) f = form; }
+  return f;
 }
 
-// Map Mbps → hop duration in seconds (fast = short hop interval = rapid bounce)
-function mbpsToHopDuration(mbps) {
-  if (!mbps || mbps <= 0) return 0.5;
-  const t = Math.log10(mbps + 1) / Math.log10(1001);
-  return Math.max(0.12, 0.5 - t * 0.38);
+// ── Particles ─────────────────────────────────────────────────────────────────
+class Particle {
+  constructor() { this.reset('#ffe600'); }
+  reset(color) {
+    const a = Math.random() * Math.PI * 2, r = 20 + Math.random() * 30;
+    this.x = CCX()+Math.cos(a)*r; this.y = CCY()+Math.sin(a)*r*0.6;
+    this.vx=(Math.random()-0.5)*2.5; this.vy=-(1.5+Math.random()*3.5);
+    this.life=1; this.decay=0.018+Math.random()*0.022;
+    this.size=1.5+Math.random()*2; this.color=color;
+  }
+  update(color){ this.x+=this.vx; this.y+=this.vy; this.vy-=0.04; this.life-=this.decay; if(this.life<=0)this.reset(color); }
+  draw(){ ctx.globalAlpha=Math.max(0,this.life)*0.75; ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
+}
+const particles = Array.from({length:55},()=>new Particle());
+
+// ── Lightning ─────────────────────────────────────────────────────────────────
+let bolts=[], boltTimer=0;
+function spawnBolt(color) {
+  const a=Math.random()*Math.PI*2, r0=30+Math.random()*15, len=35+Math.random()*45;
+  const pts=[{x:CCX()+Math.cos(a)*r0,y:CCY()+Math.sin(a)*r0*0.6}];
+  let cx=pts[0].x,cy=pts[0].y;
+  for(let i=0;i<5;i++){cx+=Math.cos(a)*(len/5)+(Math.random()-0.5)*16;cy+=Math.sin(a)*(len/5)+(Math.random()-0.5)*16;pts.push({x:cx,y:cy});}
+  bolts.push({pts,life:1,color});
+}
+function drawBolts(){
+  bolts=bolts.filter(b=>b.life>0);
+  for(const b of bolts){
+    ctx.globalAlpha=b.life*0.85; ctx.strokeStyle=b.color; ctx.lineWidth=1.5;
+    ctx.shadowColor=b.color; ctx.shadowBlur=8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(b.pts[0].x,b.pts[0].y);
+    for(let i=1;i<b.pts.length;i++)ctx.lineTo(b.pts[i].x,b.pts[i].y);
+    ctx.stroke(); ctx.shadowBlur=0; b.life-=0.1;
+  }
+  ctx.globalAlpha=1;
 }
 
-function updateRabbit(mbps) {
-  const pps = mbpsToPx(mbps);
-  const hopDur = mbpsToHopDuration(mbps);
-  const fast = Math.min(mbps / 150, 1);
-
-  rabbit.style.animationDuration   = hopDur + 's';
-  rabbit.style.animationPlayState  = running && mbps > 0 ? 'running' : 'paused';
-  speedLines.style.opacity         = fast > 0.25 ? fast * 0.9 : 0;
-
-  // Position speed lines just behind rabbit
-  speedLines.style.left = Math.max(0, rabbitX - 68) + 'px';
+// ── Aura ──────────────────────────────────────────────────────────────────────
+function drawAura(form, t, pulse) {
+  if(!form.aura)return;
+  const [c1,c2,c3]=form.aura, cx=CCX(), cy=CCY(), baseR=55+pulse*10;
+  for(let l=3;l>=1;l--){
+    const r=baseR*l*0.75;
+    const grd=ctx.createRadialGradient(cx,cy,8,cx,cy,r);
+    grd.addColorStop(0,c1+'cc'); grd.addColorStop(0.4,c2+'44'); grd.addColorStop(1,c3+'00');
+    ctx.fillStyle=grd; ctx.globalAlpha=0.22/l;
+    ctx.beginPath(); ctx.ellipse(cx,cy+10,r*0.65,r,0,0,Math.PI*2); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  for(let i=0;i<form.rings;i++){
+    const ph=(t*1.4+i/form.rings)%1, rr=baseR*0.4+ph*baseR*1.3, alpha=(1-ph)*0.55;
+    ctx.globalAlpha=alpha; ctx.strokeStyle=c1; ctx.lineWidth=2.5-ph*2;
+    ctx.shadowColor=c1; ctx.shadowBlur=14;
+    ctx.beginPath(); ctx.ellipse(cx,cy+10,rr*0.65,rr,0,0,Math.PI*2); ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+  ctx.globalAlpha=1;
+  const core=ctx.createRadialGradient(cx,cy,0,cx,cy,42+pulse*8);
+  core.addColorStop(0,c1+'99'); core.addColorStop(0.6,c2+'33'); core.addColorStop(1,c3+'00');
+  ctx.fillStyle=core; ctx.globalAlpha=0.55;
+  ctx.beginPath(); ctx.ellipse(cx,cy,40+pulse*6,50+pulse*8,0,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=1;
 }
 
-function animLoop(now) {
-  rafId = requestAnimationFrame(animLoop);
-  const dt = lastNow ? Math.min((now - lastNow) / 1000, 0.05) : 0;
-  lastNow = now;
+// ── Background ────────────────────────────────────────────────────────────────
+function drawBg(form, pulse) {
+  ctx.clearRect(0,0,CW(),CH());
+  ctx.fillStyle='#000'; ctx.fillRect(0,0,CW(),CH());
+  if(!form.aura)return;
+  const gy=CH()*0.88;
+  ctx.strokeStyle=form.aura[0]; ctx.lineWidth=1; ctx.globalAlpha=0.12+pulse*0.04;
+  for(let i=0;i<18;i++){
+    const a=(i/18)*Math.PI;
+    ctx.beginPath(); ctx.moveTo(CCX(),gy); ctx.lineTo(CCX()+Math.cos(a)*CW()*0.6,gy-Math.sin(a)*CH()*0.7); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+  const wash=ctx.createRadialGradient(CCX(),CCY(),20,CCX(),CCY(),CW()*0.7);
+  wash.addColorStop(0,form.aura[0]+'28'); wash.addColorStop(0.6,form.aura[1]+'10'); wash.addColorStop(1,'#00000000');
+  ctx.fillStyle=wash; ctx.globalAlpha=0.85; ctx.fillRect(0,0,CW(),CH()); ctx.globalAlpha=1;
+}
 
-  if (running && liveMbps > 0) {
-    rabbitX += mbpsToPx(liveMbps) * dt;
-    const w = TRACK_W();
-    if (rabbitX > w + 40) rabbitX = -40; // wrap
+// ── Render loop ───────────────────────────────────────────────────────────────
+let liveMbps=0, running=false;
+let t=0, pulse=0, pulseDir=1;
+let curForm=FORMS[0];
+let lastNow=null, rafId=null;
+
+const LABEL_COLORS={'—':'#475569','KAIOKEN':'#ff4400','SUPER SAIYAN':'#ffe600',
+  'SUPER SAIYAN 2':'#ffffff','SUPER SAIYAN BLUE':'#00aaff','ULTRA INSTINCT':'#ccccff'};
+
+function renderLoop(now) {
+  rafId=requestAnimationFrame(renderLoop);
+  const dt=lastNow?Math.min((now-lastNow)/1000,0.05):0; lastNow=now;
+  t+=dt; pulse+=pulseDir*dt*(1.4+liveMbps/100);
+  if(pulse>1){pulse=1;pulseDir=-1;} if(pulse<0){pulse=0;pulseDir=1;}
+
+  // Determine form immediately — CSS transition on the img handles the smooth visual blend
+  const newForm=running?getForm(liveMbps):FORMS[0];
+  if(newForm!==curForm){
+    curForm=newForm;
+    gokuImg.style.filter=curForm.imgFilter;
   }
 
-  rabbit.style.transform = `translateX(${rabbitX}px) scaleX(-1)`;
-  updateRabbit(liveMbps);
+  formLabel.textContent=curForm.name;
+  formLabel.style.color=LABEL_COLORS[curForm.name]||'#fff';
+
+  if(running&&curForm.aura){
+    const col=curForm.aura[0];
+    particles.forEach(p=>p.update(col));
+    boltTimer-=dt;
+    if(boltTimer<=0&&curForm.lightning){spawnBolt(curForm.aura[0]);spawnBolt(curForm.aura[2]);boltTimer=0.07+Math.random()*0.1;}
+  }
+
+  drawBg(curForm,pulse);
+  drawAura(curForm,t,pulse);
+  if(running&&curForm.aura)particles.forEach(p=>p.draw());
+  if(running&&curForm.lightning)drawBolts();
 }
+rafId=requestAnimationFrame(renderLoop);
 
-rafId = requestAnimationFrame(animLoop);
-
-// ── Measurement functions ─────────────────────────────────────────────────────
+// ── Measurement ───────────────────────────────────────────────────────────────
 async function measurePing() {
-  const runs = 4; let total = 0;
-  for (let i = 0; i < runs; i++) {
-    const t0 = performance.now();
-    try { await fetch('https://speed.cloudflare.com/__down?bytes=1', { cache: 'no-store' }); } catch(e) {}
-    total += performance.now() - t0;
-  }
-  return Math.round(total / runs);
+  const runs=4; let total=0;
+  for(let i=0;i<runs;i++){const t0=performance.now();try{await fetch('https://speed.cloudflare.com/__down?bytes=1',{cache:'no-store'});}catch(e){}total+=performance.now()-t0;}
+  return Math.round(total/runs);
 }
 
 async function measureDownload() {
-  liveMbps = 0; running = true;
-  dirBadge.textContent = '↓  DOWNLOAD'; dirBadge.style.color = '#60a5fa';
+  liveMbps=0; running=true;
+  dirBadge.textContent='↓  DOWNLOAD'; dirBadge.style.color='#60a5fa';
   try {
-    const t0 = performance.now();
-    const response = await fetch(DL_URL, { cache: 'no-store' });
-    const reader = response.body.getReader();
-    let loaded = 0, lastTick = t0, lastBytes = 0;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      loaded += value.byteLength;
-      const now = performance.now(), el = (now - lastTick) / 1000;
-      if (el >= 0.25) {
-        liveMbps = ((loaded - lastBytes) * 8 / 1e6) / el;
-        dlVal.textContent = liveMbps.toFixed(1);
-        lastTick = now; lastBytes = loaded;
-      }
+    const t0=performance.now(), res=await fetch(DL_URL,{cache:'no-store'}), reader=res.body.getReader();
+    let loaded=0,lastTick=t0,lastBytes=0;
+    while(true){
+      const{done,value}=await reader.read(); if(done)break;
+      loaded+=value.byteLength;
+      const now=performance.now(),el=(now-lastTick)/1000;
+      if(el>=0.25){liveMbps=((loaded-lastBytes)*8/1e6)/el;dlVal.textContent=liveMbps.toFixed(1);lastTick=now;lastBytes=loaded;}
     }
-    const totalSec = (performance.now() - t0) / 1000;
-    running = false; liveMbps = 0;
-    return (loaded * 8 / 1e6) / totalSec;
-  } catch(e) { running = false; liveMbps = 0; throw e; }
+    const sec=(performance.now()-t0)/1000; running=false; liveMbps=0;
+    return (loaded*8/1e6)/sec;
+  } catch(e){running=false;liveMbps=0;throw e;}
 }
 
 async function measureUpload() {
-  liveMbps = 0; running = true;
-  dirBadge.textContent = '↑  UPLOAD'; dirBadge.style.color = '#a78bfa';
-
-  const UNIT = 65536, REPS = 8, CHUNK = UNIT * REPS;
-  const buf = new Uint8Array(CHUNK);
-  for (let i = 0; i < REPS; i++) crypto.getRandomValues(buf.subarray(i*UNIT,(i+1)*UNIT));
-  const blob = new Blob([buf]);
-  await new Promise(r => setTimeout(r, 30));
-
-  const MIN_SECS = 6, MAX_SECS = 15;
-  const speeds = []; const testStart = performance.now(); let round = 0;
-
-  while (true) {
-    const elapsed = (performance.now() - testStart) / 1000;
-    if (elapsed > MAX_SECS) break;
-    if (elapsed >= MIN_SECS && speeds.length >= 4) break;
-    round++;
-    setStatus(`Testing upload… (${round} rounds, ${elapsed.toFixed(1)}s)`);
-    const t0 = performance.now();
-    try {
-      await fetch(UL_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:blob, mode:'no-cors' });
-    } catch(e) { console.warn('Upload round failed:', e); continue; }
-    const secs = (performance.now() - t0) / 1000;
-    const mbps = (CHUNK * 8 / 1e6) / secs;
-    speeds.push(mbps);
-    liveMbps = speeds.slice(-3).reduce((a,b)=>a+b,0) / Math.min(speeds.length, 3);
-    ulVal.textContent = liveMbps.toFixed(1);
-    await new Promise(r => setTimeout(r, 0));
+  liveMbps=0; running=true;
+  dirBadge.textContent='↑  UPLOAD'; dirBadge.style.color='#a78bfa';
+  const UNIT=65536,REPS=8,CHUNK=UNIT*REPS, buf=new Uint8Array(CHUNK);
+  for(let i=0;i<REPS;i++)crypto.getRandomValues(buf.subarray(i*UNIT,(i+1)*UNIT));
+  const blob=new Blob([buf]);
+  await new Promise(r=>setTimeout(r,30));
+  const MIN=6,MAX=15,speeds=[],ts=performance.now();let round=0;
+  while(true){
+    const el=(performance.now()-ts)/1000;
+    if(el>MAX)break; if(el>=MIN&&speeds.length>=4)break;
+    round++; setStatus(`Testing upload… (${round} rounds, ${el.toFixed(1)}s)`);
+    const t0=performance.now();
+    try{await fetch(UL_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:blob,mode:'no-cors'});}
+    catch(e){console.warn('Upload round failed:',e);continue;}
+    const secs=(performance.now()-t0)/1000;
+    speeds.push((CHUNK*8/1e6)/secs);
+    liveMbps=speeds.slice(-3).reduce((a,b)=>a+b,0)/Math.min(speeds.length,3);
+    ulVal.textContent=liveMbps.toFixed(1);
+    await new Promise(r=>setTimeout(r,0));
   }
-
-  running = false; liveMbps = 0;
-  if (speeds.length === 0) return 0;
-  const trimmed = speeds.length > 2 ? speeds.slice(1) : speeds;
-  return trimmed.reduce((a,b)=>a+b,0) / trimmed.length;
+  running=false; liveMbps=0;
+  if(speeds.length===0)return 0;
+  const tr=speeds.length>2?speeds.slice(1):speeds;
+  return tr.reduce((a,b)=>a+b,0)/tr.length;
 }
 
-// ── Orchestrator ──────────────────────────────────────────────────────────────
 async function runTest() {
-  startBtn.disabled = true;
-  dlVal.textContent = ulVal.textContent = pingVal.textContent = '–';
-  setProgress(0); running = false; liveMbps = 0; rabbitX = 40;
-
+  startBtn.disabled=true;
+  dlVal.textContent=ulVal.textContent=pingVal.textContent='–';
+  setProgress(0); running=false; liveMbps=0;
   try {
     setStatus('Measuring ping…'); setProgress(5);
-    dirBadge.textContent = 'PING'; dirBadge.style.color = '#34d399';
-    const ping = await measurePing();
-    pingVal.textContent = ping; setProgress(15);
+    dirBadge.textContent='PING'; dirBadge.style.color='#34d399';
+    const ping=await measurePing(); pingVal.textContent=ping; setProgress(15);
 
     setStatus('Testing download speed…');
-    const dl = await measureDownload();
-    dlVal.textContent = dl.toFixed(1); setProgress(60);
-
-    await new Promise(r => setTimeout(r, 600)); // brief pause, rabbit slows
+    const dl=await measureDownload(); dlVal.textContent=dl.toFixed(1); setProgress(60);
+    await new Promise(r=>setTimeout(r,800));
 
     setStatus('Testing upload speed…'); setProgress(65);
-    const ul = await measureUpload();
-    ulVal.textContent = ul.toFixed(1); setProgress(100);
+    const ul=await measureUpload(); ulVal.textContent=ul.toFixed(1); setProgress(100);
 
-    dirBadge.textContent = 'DONE ✓'; dirBadge.style.color = '#34d399';
+    dirBadge.textContent='DONE ✓'; dirBadge.style.color='#34d399';
     setStatus(`Download ${dl.toFixed(1)} Mbps · Upload ${ul.toFixed(1)} Mbps · Ping ${ping} ms`);
   } catch(err) {
-    running = false; liveMbps = 0;
-    setStatus('⚠ Test failed: ' + (err.message || err));
-    dirBadge.textContent = 'ERROR'; dirBadge.style.color = '#f87171';
+    running=false; liveMbps=0;
+    setStatus('⚠ Test failed: '+(err.message||err));
+    dirBadge.textContent='ERROR'; dirBadge.style.color='#f87171';
     console.error(err);
   }
-
-  startBtn.disabled = false;
+  startBtn.disabled=false;
 }
 
 startBtn.addEventListener('click', runTest);
