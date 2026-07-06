@@ -601,7 +601,7 @@ async function measureUpload() {
   while(true){
     const el=(performance.now()-ts)/1000;
     if(el>MAX)break; if(el>=MIN&&speeds.length>=4)break;
-    round++; setStatus(`Testing upload… (${round} rounds, ${el.toFixed(1)}s)`);
+    round++; setStatus('Testing upload speed…');
     const t0=performance.now();
     try{await fetch(UL_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:blob,mode:'no-cors'});}
     catch(e){console.warn('Upload round failed:',e);continue;}
