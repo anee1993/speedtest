@@ -9,7 +9,23 @@
   <meta property="og:description" content="Measure download, upload, ping and jitter. Get an Internet Health Score with personalized recommendations." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://howfastismy.net" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>⚡</text></svg>" />
   <title>How Fast Is My Internet? | Speed Test</title>
+
+  <!-- Structured Data — WebApplication schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "howfastismy.net",
+    "url": "https://howfastismy.net",
+    "description": "Free internet speed test measuring download, upload, ping, jitter with an Internet Health Score.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "browserRequirements": "Requires JavaScript. Works in all modern browsers."
+  }
+  </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -189,6 +205,11 @@
       <div class="meter-value ping-value" id="ping-val">–</div>
       <div class="meter-unit">ms</div>
     </div>
+    <div class="meter-box">
+      <div class="meter-label">Jitter</div>
+      <div class="meter-value ping-value" id="jitter-val">–</div>
+      <div class="meter-unit">ms</div>
+    </div>
   </div>
 
   <div class="progress-wrap"><div id="progress-bar"></div></div>
@@ -211,7 +232,14 @@
   <button id="share-btn">📋 COPY RESULTS</button>
 </div>
 
-<footer>Results are approximate. Speed varies with network conditions.</footer>
+<footer>
+  <p>© 2024 howfastismy.net — Free Internet Speed Test</p>
+  <p style="margin-top:6px;">
+    <a href="#" style="color:#64748b;text-decoration:none;margin:0 8px;">About</a>
+    <a href="#" style="color:#64748b;text-decoration:none;margin:0 8px;">Privacy</a>
+    <a href="#" style="color:#64748b;text-decoration:none;margin:0 8px;">Contact</a>
+  </p>
+</footer>
 
 <script>
 const DL_URL = 'https://speed.cloudflare.com/__down?bytes=100000000';
@@ -223,6 +251,7 @@ const gokuImg    = document.getElementById('goku-img');
 const dlVal      = document.getElementById('dl-val');
 const ulVal      = document.getElementById('ul-val');
 const pingVal    = document.getElementById('ping-val');
+const jitterVal  = document.getElementById('jitter-val');
 const progressBar= document.getElementById('progress-bar');
 const statusEl   = document.getElementById('status');
 const startBtn   = document.getElementById('start-btn');
@@ -620,6 +649,7 @@ async function measureUpload() {
 async function runTest() {
   startBtn.disabled=true;
   dlVal.textContent=ulVal.textContent=pingVal.textContent='–';
+  jitterVal.textContent='–';
   dlRank.textContent=ulRank.textContent='';
   resultsPanel.classList.remove('visible');
   shareBtn.classList.remove('visible');
@@ -635,7 +665,7 @@ async function runTest() {
     setStatus('Measuring ping & jitter…'); setProgress(5);
     dirBadge.textContent='PING'; dirBadge.style.color='#34d399';
     const { ping, jitter } = await measurePingAndJitter();
-    pingVal.textContent = ping; setProgress(15);
+    pingVal.textContent = ping; jitterVal.textContent = jitter; setProgress(15);
 
     // 2. Download
     setStatus('Testing download speed…');
