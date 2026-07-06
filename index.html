@@ -648,6 +648,7 @@ async function measureUpload() {
 
 async function runTest() {
   startBtn.disabled=true;
+  startBtn.textContent = 'TESTING…';
   dlVal.textContent=ulVal.textContent=pingVal.textContent='–';
   jitterVal.textContent='–';
   dlRank.textContent=ulRank.textContent='';
@@ -684,6 +685,7 @@ async function runTest() {
 
     dirBadge.textContent='DONE ✓'; dirBadge.style.color='#34d399';
     setStatus(`Download ${dl.toFixed(1)} Mbps · Upload ${ul.toFixed(1)} Mbps · Ping ${ping} ms`);
+    startBtn.textContent = 'TEST AGAIN';
 
     // Show expanded results
     showResults(dl, ul, ping, jitter, duration, ipInfo);
