@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Test your internet speed instantly. Measure download speed, upload speed, ping, jitter and network quality for free." />
+  <meta name="keywords" content="internet speed test, wifi speed test, download speed, upload speed, ping test, jitter, broadband speed test" />
+  <meta property="og:title" content="How Fast Is My Internet? | Free Speed Test" />
+  <meta property="og:description" content="Measure download, upload, ping and jitter. Get an Internet Health Score with personalized recommendations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://howfastismy.net" />
   <title>How Fast Is My Internet? | Speed Test</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -78,6 +84,77 @@
     #start-btn:active   { transform: scale(0.98); }
     #start-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     footer { margin-top: 28px; font-size: 0.7rem; color: #475569; text-align: center; }
+
+    /* ── Results panel (shown after test) ── */
+    #results-panel {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+    }
+    #results-panel.visible { display: block; }
+    .results-title {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #94a3b8; margin-bottom: 12px;
+    }
+    .results-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+    .result-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .result-item:last-child { border-bottom: none; }
+    .result-key { font-size: 0.72rem; color: #64748b; }
+    .result-val { font-size: 0.72rem; color: #e2e8f0; font-weight: 600; text-align: right; }
+
+    /* ── Health score ── */
+    .health-section {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+    }
+    .health-score {
+      text-align: center; font-size: 2rem; font-weight: 800; line-height: 1;
+      margin-bottom: 4px;
+    }
+    .health-label {
+      text-align: center; font-size: 0.7rem; color: #94a3b8;
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .health-tags {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .health-tag {
+      font-size: 0.65rem; padding: 3px 8px; border-radius: 99px;
+      background: rgba(52,211,153,0.1); color: #34d399; font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .health-tag.warn { background: rgba(251,191,36,0.1); color: #fbbf24; }
+    .health-rec {
+      font-size: 0.7rem; color: #94a3b8; line-height: 1.5;
+      padding-left: 12px; border-left: 2px solid rgba(255,255,255,0.06);
+      margin-top: 8px;
+    }
+    .health-rec p { margin-bottom: 4px; }
+
+    /* ── Share button ── */
+    #share-btn {
+      display: none; margin-top: 14px; width: 100%; padding: 10px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+      background: transparent; color: #a5b4fc; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 1px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    #share-btn:hover { background: rgba(255,255,255,0.05); }
+    #share-btn.visible { display: block; }
   </style>
 </head>
 <body>
@@ -117,6 +194,21 @@
   <div class="progress-wrap"><div id="progress-bar"></div></div>
   <div id="status">Ready to test your speed</div>
   <button id="start-btn">START TEST</button>
+
+  <!-- Results panel — populated after test -->
+  <div id="results-panel">
+    <div class="results-title">Test Details</div>
+    <div class="results-grid" id="results-grid"></div>
+
+    <div class="health-section" id="health-section">
+      <div class="health-score" id="health-score"></div>
+      <div class="health-label">Internet Health Score</div>
+      <div class="health-tags" id="health-tags"></div>
+      <div class="health-rec" id="health-rec"></div>
+    </div>
+  </div>
+
+  <button id="share-btn">📋 COPY RESULTS</button>
 </div>
 
 <footer>Results are approximate. Speed varies with network conditions.</footer>
@@ -138,6 +230,12 @@ const dirBadge   = document.getElementById('dir-badge');
 const formLabel  = document.getElementById('form-label');
 const dlRank     = document.getElementById('dl-rank');
 const ulRank     = document.getElementById('ul-rank');
+const resultsPanel = document.getElementById('results-panel');
+const resultsGrid  = document.getElementById('results-grid');
+const healthScore  = document.getElementById('health-score');
+const healthTags   = document.getElementById('health-tags');
+const healthRec    = document.getElementById('health-rec');
+const shareBtn     = document.getElementById('share-btn');
 
 function setStatus(m)  { statusEl.textContent = m; }
 function setProgress(p){ progressBar.style.width = p + '%'; }
@@ -147,6 +245,155 @@ function setRank(el, mbps) {
   el.textContent  = form.name === '—' ? '' : form.name;
   el.style.color  = LABEL_COLORS[form.name] || '#94a3b8';
 }
+
+// ── Browser / OS detection ────────────────────────────────────────────────────
+function getBrowser() {
+  const ua = navigator.userAgent;
+  if (ua.includes('Firefox/')) return 'Firefox';
+  if (ua.includes('Edg/')) return 'Edge';
+  if (ua.includes('OPR/') || ua.includes('Opera/')) return 'Opera';
+  if (ua.includes('Chrome/') && !ua.includes('Edg/')) return 'Chrome';
+  if (ua.includes('Safari/') && !ua.includes('Chrome/')) return 'Safari';
+  return 'Unknown';
+}
+
+function getOS() {
+  const ua = navigator.userAgent;
+  if (ua.includes('Win')) return 'Windows';
+  if (ua.includes('Mac')) return 'macOS';
+  if (ua.includes('Linux')) return 'Linux';
+  if (ua.includes('Android')) return 'Android';
+  if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+  return 'Unknown';
+}
+
+// ── IP + ISP detection ────────────────────────────────────────────────────────
+async function getIPInfo() {
+  try {
+    const res = await fetch('https://ipinfo.io/json?token=');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    return { ip: data.ip || '—', isp: data.org || '—', region: data.city ? `${data.city}, ${data.region}` : '—' };
+  } catch(e) {
+    try {
+      const res2 = await fetch('https://api.ipify.org?format=json');
+      const data2 = await res2.json();
+      return { ip: data2.ip || '—', isp: '—', region: '—' };
+    } catch(e2) {
+      return { ip: '—', isp: '—', region: '—' };
+    }
+  }
+}
+
+// ── Jitter measurement (variance in ping times) ───────────────────────────────
+async function measurePingAndJitter() {
+  const runs = 6;
+  const times = [];
+  for (let i = 0; i < runs; i++) {
+    const t0 = performance.now();
+    try { await fetch('https://speed.cloudflare.com/__down?bytes=1', { cache: 'no-store' }); } catch(e) {}
+    times.push(performance.now() - t0);
+  }
+  const avg = times.reduce((a,b) => a+b, 0) / times.length;
+  // Jitter = average absolute deviation from the mean
+  const jitter = times.reduce((a, t) => a + Math.abs(t - avg), 0) / times.length;
+  return { ping: Math.round(avg), jitter: Math.round(jitter) };
+}
+
+// ── Internet Health Score ─────────────────────────────────────────────────────
+function computeHealth(dl, ul, ping, jitter) {
+  // Score 0–100 based on weighted components
+  let score = 100;
+  // Download: 100 Mbps+ = perfect, below 5 is bad
+  if (dl < 5) score -= 30; else if (dl < 15) score -= 15; else if (dl < 50) score -= 5;
+  // Upload: 20 Mbps+ = perfect
+  if (ul < 2) score -= 25; else if (ul < 10) score -= 10; else if (ul < 20) score -= 3;
+  // Ping: under 20 = perfect, over 100 = bad
+  if (ping > 100) score -= 20; else if (ping > 50) score -= 10; else if (ping > 30) score -= 5;
+  // Jitter: under 5 = perfect, over 30 = bad
+  if (jitter > 30) score -= 15; else if (jitter > 15) score -= 8; else if (jitter > 5) score -= 3;
+  return Math.max(0, Math.min(100, score));
+}
+
+function getHealthColor(score) {
+  if (score >= 85) return '#34d399';
+  if (score >= 60) return '#fbbf24';
+  return '#f87171';
+}
+
+function getSuitableTags(dl, ul, ping) {
+  const tags = [];
+  if (dl >= 25 && ping < 60) tags.push('4K Streaming');
+  if (dl >= 5) tags.push('HD Streaming');
+  if (ping < 40 && dl >= 15) tags.push('Gaming');
+  if (dl >= 5 && ul >= 3 && ping < 80) tags.push('Video Calls');
+  if (dl >= 50) tags.push('Large Downloads');
+  if (dl >= 10 && ul >= 5 && ping < 60) tags.push('Remote Work');
+  if (dl >= 100 && ul >= 50) tags.push('Power User');
+  return tags;
+}
+
+function getRecommendations(dl, ul, ping, jitter) {
+  const recs = [];
+  if (ping < 20) recs.push('Your latency is excellent for gaming.');
+  else if (ping > 80) recs.push('High latency — gaming and video calls may suffer.');
+  if (jitter > 20) recs.push('Jitter is elevated — connection may feel inconsistent.');
+  else if (jitter < 5) recs.push('Very low jitter — stable connection.');
+  if (ul < 5) recs.push('Upload speed is lower than expected for video conferencing.');
+  if (dl >= 100) recs.push('Download speed is excellent for all activities.');
+  else if (dl < 10) recs.push('Download speed may be too slow for 4K streaming.');
+  if (dl >= 25 && ul >= 10 && ping < 40) recs.push('Your connection is ideal for video conferencing.');
+  return recs;
+}
+
+function showResults(dl, ul, ping, jitter, duration, ipInfo) {
+  // Populate results grid
+  const items = [
+    ['Jitter', jitter + ' ms'],
+    ['Public IP', ipInfo.ip],
+    ['ISP', ipInfo.isp],
+    ['Region', ipInfo.region],
+    ['Browser', getBrowser()],
+    ['OS', getOS()],
+    ['Test Server', 'Cloudflare CDN'],
+    ['Duration', duration.toFixed(1) + 's'],
+  ];
+  resultsGrid.innerHTML = items.map(([k,v]) =>
+    `<div class="result-item"><span class="result-key">${k}</span><span class="result-val">${v}</span></div>`
+  ).join('');
+
+  // Health score
+  const score = computeHealth(dl, ul, ping, jitter);
+  healthScore.textContent = score + '/100';
+  healthScore.style.color = getHealthColor(score);
+
+  // Tags
+  const tags = getSuitableTags(dl, ul, ping);
+  healthTags.innerHTML = tags.map(t => `<span class="health-tag">${t}</span>`).join('');
+
+  // Recommendations
+  const recs = getRecommendations(dl, ul, ping, jitter);
+  healthRec.innerHTML = recs.map(r => `<p>• ${r}</p>`).join('');
+
+  resultsPanel.classList.add('visible');
+  shareBtn.classList.add('visible');
+}
+
+// Share / copy results
+shareBtn.addEventListener('click', () => {
+  const text = `🚀 My Internet Speed (howfastismy.net)\n` +
+    `Download: ${dlVal.textContent} Mbps\n` +
+    `Upload: ${ulVal.textContent} Mbps\n` +
+    `Ping: ${pingVal.textContent} ms\n` +
+    `Health: ${healthScore.textContent}`;
+  navigator.clipboard.writeText(text).then(() => {
+    shareBtn.textContent = '✓ Copied!';
+    setTimeout(() => { shareBtn.textContent = '📋 COPY RESULTS'; }, 2000);
+  }).catch(() => {
+    shareBtn.textContent = '⚠ Copy failed';
+    setTimeout(() => { shareBtn.textContent = '📋 COPY RESULTS'; }, 2000);
+  });
+});
 
 function resizeCanvas() {
   const r = auraCanvas.parentElement.getBoundingClientRect();
@@ -308,11 +555,6 @@ function renderLoop(now) {
 rafId=requestAnimationFrame(renderLoop);
 
 // ── Measurement ───────────────────────────────────────────────────────────────
-async function measurePing() {
-  const runs=4; let total=0;
-  for(let i=0;i<runs;i++){const t0=performance.now();try{await fetch('https://speed.cloudflare.com/__down?bytes=1',{cache:'no-store'});}catch(e){}total+=performance.now()-t0;}
-  return Math.round(total/runs);
-}
 
 async function measureDownload() {
   liveMbps=0; running=true;
@@ -379,21 +621,43 @@ async function runTest() {
   startBtn.disabled=true;
   dlVal.textContent=ulVal.textContent=pingVal.textContent='–';
   dlRank.textContent=ulRank.textContent='';
+  resultsPanel.classList.remove('visible');
+  shareBtn.classList.remove('visible');
   setProgress(0); running=false; liveMbps=0;
-  try {
-    setStatus('Measuring ping…'); setProgress(5);
-    dirBadge.textContent='PING'; dirBadge.style.color='#34d399';
-    const ping=await measurePing(); pingVal.textContent=ping; setProgress(15);
 
+  const testStartTime = performance.now();
+
+  try {
+    // 0. Fetch IP info in parallel (non-blocking)
+    const ipPromise = getIPInfo();
+
+    // 1. Ping + Jitter
+    setStatus('Measuring ping & jitter…'); setProgress(5);
+    dirBadge.textContent='PING'; dirBadge.style.color='#34d399';
+    const { ping, jitter } = await measurePingAndJitter();
+    pingVal.textContent = ping; setProgress(15);
+
+    // 2. Download
     setStatus('Testing download speed…');
-    const dl=await measureDownload(); dlVal.textContent=dl.toFixed(1); setRank(dlRank, dl); setProgress(60);
+    const dl = await measureDownload();
+    dlVal.textContent = dl.toFixed(1); setRank(dlRank, dl); setProgress(60);
     await new Promise(r=>setTimeout(r,800));
 
+    // 3. Upload
     setStatus('Testing upload speed…'); setProgress(65);
-    const ul=await measureUpload(); ulVal.textContent=ul.toFixed(1); setRank(ulRank, ul); setProgress(100);
+    const ul = await measureUpload();
+    ulVal.textContent = ul.toFixed(1); setRank(ulRank, ul); setProgress(100);
+
+    // 4. Done
+    const duration = (performance.now() - testStartTime) / 1000;
+    const ipInfo = await ipPromise;
 
     dirBadge.textContent='DONE ✓'; dirBadge.style.color='#34d399';
     setStatus(`Download ${dl.toFixed(1)} Mbps · Upload ${ul.toFixed(1)} Mbps · Ping ${ping} ms`);
+
+    // Show expanded results
+    showResults(dl, ul, ping, jitter, duration, ipInfo);
+
   } catch(err) {
     running=false; liveMbps=0;
     setStatus('⚠ Test failed: '+(err.message||err));
