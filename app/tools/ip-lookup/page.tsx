@@ -101,6 +101,30 @@ export default function IPLookupPage() {
           Click Lookup to find your own IP, or enter any IP address or domain name.
         </div>
       )}
+
+      {/* Explanation section */}
+      <div className="mt-6 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-xs text-slate-500 leading-relaxed space-y-3">
+        <p className="text-sm font-semibold text-slate-300">What is an IP address?</p>
+        <p>
+          An IP (Internet Protocol) address is a unique number assigned to every device connected to the internet — like a mailing address for your computer.
+          It tells other devices where to send data so it reaches you.
+        </p>
+
+        <p className="text-sm font-semibold text-slate-300 mt-4">Try it yourself</p>
+        <p>
+          Leave the field empty and click <span className="text-indigo-400">Lookup</span> to see your own IP, ISP, and approximate location.
+          Or type a domain like <span className="text-indigo-400 font-mono">netflix.com</span> to see where their servers are located.
+        </p>
+
+        <p className="text-sm font-semibold text-slate-300 mt-4">What the results mean</p>
+        <ul className="list-none space-y-1.5 mt-1">
+          <li><span className="text-slate-300 font-semibold">IP Address</span> — The numeric address of the server or your device.</li>
+          <li><span className="text-slate-300 font-semibold">ISP / Org</span> — The company that owns or operates the network (e.g. Comcast, Google LLC, Amazon).</li>
+          <li><span className="text-slate-300 font-semibold">City / Region / Country</span> — Approximate physical location of the server. For your own IP, this shows where your ISP routes traffic from (not your exact home).</li>
+          <li><span className="text-slate-300 font-semibold">Timezone</span> — The timezone associated with the IP&apos;s location.</li>
+          <li><span className="text-slate-300 font-semibold">Hostname</span> — A human-readable name for the IP, if one is configured (not always available).</li>
+        </ul>
+      </div>
     </div>
   );
 }

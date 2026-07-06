@@ -111,6 +111,35 @@ export default function DNSPage() {
           )}
         </div>
       )}
+
+      {/* Explanation section — always visible */}
+      <div className="mt-6 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-xs text-slate-500 leading-relaxed space-y-3">
+        <p className="text-sm font-semibold text-slate-300">What is DNS?</p>
+        <p>
+          DNS (Domain Name System) is the internet&apos;s phone book. When you type <span className="text-slate-300">google.com</span> in your browser,
+          DNS translates that human-readable name into a numeric IP address (like <span className="text-slate-300 font-mono">142.250.80.46</span>) that computers use to connect.
+        </p>
+
+        <p className="text-sm font-semibold text-slate-300 mt-4">Try it yourself</p>
+        <p>Type <span className="text-indigo-400 font-mono">google.com</span> and select <span className="text-indigo-400">A</span> to see Google&apos;s server IP addresses. Or try <span className="text-indigo-400 font-mono">gmail.com</span> with <span className="text-indigo-400">MX</span> to see which mail servers handle Gmail.</p>
+
+        <p className="text-sm font-semibold text-slate-300 mt-4">Record types explained</p>
+        <ul className="list-none space-y-1.5 mt-1">
+          <li><span className="text-slate-300 font-semibold">A</span> — Address record. Maps a domain to an IPv4 address (e.g. <span className="font-mono">93.184.216.34</span>).</li>
+          <li><span className="text-slate-300 font-semibold">AAAA</span> — Same as A but for IPv6 addresses (the newer, longer format).</li>
+          <li><span className="text-slate-300 font-semibold">CNAME</span> — Canonical Name. Points one domain to another (like an alias). Example: <span className="font-mono">www.example.com → example.com</span>.</li>
+          <li><span className="text-slate-300 font-semibold">MX</span> — Mail Exchange. Specifies which servers receive email for the domain.</li>
+          <li><span className="text-slate-300 font-semibold">NS</span> — Name Server. Lists the authoritative DNS servers responsible for the domain.</li>
+          <li><span className="text-slate-300 font-semibold">TXT</span> — Text record. Used for verification, email security (SPF/DKIM), and other metadata.</li>
+          <li><span className="text-slate-300 font-semibold">SOA</span> — Start of Authority. Contains admin info about the domain&apos;s DNS zone (refresh rates, expiry, etc.).</li>
+        </ul>
+
+        <p className="text-sm font-semibold text-slate-300 mt-4">What is TTL?</p>
+        <p>
+          TTL (Time To Live) is how long (in seconds) a DNS record is cached before being refreshed.
+          A TTL of 300 means your browser/ISP remembers the answer for 5 minutes before asking again.
+        </p>
+      </div>
     </div>
   );
 }
