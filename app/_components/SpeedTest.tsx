@@ -134,14 +134,15 @@ export default function SpeedTest() {
         container.innerHTML = svgText;
         const svg = container.querySelector("svg");
         if (svg) {
+          // The SVG is 210mm × 297mm — in Inkscape default (90dpi) = 744.09 × 1052.36 px
+          svg.setAttribute("viewBox", "0 0 744.09 1052.36");
+          svg.removeAttribute("width");
+          svg.removeAttribute("height");
+          svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
           svg.style.width = "100%";
           svg.style.height = "100%";
           svg.style.position = "absolute";
           svg.style.inset = "0";
-          svg.style.objectFit = "contain";
-          svg.removeAttribute("width");
-          svg.removeAttribute("height");
-          svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
         }
         // Find all elements with yellow hair fill (#ffff00)
         const allPaths = container.querySelectorAll("path, polygon, ellipse, rect, circle");
