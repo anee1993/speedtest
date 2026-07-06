@@ -28,5 +28,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/blog/good-internet-speed`,
+      lastModified: new Date("2025-01-15"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/why-is-my-internet-slow`,
+      lastModified: new Date("2025-01-22"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/mbps-vs-mbs`,
+      lastModified: new Date("2025-02-05"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/what-is-ping`,
+      lastModified: new Date("2025-02-18"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }
