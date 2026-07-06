@@ -18,8 +18,8 @@ export default function ContactPage() {
           <h2 className="text-lg font-semibold text-white mb-4">Get in touch</h2>
           <p>
             Email us at:{" "}
-            <a href="mailto:hello@howfastismy.net" className="text-indigo-400 underline underline-offset-2">
-              hello@howfastismy.net
+            <a href="mailto:howfastismynet@gmail.com" className="text-indigo-400 underline underline-offset-2">
+              howfastismynet@gmail.com
             </a>
           </p>
         </div>
