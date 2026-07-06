@@ -21,14 +21,31 @@ export default function IPLookupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function lookup(ip?: string) {
+  async function lookup(query?: string) {
     setLoading(true);
     setError("");
     setData(null);
     try {
-      const url = ip ? `https://ipinfo.io/${ip}/json` : "https://ipinfo.io/json";
+      // ipinfo.io accepts both IP addresses and hostnames
+      const target = query ? query.trim() : "";
+      const url = target ? `https://ipinfo.io/${encodeURIComponent(target)}/json` : "https://ipinfo.io/json";
       const res = await fetch(url);
-      if (!res.ok) throw new Error("Could not fetch IP info");
+      if (!res.ok) {
+        // If ipinfo fails with a hostname, try resolving it via DNS first
+        if (target && !res.ok) {
+          const dnsRes = await fetch(`/api/dns?domain=${encodeURIComponent(target)}&type=A`);
+          const dnsData = await dnsRes.json();
+          if (dnsData.answers && dnsData.answers.length > 0) {
+            const ip = dnsData.answers[0].data;
+            const res2 = await fetch(`https://ipinfo.io/${ip}/json`);
+            if (res2.ok) {
+              const d2 = await res2.json();
+              if (!d2.error) { setData(d2); setLoading(false); return; }
+            }
+          }
+        }
+        throw new Error("Could not fetch IP info — check the address and try again");
+      }
       const d = await res.json();
       if (d.error) throw new Error(d.error.message || "Lookup failed");
       setData(d);
@@ -46,7 +63,7 @@ export default function IPLookupPage() {
       <div className="flex gap-2 mb-6">
         <input
           type="text"
-          placeholder="Enter IP address (or leave blank for yours)"
+          placeholder="Enter IP or domain (or leave blank for yours)"
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === "Enter" && lookup(input || undefined)}
@@ -81,7 +98,7 @@ export default function IPLookupPage() {
 
       {!data && !loading && !error && (
         <div className="text-center text-slate-500 text-sm mt-4">
-          Click Lookup to find your own IP, or enter any IP address to look it up.
+          Click Lookup to find your own IP, or enter any IP address or domain name.
         </div>
       )}
     </div>
