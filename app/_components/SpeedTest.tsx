@@ -7,17 +7,18 @@ const DL_URL = "https://speed.cloudflare.com/__down?bytes=100000000";
 const UL_URL = "https://speed.cloudflare.com/__up";
 
 const FORMS = [
-  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none" },
-  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)" },
-  { name: "SUPER SAIYAN", minMbps: 20, aura: ["#ffe600", "#ffaa00", "#fff4aa"], rings: 2, lightning: true, imgFilter: "hue-rotate(40deg) saturate(4) brightness(1.4) drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)" },
-  { name: "SUPER SAIYAN 2", minMbps: 80, aura: ["#ffffff", "#ffe600", "#ffdd44"], rings: 3, lightning: true, imgFilter: "hue-rotate(40deg) saturate(2) brightness(2.4) drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)" },
-  { name: "SUPER SAIYAN BLUE", minMbps: 200, aura: ["#00cfff", "#0077ff", "#aaddff"], rings: 3, lightning: true, imgFilter: "hue-rotate(200deg) saturate(4) brightness(1.5) drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)" },
-  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "grayscale(0.5) brightness(2.2) drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)" },
+  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none", hairColor: "#ffff00" },
+  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)", hairColor: "#1a1a1a" },
+  { name: "SUPER SAIYAN", minMbps: 20, aura: ["#ffe600", "#ffaa00", "#fff4aa"], rings: 2, lightning: true, imgFilter: "drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)", hairColor: "#ffe600" },
+  { name: "SUPER SAIYAN 2", minMbps: 80, aura: ["#ffffff", "#ffe600", "#ffdd44"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)", hairColor: "#fff4aa" },
+  { name: "SSJ GOD", minMbps: 150, aura: ["#ff3366", "#ff6644", "#ffaa88"], rings: 2, lightning: false, imgFilter: "drop-shadow(0 0 14px #ff3366) drop-shadow(0 0 28px #ff4444)", hairColor: "#cc2244" },
+  { name: "SUPER SAIYAN BLUE", minMbps: 250, aura: ["#00cfff", "#0077ff", "#aaddff"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)", hairColor: "#00ccff" },
+  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)", hairColor: "#e0e0f0" },
 ];
 
 const LABEL_COLORS: Record<string, string> = {
   "—": "#475569", KAIOKEN: "#ff4400", "SUPER SAIYAN": "#ffe600",
-  "SUPER SAIYAN 2": "#ffffff", "SUPER SAIYAN BLUE": "#00aaff", "ULTRA INSTINCT": "#ccccff",
+  "SUPER SAIYAN 2": "#ffffff", "SSJ GOD": "#ff3366", "SUPER SAIYAN BLUE": "#00aaff", "ULTRA INSTINCT": "#ccccff",
 };
 
 function getForm(mbps: number) {
@@ -96,7 +97,8 @@ function getRecommendations(dl: number, ul: number, ping: number, jitter: number
 // ── Component ──────────────────────────────────────────────────────────────────
 export default function SpeedTest() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gokuRef = useRef<HTMLImageElement>(null);
+  const gokuRef = useRef<HTMLDivElement>(null);
+  const hairElementsRef = useRef<SVGElement[]>([]);
 
   const [dlSpeed, setDlSpeed] = useState<string>("–");
   const [ulSpeed, setUlSpeed] = useState<string>("–");
@@ -121,6 +123,43 @@ export default function SpeedTest() {
   const liveMbpsRef = useRef(0);
   const runningRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+
+  // ── Load SVG inline so we can manipulate hair color ──
+  useEffect(() => {
+    const container = gokuRef.current;
+    if (!container) return;
+    fetch("/Goku.svg")
+      .then(r => r.text())
+      .then(svgText => {
+        container.innerHTML = svgText;
+        const svg = container.querySelector("svg");
+        if (svg) {
+          svg.style.width = "100%";
+          svg.style.height = "100%";
+          svg.style.position = "absolute";
+          svg.style.inset = "0";
+          svg.style.objectFit = "contain";
+          svg.removeAttribute("width");
+          svg.removeAttribute("height");
+          svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+        }
+        // Find all elements with yellow hair fill (#ffff00)
+        const allPaths = container.querySelectorAll("path, polygon, ellipse, rect, circle");
+        const hairEls: SVGElement[] = [];
+        allPaths.forEach(el => {
+          const style = el.getAttribute("style") || "";
+          const fill = el.getAttribute("fill") || "";
+          if (style.includes("fill:#ffff00") || style.includes("fill: #ffff00") || fill === "#ffff00") {
+            hairEls.push(el as SVGElement);
+          }
+        });
+        hairElementsRef.current = hairEls;
+      })
+      .catch(() => {
+        // Fallback: just show the img
+        container.innerHTML = '<img src="/Goku.svg" alt="Goku" style="width:100%;height:100%;object-fit:contain;" />';
+      });
+  }, []);
 
   // ── Canvas aura animation ──
   useEffect(() => {
@@ -156,8 +195,20 @@ export default function SpeedTest() {
       setFormLabel(form.name);
       setFormColor(LABEL_COLORS[form.name] || "#fff");
 
-      // Update goku filter
-      if (gokuRef.current) gokuRef.current.style.filter = form.imgFilter;
+      // Update goku filter + hair color
+      if (gokuRef.current) {
+        const svg = gokuRef.current.querySelector("svg");
+        if (svg) svg.style.filter = form.imgFilter;
+      }
+      // Change hair color directly on SVG paths
+      if (hairElementsRef.current.length > 0) {
+        for (const el of hairElementsRef.current) {
+          const style = el.getAttribute("style") || "";
+          const newStyle = style.replace(/fill:#[0-9a-fA-F]{6}/, `fill:${form.hairColor}`);
+          el.setAttribute("style", newStyle);
+          if (el.getAttribute("fill")) el.setAttribute("fill", form.hairColor);
+        }
+      }
 
       const cw = canvas.width, ch = canvas.height;
       const cx = cw * 0.5, cy = ch * 0.5;
@@ -335,8 +386,7 @@ export default function SpeedTest() {
       {/* Scene */}
       <div className="relative h-64 mb-4 rounded-2xl overflow-hidden bg-black">
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img ref={gokuRef} src="/Goku.svg" alt="Power Level" className="absolute inset-0 w-full h-full object-contain transition-[filter] duration-600" />
+        <div ref={gokuRef} className="absolute inset-0 w-full h-full transition-[filter] duration-600" />
       </div>
 
       {/* Form label */}
