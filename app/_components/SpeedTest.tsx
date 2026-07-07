@@ -7,13 +7,13 @@ const DL_URL = "https://speed.cloudflare.com/__down?bytes=100000000";
 const UL_URL = "https://speed.cloudflare.com/__up";
 
 const FORMS = [
-  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none", hairColor: "#ffff00" },
-  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)", hairColor: "#1a1a1a" },
+  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none", hairColor: "#000000" },
+  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)", hairColor: "#1a0000" },
   { name: "SUPER SAIYAN", minMbps: 20, aura: ["#ffe600", "#ffaa00", "#fff4aa"], rings: 2, lightning: true, imgFilter: "drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)", hairColor: "#ffe600" },
   { name: "SUPER SAIYAN 2", minMbps: 80, aura: ["#ffffff", "#ffe600", "#ffdd44"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)", hairColor: "#fff4aa" },
   { name: "SSJ GOD", minMbps: 150, aura: ["#ff3366", "#ff6644", "#ffaa88"], rings: 2, lightning: false, imgFilter: "drop-shadow(0 0 14px #ff3366) drop-shadow(0 0 28px #ff4444)", hairColor: "#cc2244" },
   { name: "SUPER SAIYAN BLUE", minMbps: 250, aura: ["#00cfff", "#0077ff", "#aaddff"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)", hairColor: "#00ccff" },
-  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)", hairColor: "#e0e0f0" },
+  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)", hairColor: "#d8d8f0" },
 ];
 
 const LABEL_COLORS: Record<string, string> = {
@@ -144,17 +144,23 @@ export default function SpeedTest() {
           svg.style.position = "absolute";
           svg.style.inset = "0";
         }
-        // Find all elements with yellow hair fill (#ffff00)
-        const allPaths = container.querySelectorAll("path, polygon, ellipse, rect, circle");
-        const hairEls: SVGElement[] = [];
-        allPaths.forEach(el => {
-          const style = el.getAttribute("style") || "";
-          const fill = el.getAttribute("fill") || "";
-          if (style.includes("fill:#ffff00") || style.includes("fill: #ffff00") || fill === "#ffff00") {
-            hairEls.push(el as SVGElement);
-          }
-        });
-        hairElementsRef.current = hairEls;
+        // Find the hair element specifically by ID (path3966 is the main hair shape)
+        const hairEl = container.querySelector("#path3966") as SVGElement | null;
+        if (hairEl) {
+          hairElementsRef.current = [hairEl];
+        } else {
+          // Fallback: try finding by fill color
+          const allPaths = container.querySelectorAll("path, polygon, ellipse, rect, circle");
+          const hairEls: SVGElement[] = [];
+          allPaths.forEach(el => {
+            const style = el.getAttribute("style") || "";
+            const fill = el.getAttribute("fill") || "";
+            if (style.includes("fill:#ffff00") || fill === "#ffff00") {
+              hairEls.push(el as SVGElement);
+            }
+          });
+          hairElementsRef.current = hairEls;
+        }
       })
       .catch(() => {
         // Fallback: just show the img
@@ -205,9 +211,9 @@ export default function SpeedTest() {
       if (hairElementsRef.current.length > 0) {
         for (const el of hairElementsRef.current) {
           const style = el.getAttribute("style") || "";
+          // Replace fill color in style attribute (handles both #000000 and any 6-digit hex)
           const newStyle = style.replace(/fill:#[0-9a-fA-F]{6}/, `fill:${form.hairColor}`);
           el.setAttribute("style", newStyle);
-          if (el.getAttribute("fill")) el.setAttribute("fill", form.hairColor);
         }
       }
 
