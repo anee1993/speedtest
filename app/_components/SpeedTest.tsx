@@ -396,7 +396,7 @@ export default function SpeedTest() {
       </p>
 
       {/* Meters */}
-      <div className="grid grid-cols-4 gap-2 mb-5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
         <MeterBox label="Download" value={dlSpeed} unit="Mbps" color="#60a5fa" rank={dlRank} />
         <MeterBox label="Upload" value={ulSpeed} unit="Mbps" color="#a78bfa" rank={ulRank} />
         <MeterBox label="Ping" value={pingMs} unit="ms" color="#34d399" />
