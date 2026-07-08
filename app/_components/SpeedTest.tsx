@@ -205,6 +205,7 @@ export default function SpeedTest() {
   const [tags, setTags] = useState<string[]>([]);
   const [recs, setRecs] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [cityComparison, setCityComparison] = useState<{ city: string; avg_dl: number; avg_ul: number; avg_ping: number; test_count: number } | null>(null);
 
   // Refs for animation loop
   const liveMbpsRef = useRef(0);
@@ -367,6 +368,7 @@ export default function SpeedTest() {
     setDlSpeed("–"); setUlSpeed("–"); setPingMs("–"); setJitterMs("–");
     setDlRank(""); setUlRank(""); setShowResults(false);
     setProgressVal(0); liveMbpsRef.current = 0; runningRef.current = false;
+    setCityComparison(null);
 
     const testStart = performance.now();
     const ipPromise = getIPInfo();
@@ -483,6 +485,35 @@ export default function SpeedTest() {
       });
       setHistory(newHist);
 
+      // Save anonymized result to database (fire and forget)
+      fetch("/api/results", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          dl: parseFloat(dl.toFixed(1)),
+          ul: parseFloat(ul.toFixed(1)),
+          ping,
+          jitter,
+          city: ipInfo.region?.split(",")[0]?.trim() || null,
+          region: ipInfo.region || null,
+          country: null,
+          isp: ipInfo.isp || null,
+        }),
+      }).catch(() => {}); // silent fail — not critical
+
+      // Check city average
+      const cityName = ipInfo.region?.split(",")[0]?.trim();
+      if (cityName) {
+        fetch(`/api/results?city=${encodeURIComponent(cityName)}`)
+          .then(r => r.json())
+          .then(data => {
+            if (data.available) {
+              setCityComparison(data);
+            }
+          })
+          .catch(() => {});
+      }
+
     } catch (err: unknown) {
       runningRef.current = false; liveMbpsRef.current = 0;
       setStatusText("⚠ Test failed: " + (err instanceof Error ? err.message : String(err)));
@@ -554,6 +585,26 @@ export default function SpeedTest() {
               {recs.map((r, i) => <p key={i} className="mb-1">• {r}</p>)}
             </div>
           </div>
+
+          {/* City comparison */}
+          {cityComparison && (
+            <div className="mt-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+              <p className="text-xs text-slate-400 mb-2">
+                <span className="font-semibold text-slate-300">Users in {cityComparison.city}</span> average ({cityComparison.test_count} tests):
+              </p>
+              <div className="flex gap-4 text-xs text-slate-300">
+                <span>↓ {cityComparison.avg_dl} Mbps</span>
+                <span>↑ {cityComparison.avg_ul} Mbps</span>
+                <span>🏓 {cityComparison.avg_ping} ms</span>
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                {parseFloat(dlSpeed) > cityComparison.avg_dl
+                  ? <span>Your download is <span className="text-emerald-400 font-semibold">{((parseFloat(dlSpeed) / cityComparison.avg_dl - 1) * 100).toFixed(0)}% faster</span> than average.</span>
+                  : <span>Your download is <span className="text-yellow-400 font-semibold">{((1 - parseFloat(dlSpeed) / cityComparison.avg_dl) * 100).toFixed(0)}% slower</span> than average.</span>
+                }
+              </p>
+            </div>
+          )}
 
           {/* Share buttons */}
           <div className="mt-4 flex gap-2">
