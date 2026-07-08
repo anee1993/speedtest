@@ -51,14 +51,35 @@ async function getIPInfo() {
   try {
     const res = await fetch("https://ipinfo.io/json?token=");
     const d = await res.json();
-    return { ip: d.ip || "—", isp: d.org || "—", region: d.city ? `${d.city}, ${d.region}` : "—" };
+    return { ip: d.ip || "—", isp: d.org || "—", region: d.city ? `${d.city}, ${d.region}` : "—", city: d.city || null };
   } catch {
     try {
       const r2 = await fetch("https://api.ipify.org?format=json");
       const d2 = await r2.json();
-      return { ip: d2.ip || "—", isp: "—", region: "—" };
-    } catch { return { ip: "—", isp: "—", region: "—" }; }
+      return { ip: d2.ip || "—", isp: "—", region: "—", city: null };
+    } catch { return { ip: "—", isp: "—", region: "—", city: null }; }
   }
+}
+
+// Get precise city via Browser Geolocation + reverse geocoding
+async function getPreciseCity(): Promise<string | null> {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) { resolve(null); return; }
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords;
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+          );
+          const data = await res.json();
+          resolve(data.city || data.locality || null);
+        } catch { resolve(null); }
+      },
+      () => resolve(null), // denied or error
+      { timeout: 8000, maximumAge: 300000 }
+    );
+  });
 }
 
 function computeHealth(dl: number, ul: number, ping: number, jitter: number) {
@@ -206,6 +227,8 @@ export default function SpeedTest() {
   const [recs, setRecs] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [cityComparison, setCityComparison] = useState<{ city: string; avg_dl: number; avg_ul: number; avg_ping: number; test_count: number } | null>(null);
+  const [locationAsked, setLocationAsked] = useState(false);
+  const [locationCity, setLocationCity] = useState<string | null>(null);
 
   // Refs for animation loop
   const liveMbpsRef = useRef(0);
@@ -373,6 +396,14 @@ export default function SpeedTest() {
     const testStart = performance.now();
     const ipPromise = getIPInfo();
 
+    // Request precise location if not already asked
+    let preciseCity = locationCity;
+    if (!locationAsked) {
+      setLocationAsked(true);
+      preciseCity = await getPreciseCity();
+      if (preciseCity) setLocationCity(preciseCity);
+    }
+
     try {
       // 1. Ping + Jitter
       setStatusText("Measuring ping & jitter…"); setProgressVal(5);
@@ -486,6 +517,7 @@ export default function SpeedTest() {
       setHistory(newHist);
 
       // Save anonymized result to database (fire and forget)
+      const cityForDb = preciseCity || ipInfo.city || ipInfo.region?.split(",")[0]?.trim() || null;
       fetch("/api/results", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -494,7 +526,7 @@ export default function SpeedTest() {
           ul: parseFloat(ul.toFixed(1)),
           ping,
           jitter,
-          city: ipInfo.region?.split(",")[0]?.trim() || null,
+          city: cityForDb,
           region: ipInfo.region || null,
           country: null,
           isp: ipInfo.isp || null,
@@ -502,9 +534,8 @@ export default function SpeedTest() {
       }).catch(() => {}); // silent fail — not critical
 
       // Check city average
-      const cityName = ipInfo.region?.split(",")[0]?.trim();
-      if (cityName) {
-        fetch(`/api/results?city=${encodeURIComponent(cityName)}`)
+      if (cityForDb) {
+        fetch(`/api/results?city=${encodeURIComponent(cityForDb)}`)
           .then(r => r.json())
           .then(data => {
             if (data.available) {
@@ -558,6 +589,12 @@ export default function SpeedTest() {
       >
         {btnText}
       </button>
+
+      {!locationAsked && (
+        <p className="text-[0.65rem] text-slate-500 text-center mt-2 leading-relaxed">
+          📍 We may ask for your location to compare your speed against others in the same area. This is optional and your exact location is never stored.
+        </p>
+      )}
 
       {/* Results panel */}
       {showResults && (
