@@ -505,8 +505,8 @@ export default function SpeedTest() {
 
       {/* Meters */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
-        <MeterBox label="Download" value={dlSpeed} unit="Mbps" color="#60a5fa" rank={dlRank} />
-        <MeterBox label="Upload" value={ulSpeed} unit="Mbps" color="#a78bfa" rank={ulRank} />
+        <MeterBox label="Download" value={dlSpeed} unit="Mbps" color="#60a5fa" />
+        <MeterBox label="Upload" value={ulSpeed} unit="Mbps" color="#a78bfa" />
         <MeterBox label="Ping" value={pingMs} unit="ms" color="#34d399" />
         <MeterBox label="Jitter" value={jitterMs} unit="ms" color="#34d399" />
       </div>
@@ -633,9 +633,9 @@ export default function SpeedTest() {
   );
 }
 
-function MeterBox({ label, value, unit, color, rank }: { label: string; value: string; unit: string; color: string; rank?: string }) {
+function MeterBox({ label, value, unit, color }: { label: string; value: string; unit: string; color: string; rank?: string }) {
   const mbps = parseFloat(value);
-  const mbsVal = !isNaN(mbps) ? (mbps / 8).toFixed(1) : null;
+  const mbsVal = !isNaN(mbps) && mbps > 0 ? (mbps / 8).toFixed(1) : null;
 
   return (
     <div className="bg-white/[0.04] rounded-xl p-3 text-center border border-white/[0.06]">
@@ -643,9 +643,8 @@ function MeterBox({ label, value, unit, color, rank }: { label: string; value: s
       <p className="text-xl font-bold leading-none" style={{ color }}>{value}</p>
       <p className="text-[0.65rem] text-slate-400 mt-1">{unit}</p>
       {mbsVal && unit === "Mbps" && (
-        <p className="text-[0.6rem] text-slate-500 mt-1">{mbsVal} MB/s</p>
+        <p className="text-[0.6rem] font-semibold mt-1" style={{ color }}>{mbsVal} MB/s</p>
       )}
-      {rank && <p className="text-[0.55rem] font-bold tracking-[1px] uppercase mt-1" style={{ color: LABEL_COLORS[rank] || "#94a3b8" }}>{rank}</p>}
     </div>
   );
 }
