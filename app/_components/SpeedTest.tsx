@@ -634,24 +634,18 @@ export default function SpeedTest() {
 }
 
 function MeterBox({ label, value, unit, color, rank }: { label: string; value: string; unit: string; color: string; rank?: string }) {
-  const form = rank ? FORMS.find(f => f.name === rank) : null;
+  const mbps = parseFloat(value);
+  const mbsVal = !isNaN(mbps) ? (mbps / 8).toFixed(1) : null;
+
   return (
     <div className="bg-white/[0.04] rounded-xl p-3 text-center border border-white/[0.06]">
       <p className="text-[0.65rem] tracking-[1px] uppercase text-slate-400 mb-1">{label}</p>
       <p className="text-xl font-bold leading-none" style={{ color }}>{value}</p>
       <p className="text-[0.65rem] text-slate-400 mt-1">{unit}</p>
-      {rank && form && (
-        <div className="mt-2 flex flex-col items-center gap-1">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/Goku.svg"
-            alt={rank}
-            className="w-8 h-8 object-contain"
-            style={{ filter: form.thumbFilter }}
-          />
-          <p className="text-[0.55rem] font-bold tracking-[1px] uppercase" style={{ color: LABEL_COLORS[rank] || "#94a3b8" }}>{rank}</p>
-        </div>
+      {mbsVal && unit === "Mbps" && (
+        <p className="text-[0.6rem] text-slate-500 mt-1">{mbsVal} MB/s</p>
       )}
+      {rank && <p className="text-[0.55rem] font-bold tracking-[1px] uppercase mt-1" style={{ color: LABEL_COLORS[rank] || "#94a3b8" }}>{rank}</p>}
     </div>
   );
 }
