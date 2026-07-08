@@ -62,6 +62,8 @@ export default function RootLayout({
               <Link href="/tools/ping" className="hover:text-white transition whitespace-nowrap">Ping</Link>
               <Link href="/tools/ip-lookup" className="hover:text-white transition whitespace-nowrap">IP</Link>
               <Link href="/tools/dns" className="hover:text-white transition whitespace-nowrap">DNS</Link>
+              <Link href="/tools/ipv6" className="hover:text-white transition whitespace-nowrap">IPv6</Link>
+              <Link href="/tools/browser" className="hover:text-white transition whitespace-nowrap">Browser</Link>
               <Link href="/blog" className="hover:text-white transition whitespace-nowrap">Blog</Link>
             </div>
           </nav>

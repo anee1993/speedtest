@@ -94,6 +94,92 @@ function getRecommendations(dl: number, ul: number, ping: number, jitter: number
   return r;
 }
 
+// ── Share as image ─────────────────────────────────────────────────────────────
+function shareAsImage(dl: string, ul: string, ping: string, jitter: string, score: number) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 600; canvas.height = 340;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Background
+  const bg = ctx.createLinearGradient(0, 0, 600, 340);
+  bg.addColorStop(0, "#0f0c29"); bg.addColorStop(0.5, "#1e1b4b"); bg.addColorStop(1, "#0f172a");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, 600, 340);
+
+  // Border
+  ctx.strokeStyle = "rgba(255,255,255,0.1)"; ctx.lineWidth = 2;
+  ctx.roundRect(10, 10, 580, 320, 20); ctx.stroke();
+
+  // Title
+  ctx.fillStyle = "#a78bfa"; ctx.font = "bold 22px system-ui, sans-serif";
+  ctx.fillText("⚡ howfastismy.net", 40, 50);
+  ctx.fillStyle = "#64748b"; ctx.font = "14px system-ui, sans-serif";
+  ctx.fillText("Internet Speed Test Results", 40, 74);
+
+  // Metrics
+  const y = 120;
+  ctx.font = "bold 42px system-ui, sans-serif";
+  ctx.fillStyle = "#60a5fa"; ctx.fillText(dl, 40, y);
+  ctx.fillStyle = "#a78bfa"; ctx.fillText(ul, 220, y);
+  ctx.fillStyle = "#34d399"; ctx.fillText(ping, 400, y);
+
+  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
+  ctx.fillText("DOWNLOAD (Mbps)", 40, y + 22);
+  ctx.fillText("UPLOAD (Mbps)", 220, y + 22);
+  ctx.fillText("PING (ms)", 400, y + 22);
+
+  // Jitter
+  ctx.font = "bold 28px system-ui, sans-serif"; ctx.fillStyle = "#34d399";
+  ctx.fillText(jitter, 400, y + 70);
+  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
+  ctx.fillText("JITTER (ms)", 400, y + 90);
+
+  // Health score
+  const scoreColor = score >= 85 ? "#34d399" : score >= 60 ? "#fbbf24" : "#f87171";
+  ctx.font = "bold 48px system-ui, sans-serif"; ctx.fillStyle = scoreColor;
+  ctx.fillText(`${score}/100`, 40, y + 80);
+  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
+  ctx.fillText("HEALTH SCORE", 40, y + 100);
+
+  // Date
+  ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = "#475569";
+  ctx.fillText(new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }), 40, 310);
+
+  // Download
+  const link = document.createElement("a");
+  link.download = "speed-test-results.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+// ── History ────────────────────────────────────────────────────────────────────
+interface HistoryEntry {
+  date: string;
+  dl: number;
+  ul: number;
+  ping: number;
+  jitter: number;
+  score: number;
+}
+
+const HISTORY_KEY = "speedtest_history";
+const MAX_HISTORY = 10;
+
+function loadHistory(): HistoryEntry[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function saveToHistory(entry: HistoryEntry) {
+  const hist = loadHistory();
+  hist.unshift(entry);
+  if (hist.length > MAX_HISTORY) hist.length = MAX_HISTORY;
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  return hist;
+}
+
 // ── Component ──────────────────────────────────────────────────────────────────
 export default function SpeedTest() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -118,6 +204,7 @@ export default function SpeedTest() {
   const [healthColor, setHealthColor] = useState("#34d399");
   const [tags, setTags] = useState<string[]>([]);
   const [recs, setRecs] = useState<string[]>([]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
 
   // Refs for animation loop
   const liveMbpsRef = useRef(0);
@@ -125,6 +212,10 @@ export default function SpeedTest() {
   const rafRef = useRef<number | null>(null);
 
   // ── Load SVG inline so we can manipulate hair color ──
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, []);
+
   useEffect(() => {
     const container = gokuRef.current;
     if (!container) return;
@@ -381,6 +472,17 @@ export default function SpeedTest() {
       setRecs(getRecommendations(dl, ul, ping, jitter));
       setShowResults(true);
 
+      // Save to history
+      const newHist = saveToHistory({
+        date: new Date().toISOString(),
+        dl: parseFloat(dl.toFixed(1)),
+        ul: parseFloat(ul.toFixed(1)),
+        ping,
+        jitter,
+        score,
+      });
+      setHistory(newHist);
+
     } catch (err: unknown) {
       runningRef.current = false; liveMbpsRef.current = 0;
       setStatusText("⚠ Test failed: " + (err instanceof Error ? err.message : String(err)));
@@ -453,16 +555,78 @@ export default function SpeedTest() {
             </div>
           </div>
 
-          {/* Share button */}
-          <button
-            onClick={() => {
-              const text = `🚀 My Internet Speed (howfastismy.net)\nDownload: ${dlSpeed} Mbps\nUpload: ${ulSpeed} Mbps\nPing: ${pingMs} ms\nHealth: ${healthScore}/100`;
-              navigator.clipboard.writeText(text).catch(() => {});
-            }}
-            className="mt-4 w-full py-2.5 rounded-xl border border-white/10 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-white/[0.03] transition"
-          >
-            📋 COPY RESULTS
-          </button>
+          {/* Share buttons */}
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={() => {
+                const text = `🚀 My Internet Speed (howfastismy.net)\nDownload: ${dlSpeed} Mbps\nUpload: ${ulSpeed} Mbps\nPing: ${pingMs} ms\nHealth: ${healthScore}/100`;
+                navigator.clipboard.writeText(text).catch(() => {});
+              }}
+              className="flex-1 py-2.5 rounded-xl border border-white/10 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-white/[0.03] transition"
+            >
+              📋 Copy Text
+            </button>
+            <button
+              onClick={() => shareAsImage(dlSpeed, ulSpeed, pingMs, jitterMs, healthScore)}
+              className="flex-1 py-2.5 rounded-xl border border-white/10 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-white/[0.03] transition"
+            >
+              🖼️ Save Image
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Speed History */}
+      {history.length > 0 && (
+        <div className="mt-5 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
+          <h3 className="text-xs font-bold tracking-[2px] uppercase text-slate-400 mb-3">Speed History</h3>
+
+          {/* Mini chart */}
+          <div className="flex items-end gap-1 h-16 mb-4">
+            {history.slice().reverse().map((h, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
+                <div
+                  className="w-full rounded-sm bg-blue-400/60"
+                  style={{ height: `${Math.max(8, (h.dl / Math.max(...history.map(x => x.dl))) * 100)}%` }}
+                  title={`DL: ${h.dl} Mbps`}
+                />
+                <div
+                  className="w-full rounded-sm bg-purple-400/60"
+                  style={{ height: `${Math.max(8, (h.ul / Math.max(...history.map(x => x.ul), 1)) * 100)}%` }}
+                  title={`UL: ${h.ul} Mbps`}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Legend */}
+          <div className="flex justify-center gap-4 mb-3 text-[0.6rem] text-slate-500">
+            <span><span className="inline-block w-2 h-2 rounded-sm bg-blue-400/60 mr-1" />Download</span>
+            <span><span className="inline-block w-2 h-2 rounded-sm bg-purple-400/60 mr-1" />Upload</span>
+          </div>
+
+          {/* Table */}
+          <div className="space-y-1.5">
+            {history.slice(0, 5).map((h, i) => (
+              <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-white/[0.04]">
+                <span className="text-slate-500">
+                  {new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <span className="text-slate-300">
+                  ↓{h.dl} ↑{h.ul} <span className="text-slate-500">| {h.ping}ms | {h.score}/100</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {history.length > 1 && (
+            <button
+              onClick={() => { localStorage.removeItem(HISTORY_KEY); setHistory([]); }}
+              className="mt-3 text-[0.65rem] text-slate-500 hover:text-red-400 transition"
+            >
+              Clear history
+            </button>
+          )}
         </div>
       )}
     </div>
