@@ -7,13 +7,13 @@ const DL_URL = "https://speed.cloudflare.com/__down?bytes=100000000";
 const UL_URL = "https://speed.cloudflare.com/__up";
 
 const FORMS = [
-  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none", hairColor: "#000000" },
-  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)", hairColor: "#1a0000" },
-  { name: "SUPER SAIYAN", minMbps: 20, aura: ["#ffe600", "#ffaa00", "#fff4aa"], rings: 2, lightning: true, imgFilter: "drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)", hairColor: "#ffe600" },
-  { name: "SUPER SAIYAN 2", minMbps: 80, aura: ["#ffffff", "#ffe600", "#ffdd44"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)", hairColor: "#fff4aa" },
-  { name: "SSJ GOD", minMbps: 150, aura: ["#ff3366", "#ff6644", "#ffaa88"], rings: 2, lightning: false, imgFilter: "drop-shadow(0 0 14px #ff3366) drop-shadow(0 0 28px #ff4444)", hairColor: "#cc2244" },
-  { name: "SUPER SAIYAN BLUE", minMbps: 250, aura: ["#00cfff", "#0077ff", "#aaddff"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)", hairColor: "#00ccff" },
-  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)", hairColor: "#d8d8f0" },
+  { name: "—", minMbps: 0, aura: null, rings: 0, lightning: false, imgFilter: "none", hairColor: "#000000", thumbFilter: "none" },
+  { name: "KAIOKEN", minMbps: 1, aura: ["#ff3300", "#ff6600", "#ff1100"], rings: 1, lightning: false, imgFilter: "drop-shadow(0 0 10px #ff4400) drop-shadow(0 0 4px #ff0000)", hairColor: "#1a0000", thumbFilter: "drop-shadow(0 0 4px #ff4400) brightness(1.1)" },
+  { name: "SUPER SAIYAN", minMbps: 20, aura: ["#ffe600", "#ffaa00", "#fff4aa"], rings: 2, lightning: true, imgFilter: "drop-shadow(0 0 14px #ffe600) drop-shadow(0 0 28px #ffaa00)", hairColor: "#ffe600", thumbFilter: "hue-rotate(30deg) saturate(5) brightness(1.5) drop-shadow(0 0 4px #ffe600)" },
+  { name: "SUPER SAIYAN 2", minMbps: 80, aura: ["#ffffff", "#ffe600", "#ffdd44"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #fff) drop-shadow(0 0 36px #ffe600)", hairColor: "#fff4aa", thumbFilter: "hue-rotate(30deg) saturate(3) brightness(2) drop-shadow(0 0 4px #fff)" },
+  { name: "SSJ GOD", minMbps: 150, aura: ["#ff3366", "#ff6644", "#ffaa88"], rings: 2, lightning: false, imgFilter: "drop-shadow(0 0 14px #ff3366) drop-shadow(0 0 28px #ff4444)", hairColor: "#cc2244", thumbFilter: "hue-rotate(-20deg) saturate(4) brightness(1.3) drop-shadow(0 0 4px #ff3366)" },
+  { name: "SUPER SAIYAN BLUE", minMbps: 250, aura: ["#00cfff", "#0077ff", "#aaddff"], rings: 3, lightning: true, imgFilter: "drop-shadow(0 0 18px #00cfff) drop-shadow(0 0 36px #0055ff)", hairColor: "#00ccff", thumbFilter: "hue-rotate(180deg) saturate(5) brightness(1.5) drop-shadow(0 0 4px #00cfff)" },
+  { name: "ULTRA INSTINCT", minMbps: 500, aura: ["#ffffff", "#ccccff", "#e8e8ff"], rings: 4, lightning: true, imgFilter: "drop-shadow(0 0 22px #fff) drop-shadow(0 0 44px #ccccff)", hairColor: "#d8d8f0", thumbFilter: "grayscale(0.4) brightness(2.5) drop-shadow(0 0 4px #fff)" },
 ];
 
 const LABEL_COLORS: Record<string, string> = {
@@ -647,7 +647,7 @@ function MeterBox({ label, value, unit, color, rank }: { label: string; value: s
             src="/Goku.svg"
             alt={rank}
             className="w-8 h-8 object-contain"
-            style={{ filter: form.imgFilter }}
+            style={{ filter: form.thumbFilter }}
           />
           <p className="text-[0.55rem] font-bold tracking-[1px] uppercase" style={{ color: LABEL_COLORS[rank] || "#94a3b8" }}>{rank}</p>
         </div>
