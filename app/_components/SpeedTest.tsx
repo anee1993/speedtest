@@ -423,7 +423,7 @@ export default function SpeedTest() {
       // 2. Download — parallel connections for max throughput
       setStatusText("Testing download speed…");
       runningRef.current = true; liveMbpsRef.current = 0;
-      const DL_CONNECTIONS = 10;
+      const DL_CONNECTIONS = 8;
       const DL_MIN_SECS = 6;
       // Use Cloudflare's speed endpoint which routes to nearest edge
       const DL_CHUNK_URL = "https://speed.cloudflare.com/__down?bytes=25000000"; // 25MB per stream
@@ -431,8 +431,6 @@ export default function SpeedTest() {
       let dlTotalBytes = 0;
       const dlStartTime = performance.now();
       let dlRunning = true;
-      let dlLastUpdate = dlStartTime;
-      let dlLastBytes = 0;
 
       // Launch parallel download streams
       async function dlWorker() {
@@ -444,34 +442,34 @@ export default function SpeedTest() {
               const { done, value } = await reader.read();
               if (done || !dlRunning) break;
               dlTotalBytes += value.byteLength;
-              // Update live speed every 250ms
-              const now = performance.now();
-              const elapsed = (now - dlLastUpdate) / 1000;
-              if (elapsed >= 0.25) {
-                const bytesInInterval = dlTotalBytes - dlLastBytes;
-                liveMbpsRef.current = (bytesInInterval * 8 / 1e6) / elapsed;
-                setDlSpeed(liveMbpsRef.current.toFixed(1));
-                dlLastUpdate = now;
-                dlLastBytes = dlTotalBytes;
-              }
             }
           } catch { /* retry silently */ }
         }
       }
 
+      // Live display updater
+      const dlDisplayInterval = setInterval(() => {
+        const elapsed = (performance.now() - dlStartTime) / 1000;
+        if (elapsed > 0.5 && dlTotalBytes > 0) {
+          liveMbpsRef.current = (dlTotalBytes * 8 / 1e6) / elapsed;
+          setDlSpeed(liveMbpsRef.current.toFixed(1));
+        }
+      }, 300);
+
       const dlWorkers = Array.from({ length: DL_CONNECTIONS }, () => dlWorker());
 
-      // Wait for minimum duration
+      // Wait for minimum duration then stop
       await new Promise<void>(resolve => {
-        const check = () => {
-          const elapsed = (performance.now() - dlStartTime) / 1000;
-          if (elapsed >= DL_MIN_SECS) { dlRunning = false; resolve(); }
-          else setTimeout(check, 200);
-        };
-        check();
+        setTimeout(() => { dlRunning = false; resolve(); }, DL_MIN_SECS * 1000);
       });
 
-      await Promise.allSettled(dlWorkers);
+      // Give workers a moment to finish their current read
+      await Promise.race([
+        Promise.allSettled(dlWorkers),
+        new Promise(r => setTimeout(r, 2000)),
+      ]);
+
+      clearInterval(dlDisplayInterval);
       const dlTotalSec = (performance.now() - dlStartTime) / 1000;
       const dl = (dlTotalBytes * 8 / 1e6) / dlTotalSec;
       runningRef.current = false; liveMbpsRef.current = 0;
