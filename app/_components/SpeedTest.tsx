@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 
 // ── Constants ──────────────────────────────────────────────────────────────────
-const DL_URL = "https://speed.cloudflare.com/__down?bytes=100000000";
 const UL_URL = "https://speed.cloudflare.com/__up";
 
 const FORMS = [
@@ -418,64 +417,121 @@ export default function SpeedTest() {
       const ping = Math.round(avg);
       setPingMs(String(ping)); setJitterMs(String(jitter)); setProgressVal(15);
 
-      // 2. Download
+      // 2. Download — parallel connections for max throughput
       setStatusText("Testing download speed…");
       runningRef.current = true; liveMbpsRef.current = 0;
-      const MIN_DL_SECS = 6;
-      let totalLoaded = 0, totalDlSec = 0;
-      while (true) {
-        const t0 = performance.now();
-        const res = await fetch(DL_URL, { cache: "no-store" });
-        const reader = res.body!.getReader();
-        let loaded = 0, lastTick = t0, lastBytes = 0;
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          loaded += value.byteLength; totalLoaded += value.byteLength;
-          const now = performance.now(), el = (now - lastTick) / 1000;
-          if (el >= 0.25) {
-            liveMbpsRef.current = ((loaded - lastBytes) * 8 / 1e6) / el;
-            setDlSpeed(liveMbpsRef.current.toFixed(1));
-            lastTick = now; lastBytes = loaded;
-          }
+      const DL_CONNECTIONS = 6;
+      const DL_MIN_SECS = 6;
+      const DL_CHUNK_URL = "https://speed.cloudflare.com/__down?bytes=25000000"; // 25MB per stream
+
+      let dlTotalBytes = 0;
+      const dlStartTime = performance.now();
+      let dlRunning = true;
+      let dlLastUpdate = dlStartTime;
+      let dlLastBytes = 0;
+
+      // Launch parallel download streams
+      async function dlWorker() {
+        while (dlRunning) {
+          try {
+            const res = await fetch(DL_CHUNK_URL, { cache: "no-store" });
+            const reader = res.body!.getReader();
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done || !dlRunning) break;
+              dlTotalBytes += value.byteLength;
+              // Update live speed every 250ms
+              const now = performance.now();
+              const elapsed = (now - dlLastUpdate) / 1000;
+              if (elapsed >= 0.25) {
+                const bytesInInterval = dlTotalBytes - dlLastBytes;
+                liveMbpsRef.current = (bytesInInterval * 8 / 1e6) / elapsed;
+                setDlSpeed(liveMbpsRef.current.toFixed(1));
+                dlLastUpdate = now;
+                dlLastBytes = dlTotalBytes;
+              }
+            }
+          } catch { /* retry silently */ }
         }
-        totalDlSec += (performance.now() - t0) / 1000;
-        if (totalDlSec >= MIN_DL_SECS) break;
       }
-      const dl = (totalLoaded * 8 / 1e6) / totalDlSec;
+
+      const dlWorkers = Array.from({ length: DL_CONNECTIONS }, () => dlWorker());
+
+      // Wait for minimum duration
+      await new Promise<void>(resolve => {
+        const check = () => {
+          const elapsed = (performance.now() - dlStartTime) / 1000;
+          if (elapsed >= DL_MIN_SECS) { dlRunning = false; resolve(); }
+          else setTimeout(check, 200);
+        };
+        check();
+      });
+
+      await Promise.allSettled(dlWorkers);
+      const dlTotalSec = (performance.now() - dlStartTime) / 1000;
+      const dl = (dlTotalBytes * 8 / 1e6) / dlTotalSec;
       runningRef.current = false; liveMbpsRef.current = 0;
       setDlSpeed(dl.toFixed(1));
       setDlRank(getForm(dl).name === "—" ? "" : getForm(dl).name);
       setProgressVal(60);
       await new Promise(r => setTimeout(r, 800));
 
-      // 3. Upload
+      // 3. Upload — parallel connections
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UNIT = 65536, REPS = 8, CHUNK = UNIT * REPS;
-      const buf = new Uint8Array(CHUNK);
-      for (let i = 0; i < REPS; i++) crypto.getRandomValues(buf.subarray(i * UNIT, (i + 1) * UNIT));
-      const blob = new Blob([buf]);
-      await new Promise(r => setTimeout(r, 30));
-      const MIN_UL = 6, MAX_UL = 15, speeds: number[] = [];
-      const ts = performance.now();
-      while (true) {
-        const el = (performance.now() - ts) / 1000;
-        if (el > MAX_UL) break;
-        if (el >= MIN_UL && speeds.length >= 4) break;
-        setStatusText("Testing upload speed…");
-        const t0 = performance.now();
-        try { await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: blob, mode: "no-cors" }); }
-        catch { continue; }
-        const secs = (performance.now() - t0) / 1000;
-        speeds.push((CHUNK * 8 / 1e6) / secs);
-        liveMbpsRef.current = speeds.slice(-3).reduce((a, b) => a + b, 0) / Math.min(speeds.length, 3);
-        setUlSpeed(liveMbpsRef.current.toFixed(1));
-        await new Promise(r => setTimeout(r, 0));
+      const UL_CONNECTIONS = 4;
+      const UL_MIN_SECS = 6;
+      const UL_MAX_SECS = 12;
+      const UL_CHUNK_SIZE = 512 * 1024; // 512KB per request
+
+      // Build upload payload
+      const ulBuf = new Uint8Array(UL_CHUNK_SIZE);
+      for (let offset = 0; offset < UL_CHUNK_SIZE; offset += 65536) {
+        crypto.getRandomValues(ulBuf.subarray(offset, Math.min(offset + 65536, UL_CHUNK_SIZE)));
       }
+      const ulBlob = new Blob([ulBuf]);
+
+      let ulTotalBytes = 0;
+      const ulStartTime = performance.now();
+      let ulRunning = true;
+      let ulLastUpdate = ulStartTime;
+      let ulLastBytes = 0;
+
+      async function ulWorker() {
+        while (ulRunning) {
+          try {
+            await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: ulBlob, mode: "no-cors" });
+            ulTotalBytes += UL_CHUNK_SIZE;
+            // Update live speed
+            const now = performance.now();
+            const elapsed = (now - ulLastUpdate) / 1000;
+            if (elapsed >= 0.25) {
+              const bytesInInterval = ulTotalBytes - ulLastBytes;
+              liveMbpsRef.current = (bytesInInterval * 8 / 1e6) / elapsed;
+              setUlSpeed(liveMbpsRef.current.toFixed(1));
+              ulLastUpdate = now;
+              ulLastBytes = ulTotalBytes;
+            }
+          } catch { /* retry */ }
+        }
+      }
+
+      const ulWorkers = Array.from({ length: UL_CONNECTIONS }, () => ulWorker());
+
+      await new Promise<void>(resolve => {
+        const check = () => {
+          const elapsed = (performance.now() - ulStartTime) / 1000;
+          if (elapsed >= UL_MAX_SECS || (elapsed >= UL_MIN_SECS && ulTotalBytes > 0)) {
+            ulRunning = false; resolve();
+          } else setTimeout(check, 200);
+        };
+        check();
+      });
+
+      await Promise.allSettled(ulWorkers);
+      const ulTotalSec = (performance.now() - ulStartTime) / 1000;
+      const ul = ulTotalBytes > 0 ? (ulTotalBytes * 8 / 1e6) / ulTotalSec : 0;
       runningRef.current = false; liveMbpsRef.current = 0;
-      const trimmed = speeds.length > 2 ? speeds.slice(1) : speeds;
-      const ul = trimmed.length > 0 ? trimmed.reduce((a, b) => a + b, 0) / trimmed.length : 0;
       setUlSpeed(ul.toFixed(1));
       setUlRank(getForm(ul).name === "—" ? "" : getForm(ul).name);
       setProgressVal(100);
