@@ -2,23 +2,23 @@ import { neon } from "@neondatabase/serverless";
 import { NextRequest, NextResponse } from "next/server";
 
 function getDb() {
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
-  if (!url) throw new Error("DATABASE_URL not set");
+  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING;
+  if (!url) return null;
   return neon(url);
 }
 
 // POST — save a test result (anonymized)
 export async function POST(request: NextRequest) {
   try {
+    const sql = getDb();
+    if (!sql) return NextResponse.json({ success: false, reason: "no database" });
+
     const body = await request.json();
     const { dl, ul, ping, jitter, city, region, country, isp } = body;
 
-    // Basic validation
-    if (!dl || !ul || !ping) {
+    if (!dl || !ping) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
-
-    const sql = getDb();
 
     // Create table if not exists (runs once, idempotent)
     await sql`
@@ -52,13 +52,14 @@ export async function POST(request: NextRequest) {
 // GET — get average speeds for a city
 export async function GET(request: NextRequest) {
   try {
+    const sql = getDb();
+    if (!sql) return NextResponse.json({ available: false, test_count: 0 });
+
     const city = request.nextUrl.searchParams.get("city");
 
     if (!city) {
       return NextResponse.json({ error: "Missing city parameter" }, { status: 400 });
     }
-
-    const sql = getDb();
 
     const result = await sql`
       SELECT
