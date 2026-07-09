@@ -404,24 +404,28 @@ export default function SpeedTest() {
     }
 
     try {
-      // 1. Ping + Jitter
+      // 1. Ping + Jitter — use Cloudflare's main CDN (routes to nearest PoP)
       setStatusText("Measuring ping & jitter…"); setProgressVal(5);
+      const PING_URL = "https://www.cloudflare.com/cdn-cgi/trace";
       const times: number[] = [];
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 8; i++) {
         const t0 = performance.now();
-        try { await fetch("https://speed.cloudflare.com/__down?bytes=1", { cache: "no-store" }); } catch {}
+        try { await fetch(PING_URL, { cache: "no-store", mode: "no-cors" }); } catch {}
         times.push(performance.now() - t0);
       }
-      const avg = times.reduce((a, b) => a + b, 0) / times.length;
-      const jitter = Math.round(times.reduce((a, t2) => a + Math.abs(t2 - avg), 0) / times.length);
+      // Drop first measurement (TCP cold start)
+      const warmTimes = times.slice(1);
+      const avg = warmTimes.reduce((a, b) => a + b, 0) / warmTimes.length;
+      const jitter = Math.round(warmTimes.reduce((a, t2) => a + Math.abs(t2 - avg), 0) / warmTimes.length);
       const ping = Math.round(avg);
       setPingMs(String(ping)); setJitterMs(String(jitter)); setProgressVal(15);
 
       // 2. Download — parallel connections for max throughput
       setStatusText("Testing download speed…");
       runningRef.current = true; liveMbpsRef.current = 0;
-      const DL_CONNECTIONS = 6;
+      const DL_CONNECTIONS = 10;
       const DL_MIN_SECS = 6;
+      // Use Cloudflare's speed endpoint which routes to nearest edge
       const DL_CHUNK_URL = "https://speed.cloudflare.com/__down?bytes=25000000"; // 25MB per stream
 
       let dlTotalBytes = 0;
@@ -479,9 +483,9 @@ export default function SpeedTest() {
       // 3. Upload — parallel connections
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UL_CONNECTIONS = 4;
+      const UL_CONNECTIONS = 6;
       const UL_MIN_SECS = 6;
-      const UL_CHUNK_SIZE = 512 * 1024; // 512KB per request
+      const UL_CHUNK_SIZE = 1024 * 1024; // 1MB per request (bigger chunks = less overhead)
 
       // Build upload payload
       const ulBuf = new Uint8Array(UL_CHUNK_SIZE);
