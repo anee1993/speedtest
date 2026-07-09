@@ -478,10 +478,10 @@ export default function SpeedTest() {
       setProgressVal(60);
       await new Promise(r => setTimeout(r, 800));
 
-      // 3. Upload — sequential with timing (parallel uploads blocked by Cloudflare)
+      // 3. Upload — sequential with abort safety
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UL_MIN_SECS = 6;
+      const UL_DURATION = 6000; // 6 seconds
       const UL_CHUNK_SIZE = 512 * 1024;
 
       // Build upload payload
@@ -493,26 +493,34 @@ export default function SpeedTest() {
 
       let ulTotalBytes = 0;
       const ulStartTime = performance.now();
-      let ulRunning = true;
+      const ulAbort = new AbortController();
 
-      // Stop after minimum duration
-      setTimeout(() => { ulRunning = false; }, UL_MIN_SECS * 1000);
+      // Hard stop after duration
+      const ulTimeout = setTimeout(() => ulAbort.abort(), UL_DURATION);
 
-      // Sequential upload loop (reliable with Cloudflare's endpoint)
-      while (ulRunning) {
+      while (!ulAbort.signal.aborted) {
         try {
-          await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: ulBlob, mode: "no-cors" });
+          await fetch(UL_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: ulBlob,
+            mode: "no-cors",
+            signal: ulAbort.signal,
+          });
           ulTotalBytes += UL_CHUNK_SIZE;
           const elapsed = (performance.now() - ulStartTime) / 1000;
-          if (elapsed > 0.5) {
+          if (elapsed > 0.3) {
             liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
             setUlSpeed(liveMbpsRef.current.toFixed(1));
           }
         } catch {
+          // AbortError or network error — break if aborted
+          if (ulAbort.signal.aborted) break;
           await new Promise(r => setTimeout(r, 50));
         }
       }
 
+      clearTimeout(ulTimeout);
       const ulTotalSec = (performance.now() - ulStartTime) / 1000;
       const ul = ulTotalBytes > 0 ? (ulTotalBytes * 8 / 1e6) / ulTotalSec : 0;
       runningRef.current = false; liveMbpsRef.current = 0;
