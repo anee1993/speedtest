@@ -476,13 +476,13 @@ export default function SpeedTest() {
       setDlSpeed(dl.toFixed(1));
       setDlRank(getForm(dl).name === "—" ? "" : getForm(dl).name);
       setProgressVal(60);
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 1500)); // longer gap to let connections close
 
-      // 3. Upload — sequential with abort safety
+      // 3. Upload — sequential with per-request timeout
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UL_DURATION = 6000; // 6 seconds
-      const UL_CHUNK_SIZE = 512 * 1024;
+      const UL_DURATION_MS = 6000;
+      const UL_CHUNK_SIZE = 256 * 1024; // 256KB — smaller for faster round-trips
 
       // Build upload payload
       const ulBuf = new Uint8Array(UL_CHUNK_SIZE);
@@ -493,34 +493,30 @@ export default function SpeedTest() {
 
       let ulTotalBytes = 0;
       const ulStartTime = performance.now();
-      const ulAbort = new AbortController();
 
-      // Hard stop after duration
-      const ulTimeout = setTimeout(() => ulAbort.abort(), UL_DURATION);
-
-      while (!ulAbort.signal.aborted) {
+      while (performance.now() - ulStartTime < UL_DURATION_MS) {
         try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 5000); // 5s per-request timeout
           await fetch(UL_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain" },
             body: ulBlob,
             mode: "no-cors",
-            signal: ulAbort.signal,
+            signal: controller.signal,
           });
+          clearTimeout(timeout);
           ulTotalBytes += UL_CHUNK_SIZE;
           const elapsed = (performance.now() - ulStartTime) / 1000;
-          if (elapsed > 0.3) {
-            liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
-            setUlSpeed(liveMbpsRef.current.toFixed(1));
-          }
+          liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
+          setUlSpeed(liveMbpsRef.current.toFixed(1));
         } catch {
-          // AbortError or network error — break if aborted
-          if (ulAbort.signal.aborted) break;
-          await new Promise(r => setTimeout(r, 50));
+          // Abort or network error — continue if still within time
+          if (performance.now() - ulStartTime >= UL_DURATION_MS) break;
+          await new Promise(r => setTimeout(r, 100));
         }
       }
 
-      clearTimeout(ulTimeout);
       const ulTotalSec = (performance.now() - ulStartTime) / 1000;
       const ul = ulTotalBytes > 0 ? (ulTotalBytes * 8 / 1e6) / ulTotalSec : 0;
       runningRef.current = false; liveMbpsRef.current = 0;
