@@ -481,7 +481,6 @@ export default function SpeedTest() {
       runningRef.current = true; liveMbpsRef.current = 0;
       const UL_CONNECTIONS = 4;
       const UL_MIN_SECS = 6;
-      const UL_MAX_SECS = 12;
       const UL_CHUNK_SIZE = 512 * 1024; // 512KB per request
 
       // Build upload payload
@@ -494,41 +493,39 @@ export default function SpeedTest() {
       let ulTotalBytes = 0;
       const ulStartTime = performance.now();
       let ulRunning = true;
-      let ulLastUpdate = ulStartTime;
-      let ulLastBytes = 0;
 
       async function ulWorker() {
         while (ulRunning) {
           try {
             await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: ulBlob, mode: "no-cors" });
             ulTotalBytes += UL_CHUNK_SIZE;
-            // Update live speed
-            const now = performance.now();
-            const elapsed = (now - ulLastUpdate) / 1000;
-            if (elapsed >= 0.25) {
-              const bytesInInterval = ulTotalBytes - ulLastBytes;
-              liveMbpsRef.current = (bytesInInterval * 8 / 1e6) / elapsed;
-              setUlSpeed(liveMbpsRef.current.toFixed(1));
-              ulLastUpdate = now;
-              ulLastBytes = ulTotalBytes;
-            }
           } catch { /* retry */ }
         }
       }
 
+      // Live display updater (independent of worker completions)
+      const ulDisplayInterval = setInterval(() => {
+        const elapsed = (performance.now() - ulStartTime) / 1000;
+        if (elapsed > 0.5 && ulTotalBytes > 0) {
+          liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
+          setUlSpeed(liveMbpsRef.current.toFixed(1));
+        }
+      }, 300);
+
       const ulWorkers = Array.from({ length: UL_CONNECTIONS }, () => ulWorker());
 
+      // Wait for minimum duration
       await new Promise<void>(resolve => {
-        const check = () => {
-          const elapsed = (performance.now() - ulStartTime) / 1000;
-          if (elapsed >= UL_MAX_SECS || (elapsed >= UL_MIN_SECS && ulTotalBytes > 0)) {
-            ulRunning = false; resolve();
-          } else setTimeout(check, 200);
-        };
-        check();
+        setTimeout(() => { ulRunning = false; resolve(); }, UL_MIN_SECS * 1000);
       });
 
-      await Promise.allSettled(ulWorkers);
+      // Give workers a moment to finish their last request
+      await Promise.race([
+        Promise.allSettled(ulWorkers),
+        new Promise(r => setTimeout(r, 2000)), // max 2s grace period
+      ]);
+
+      clearInterval(ulDisplayInterval);
       const ulTotalSec = (performance.now() - ulStartTime) / 1000;
       const ul = ulTotalBytes > 0 ? (ulTotalBytes * 8 / 1e6) / ulTotalSec : 0;
       runningRef.current = false; liveMbpsRef.current = 0;
