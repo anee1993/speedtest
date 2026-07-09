@@ -423,7 +423,7 @@ export default function SpeedTest() {
       // 2. Download — parallel connections for max throughput
       setStatusText("Testing download speed…");
       runningRef.current = true; liveMbpsRef.current = 0;
-      const DL_CONNECTIONS = 8;
+      const DL_CONNECTIONS = 4;
       const DL_MIN_SECS = 6;
       // Use Cloudflare's speed endpoint which routes to nearest edge
       const DL_CHUNK_URL = "https://speed.cloudflare.com/__down?bytes=25000000"; // 25MB per stream
