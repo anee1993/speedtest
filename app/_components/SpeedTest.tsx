@@ -483,9 +483,9 @@ export default function SpeedTest() {
       runningRef.current = true; liveMbpsRef.current = 0;
       const UL_CONNECTIONS = 6;
       const UL_MIN_SECS = 6;
-      const UL_CHUNK_SIZE = 1024 * 1024; // 1MB per request (bigger chunks = less overhead)
+      const UL_CHUNK_SIZE = 512 * 1024; // 512KB per request (safe size)
 
-      // Build upload payload
+      // Build upload payload — fill in 64KB chunks (crypto.getRandomValues limit)
       const ulBuf = new Uint8Array(UL_CHUNK_SIZE);
       for (let offset = 0; offset < UL_CHUNK_SIZE; offset += 65536) {
         crypto.getRandomValues(ulBuf.subarray(offset, Math.min(offset + 65536, UL_CHUNK_SIZE)));
@@ -499,9 +499,15 @@ export default function SpeedTest() {
       async function ulWorker() {
         while (ulRunning) {
           try {
-            await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: ulBlob, mode: "no-cors" });
-            ulTotalBytes += UL_CHUNK_SIZE;
-          } catch { /* retry */ }
+            const res = await fetch(UL_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: ulBlob, mode: "no-cors" });
+            // no-cors gives opaque response but if we get here, it was sent
+            if (res.type === "opaque" || res.ok) {
+              ulTotalBytes += UL_CHUNK_SIZE;
+            }
+          } catch {
+            // Small backoff on error to avoid tight retry loops
+            await new Promise(r => setTimeout(r, 100));
+          }
         }
       }
 
