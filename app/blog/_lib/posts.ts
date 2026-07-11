@@ -656,6 +656,152 @@ export const posts: BlogPost[] = [
 <p>Regardless of connection type, your real-world speeds may differ from advertised ones. Run a <a href="https://howfastismy.net">speed test</a> to see your actual download speed, upload speed, and ping. Compare those numbers to what your plan promises. If there is a significant gap, check our <a href="/blog/why-is-my-internet-slow">troubleshooting guide</a> for steps to improve your connection — or use your test results as leverage to hold your ISP accountable.</p>
 `,
   },
+  {
+    slug: "fix-high-ping-pc",
+    title: "How to Fix High Ping on PC: 7 Proven Ways to Reduce Gaming Lag",
+    description:
+      "Struggling with game lag? Learn how to fix high ping on your PC with easy, step-by-step optimization steps to lower latency and stop stuttering.",
+    date: "2025-05-01",
+    content: `
+<h2>Why Is Your Ping So High?</h2>
+<p>You are in a firefight, you have the perfect shot lined up, and then — rubber-band. Your character teleports back two steps. The kill that should have been yours registers for the other player instead. High ping ruins online gaming more than any other single factor.</p>
+<p>Ping (measured in milliseconds) is the round-trip time for data to travel between your PC and the game server. When it spikes above 80-100 ms, everything feels delayed and unresponsive. But here is the good news: most high ping problems are fixable without upgrading your internet plan.</p>
+<p>Start by measuring your current latency with a <a href="https://howfastismy.net/tools/ping">ping test</a> or a full <a href="https://howfastismy.net">speed test</a> that includes ping and jitter. Once you know your baseline numbers, work through these 7 proven fixes in order.</p>
+
+<h2>1. Switch to a Wired Ethernet Connection</h2>
+<p><strong>Expected improvement: 10-50 ms reduction</strong></p>
+<p>This is the single most impactful change you can make. WiFi introduces variable latency due to signal interference, channel congestion, and the overhead of wireless protocols. A direct Ethernet cable eliminates all of this.</p>
+<h3>How to do it:</h3>
+<ul>
+<li>Connect a Cat 5e or Cat 6 Ethernet cable from your PC directly to your router</li>
+<li>If your router is far away, use a flat Ethernet cable (up to 30 meters with no signal loss) or buy powerline adapters that carry Ethernet over your home's electrical wiring</li>
+<li>Disable WiFi on your PC once connected via Ethernet to ensure it uses the wired connection</li>
+</ul>
+<p>If you absolutely cannot use Ethernet, at minimum connect to your router's 5 GHz WiFi band (not 2.4 GHz) and position yourself with clear line of sight to the router.</p>
+
+<h2>2. Close Background Applications Eating Bandwidth</h2>
+<p><strong>Expected improvement: 5-30 ms reduction</strong></p>
+<p>Applications running in the background can consume bandwidth and cause packet queuing delays that spike your ping, even if your overall speed looks fine.</p>
+<h3>Common culprits:</h3>
+<ul>
+<li><strong>Cloud sync:</strong> OneDrive, Google Drive, Dropbox, iCloud — all continuously upload files</li>
+<li><strong>System updates:</strong> Windows Update downloading in the background</li>
+<li><strong>Streaming:</strong> Twitch, YouTube, or Spotify on another tab or device</li>
+<li><strong>Torrent clients:</strong> Even seeding uses upload bandwidth that creates congestion</li>
+<li><strong>Game launchers:</strong> Steam, Epic, Battle.net updating other games while you play</li>
+<li><strong>Browser tabs:</strong> Social media, email, news sites with auto-refreshing content</li>
+</ul>
+<h3>How to check:</h3>
+<ol>
+<li>Open Task Manager (Ctrl+Shift+Esc)</li>
+<li>Click the "Network" column to sort by bandwidth usage</li>
+<li>Close or pause anything using significant bandwidth</li>
+<li>In Steam: Settings → Downloads → uncheck "Allow downloads during gameplay"</li>
+</ol>
+
+<h2>3. Enable QoS (Quality of Service) on Your Router</h2>
+<p><strong>Expected improvement: 10-40 ms reduction under load</strong></p>
+<p>QoS tells your router to prioritize gaming traffic over other types of data. Without it, a large file download or video stream can cause your game packets to queue behind bulk data transfers.</p>
+<h3>How to set it up:</h3>
+<ol>
+<li>Log into your router admin panel (usually 192.168.0.1 or 192.168.1.1 in your browser)</li>
+<li>Find QoS, Traffic Management, or Bandwidth Control settings</li>
+<li>Enable it and set your gaming PC or gaming traffic as highest priority</li>
+<li>Some routers let you prioritize by device (your PC's MAC address) or by application type (gaming)</li>
+</ol>
+<p>If your router does not support QoS, this alone may justify upgrading to a modern gaming-focused router that does.</p>
+
+<h2>4. Change Your DNS Server</h2>
+<p><strong>Expected improvement: Faster initial connections, 5-15 ms on first load</strong></p>
+<p>DNS (Domain Name System) resolves server addresses before your game connects. A slow DNS server adds delay at the start of every session and during server transitions. While it does not directly affect in-game ping on an established connection, it improves overall responsiveness.</p>
+<h3>Best DNS servers for gaming:</h3>
+<ul>
+<li><strong>Cloudflare:</strong> 1.1.1.1 (primary), 1.0.0.1 (secondary) — fastest average resolution times</li>
+<li><strong>Google:</strong> 8.8.8.8 (primary), 8.8.4.4 (secondary) — reliable and widely cached</li>
+</ul>
+<h3>How to change on Windows:</h3>
+<ol>
+<li>Settings → Network & Internet → your connection → Edit DNS</li>
+<li>Switch from Automatic to Manual</li>
+<li>Enter 1.1.1.1 as preferred and 1.0.0.1 as alternate</li>
+<li>Save and restart your browser/game</li>
+</ol>
+<p>You can verify your current DNS performance with our <a href="https://howfastismy.net/tools/dns">DNS lookup tool</a>.</p>
+
+<h2>5. Select the Closest Game Server Region</h2>
+<p><strong>Expected improvement: 20-100+ ms reduction</strong></p>
+<p>Physics cannot be optimized away. Data takes approximately 1 ms to travel 100 km through fiber. If you are connecting to a server on another continent, you will have high ping regardless of your internet quality.</p>
+<h3>What to do:</h3>
+<ul>
+<li>In your game's settings, choose the server region geographically closest to you</li>
+<li>In matchmaking games, check if there is a "preferred region" or "max ping" setting</li>
+<li>Apex Legends: you can select data center from the main menu (press Tab or the equivalent button before clicking Play)</li>
+<li>Valorant: automatically selects closest server but you can check which region you are connecting to</li>
+<li>Fortnite: Settings → Matchmaking Region → choose closest</li>
+</ul>
+<p>Use a <a href="https://howfastismy.net/tools/ping">ping test</a> to measure your latency to different regions and confirm which is actually closest for your connection.</p>
+
+<h2>6. Update Network Drivers and Firmware</h2>
+<p><strong>Expected improvement: Variable — fixes specific issues</strong></p>
+<p>Outdated network adapter drivers or router firmware can cause suboptimal performance, packet loss, and latency spikes.</p>
+<h3>PC network drivers:</h3>
+<ol>
+<li>Open Device Manager (right-click Start → Device Manager)</li>
+<li>Expand "Network adapters"</li>
+<li>Right-click your Ethernet or WiFi adapter → Update driver</li>
+<li>For best results, download the latest driver directly from Intel, Realtek, or your motherboard manufacturer's website rather than relying on Windows Update</li>
+</ol>
+<h3>Router firmware:</h3>
+<ol>
+<li>Log into your router admin panel</li>
+<li>Check for firmware updates (usually under Administration or System settings)</li>
+<li>Apply any available updates — manufacturers regularly fix performance issues and improve packet handling</li>
+</ol>
+
+<h2>7. Disable Nagle's Algorithm (Advanced)</h2>
+<p><strong>Expected improvement: 5-15 ms in some games</strong></p>
+<p>Windows uses Nagle's algorithm to bundle small data packets together before sending them, reducing overhead but adding latency. For gaming, you want every packet sent immediately. Disabling this is a registry tweak — advanced but effective.</p>
+<h3>How to disable:</h3>
+<ol>
+<li>Open Command Prompt and type <code>ipconfig</code> — note your IP address (e.g., 192.168.1.5)</li>
+<li>Open Registry Editor (Win+R → regedit)</li>
+<li>Navigate to: <code>HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces</code></li>
+<li>Look through the subkeys for one containing your IP address in the "IPAddress" or "DhcpIPAddress" value</li>
+<li>In that key, create a new DWORD (32-bit) value named <code>TcpAckFrequency</code> and set it to <code>1</code></li>
+<li>Create another DWORD named <code>TCPNoDelay</code> and set it to <code>1</code></li>
+<li>Restart your PC</li>
+</ol>
+<p><strong>Note:</strong> This tweak is safe but affects all TCP traffic. If you notice issues with file downloads or browsing, you can revert by deleting those two values.</p>
+
+<h2>Bonus Tips</h2>
+<ul>
+<li><strong>Restart your router weekly:</strong> Routers accumulate memory bloat and connection tables over time. A weekly restart keeps things fresh.</li>
+<li><strong>Check for packet loss:</strong> High ping combined with packet loss indicates a more serious network issue. Run repeated ping tests and look for dropped packets.</li>
+<li><strong>Avoid peak hours:</strong> Cable internet is shared with neighbors. Testing at 2 AM vs 8 PM often shows significantly different ping. If peak-hour lag is severe, consider fiber.</li>
+<li><strong>Disable location services and VPN:</strong> VPNs add a routing hop that increases latency by 10-50 ms. If you are using a VPN while gaming, that is likely a major contributor.</li>
+<li><strong>Monitor with our tools:</strong> Use the <a href="https://howfastismy.net/tools/ping">ping test</a> to establish your baseline, then test again after each fix to measure improvement.</li>
+</ul>
+
+<h2>What Ping Should You Aim For?</h2>
+<table>
+<thead>
+<tr><th>Ping (ms)</th><th>Experience</th><th>Good For</th></tr>
+</thead>
+<tbody>
+<tr><td>0-20 ms</td><td>Instant response</td><td>Competitive FPS, fighting games</td></tr>
+<tr><td>20-50 ms</td><td>Smooth, no noticeable delay</td><td>All online games</td></tr>
+<tr><td>50-80 ms</td><td>Slight delay in fast games</td><td>MMOs, casual games, battle royales</td></tr>
+<tr><td>80-120 ms</td><td>Noticeable lag</td><td>Turn-based games only</td></tr>
+<tr><td>120+ ms</td><td>Unplayable for most genres</td><td>Single-player or nothing</td></tr>
+</tbody>
+</table>
+<p>For a deeper explanation of latency, read our full guide on <a href="/blog/what-is-ping">what ping is and why it matters</a>. And if jitter (inconsistent ping) is your problem, check our <a href="/blog/what-is-jitter">jitter guide</a> for specific fixes.</p>
+
+<h2>Start Measuring, Then Fix</h2>
+<p>Before and after each fix, run a <a href="https://howfastismy.net">speed test</a> to measure your ping and jitter. This tells you which changes actually made a difference for your specific setup. Most gamers see a 30-70 ms improvement after applying fixes 1-5. Combined with server selection, sub-50 ms ping is achievable on most decent internet connections.</p>
+<p>Stop accepting lag. Measure it, fix it, and dominate.</p>
+`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

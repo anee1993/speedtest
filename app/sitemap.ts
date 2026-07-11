@@ -94,5 +94,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/fix-high-ping-pc`,
+      lastModified: new Date("2025-05-01"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }
