@@ -637,7 +637,7 @@ export default function SpeedTest() {
       </button>
 
       {!locationAsked && (
-        <p className="text-[0.65rem] text-slate-500 text-center mt-2 leading-relaxed">
+        <p className="text-[0.65rem] text-slate-400 text-center mt-2 leading-relaxed">
           📍 We may ask for your location to compare your speed against others in the same area. This is optional and your exact location is never stored.
         </p>
       )}
@@ -649,7 +649,7 @@ export default function SpeedTest() {
           <div className="grid grid-cols-2 gap-x-4 gap-y-1">
             {results.map(r => (
               <div key={r.key} className="flex justify-between py-1.5 border-b border-white/[0.04]">
-                <span className="text-xs text-slate-500">{r.key}</span>
+                <span className="text-xs text-slate-400">{r.key}</span>
                 <span className="text-xs text-slate-200 font-semibold">{r.val}</span>
               </div>
             ))}
@@ -680,7 +680,7 @@ export default function SpeedTest() {
                 <span>↑ {cityComparison.avg_ul} Mbps</span>
                 <span>🏓 {cityComparison.avg_ping} ms</span>
               </div>
-              <p className="text-xs text-slate-500 mt-2">
+              <p className="text-xs text-slate-400 mt-2">
                 {parseFloat(dlSpeed) > cityComparison.avg_dl
                   ? <span>Your download is <span className="text-emerald-400 font-semibold">{((parseFloat(dlSpeed) / cityComparison.avg_dl - 1) * 100).toFixed(0)}% faster</span> than average.</span>
                   : <span>Your download is <span className="text-yellow-400 font-semibold">{((1 - parseFloat(dlSpeed) / cityComparison.avg_dl) * 100).toFixed(0)}% slower</span> than average.</span>
@@ -734,7 +734,7 @@ export default function SpeedTest() {
           </div>
 
           {/* Legend */}
-          <div className="flex justify-center gap-4 mb-3 text-[0.6rem] text-slate-500">
+          <div className="flex justify-center gap-4 mb-3 text-[0.6rem] text-slate-400">
             <span><span className="inline-block w-2 h-2 rounded-sm bg-blue-400/60 mr-1" />Download</span>
             <span><span className="inline-block w-2 h-2 rounded-sm bg-purple-400/60 mr-1" />Upload</span>
           </div>
@@ -743,11 +743,11 @@ export default function SpeedTest() {
           <div className="space-y-1.5">
             {history.slice(0, 5).map((h, i) => (
               <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-white/[0.04]">
-                <span className="text-slate-500">
+                <span className="text-slate-400">
                   {new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </span>
                 <span className="text-slate-300">
-                  ↓{h.dl} ↑{h.ul} <span className="text-slate-500">| {h.ping}ms | {h.score}/100</span>
+                  ↓{h.dl} ↑{h.ul} <span className="text-slate-400">| {h.ping}ms | {h.score}/100</span>
                 </span>
               </div>
             ))}
@@ -756,7 +756,7 @@ export default function SpeedTest() {
           {history.length > 1 && (
             <button
               onClick={() => { localStorage.removeItem(HISTORY_KEY); setHistory([]); }}
-              className="mt-3 text-[0.65rem] text-slate-500 hover:text-red-400 transition"
+              className="mt-3 text-[0.65rem] text-slate-400 hover:text-red-400 transition"
             >
               Clear history
             </button>

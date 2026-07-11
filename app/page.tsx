@@ -6,7 +6,7 @@ export default function Home() {
       <h1 className="text-2xl sm:text-3xl font-bold tracking-wide mb-1 bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">
         ⚡ Internet Speed Test
       </h1>
-      <p className="text-sm text-indigo-300/70 mb-8">
+      <p className="text-sm text-indigo-300 mb-8">
         Measure download, upload, ping & jitter
       </p>
       <SpeedTest />
