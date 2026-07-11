@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
+import Nav from "./_components/Nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -52,22 +53,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)]">
         {/* Header / Nav */}
-        <header className="w-full border-b border-white/5 py-4 px-6">
-          <nav className="max-w-5xl mx-auto flex items-center justify-between">
-            <Link href="/" className="text-lg font-bold tracking-wide text-indigo-400 hover:text-indigo-300 transition shrink-0">
-              ⚡ howfastismy.net
-            </Link>
-            <div className="flex gap-4 text-sm text-slate-400 overflow-x-auto ml-4 scrollbar-hide">
-              <Link href="/" className="hover:text-white transition whitespace-nowrap hidden sm:block">Speed Test</Link>
-              <Link href="/tools/ping" className="hover:text-white transition whitespace-nowrap">Ping</Link>
-              <Link href="/tools/ip-lookup" className="hover:text-white transition whitespace-nowrap">IP</Link>
-              <Link href="/tools/dns" className="hover:text-white transition whitespace-nowrap">DNS</Link>
-              <Link href="/tools/ipv6" className="hover:text-white transition whitespace-nowrap">IPv6</Link>
-              <Link href="/tools/browser" className="hover:text-white transition whitespace-nowrap">Browser</Link>
-              <Link href="/blog" className="hover:text-white transition whitespace-nowrap">Blog</Link>
-            </div>
-          </nav>
-        </header>
+        <Nav />
 
         {/* Main content */}
         <main className="flex-1 flex flex-col items-center px-4 py-8">
