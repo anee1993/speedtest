@@ -70,5 +70,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/is-30-mbps-good-for-gaming`,
+      lastModified: new Date("2025-03-05"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/test-wifi-speed-on-phone`,
+      lastModified: new Date("2025-03-18"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/what-is-jitter`,
+      lastModified: new Date("2025-04-02"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/fiber-vs-cable-vs-dsl`,
+      lastModified: new Date("2025-04-15"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

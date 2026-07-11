@@ -274,6 +274,388 @@ export const posts: BlogPost[] = [
 <p>If your ping is higher than expected, try switching to a wired connection, restarting your router, or testing at different times of day to see if congestion is the issue.</p>
 `,
   },
+  {
+    slug: "is-30-mbps-good-for-gaming",
+    title: "Is 30 Mbps Good Enough for Gaming?",
+    description:
+      "Find out if 30 Mbps is fast enough for online gaming across FPS, MMO, and battle royale games. Learn why ping matters more than speed and what to look for.",
+    date: "2025-03-05",
+    content: `
+<h2>The Short Answer: Yes, 30 Mbps Is Enough for Playing Online Games</h2>
+<p>If you have a 30 Mbps connection, you have more than enough bandwidth for online gaming. Most games use between 20 and 80 KB/s (yes, kilobytes) of bandwidth during active play. That is a tiny fraction of your available speed. The real factors that determine your gaming experience are <strong>ping</strong> (latency) and <strong>packet loss</strong>, not raw download speed.</p>
+<p>Before we dig into specifics, it helps to know your actual connection performance. Run a <a href="https://howfastismy.net">speed test</a> to check your download speed, upload speed, and ping — all three matter for gaming.</p>
+
+<h2>What Speed Do Different Game Types Actually Need?</h2>
+<p>Online games are surprisingly light on bandwidth. Here is what different genres typically consume during active gameplay:</p>
+<table>
+<thead>
+<tr><th>Game Type</th><th>Bandwidth Used During Play</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td>FPS (First-Person Shooters)</td><td>30-80 KB/s</td><td>Valorant, CS2, Call of Duty</td></tr>
+<tr><td>Battle Royale</td><td>30-60 KB/s</td><td>Fortnite, Apex Legends, PUBG</td></tr>
+<tr><td>MMO (Massively Multiplayer)</td><td>10-40 KB/s</td><td>World of Warcraft, Final Fantasy XIV</td></tr>
+<tr><td>MOBA</td><td>20-50 KB/s</td><td>League of Legends, Dota 2</td></tr>
+<tr><td>Racing</td><td>20-40 KB/s</td><td>Forza, Gran Turismo</td></tr>
+</tbody>
+</table>
+<p>Even the most demanding online game rarely exceeds 1 Mbps during active play. At 30 Mbps, you have roughly 30 times more bandwidth than any game requires.</p>
+
+<h2>Why Ping Matters More Than Speed for Gaming</h2>
+<p>When gamers complain about "lag," the problem is almost never bandwidth — it is latency. Ping measures the round-trip time between your device and the game server in milliseconds. A lower ping means your actions register faster on the server.</p>
+<p>Here is what different ping values feel like in-game:</p>
+<ul>
+<li><strong>Under 20 ms:</strong> Excellent. Actions feel instant. Ideal for competitive FPS.</li>
+<li><strong>20-50 ms:</strong> Great for all games. Most players cannot perceive this delay.</li>
+<li><strong>50-80 ms:</strong> Playable for most genres. Slight disadvantage in fast-paced shooters.</li>
+<li><strong>80-120 ms:</strong> Noticeable delay. Rubberbanding may occur in fast games.</li>
+<li><strong>120+ ms:</strong> Laggy. Hit registration issues, teleporting players, frustrating experience.</li>
+</ul>
+<p>You can check your latency with our <a href="https://howfastismy.net/tools/ping">ping test tool</a>. If your ping is consistently above 80 ms, that is likely the cause of any gaming issues — not your 30 Mbps speed.</p>
+
+<h2>Where 30 Mbps Can Feel Slow: Game Downloads and Updates</h2>
+<p>The one area where 30 Mbps shows its limitations is downloading games and patches. Modern games are massive:</p>
+<ul>
+<li><strong>Call of Duty: Warzone</strong> — 100+ GB install, frequent 20-50 GB updates</li>
+<li><strong>Fortnite</strong> — 26 GB base install, regular patches</li>
+<li><strong>Final Fantasy XIV</strong> — 80+ GB with expansions</li>
+<li><strong>Red Dead Redemption 2</strong> — 120 GB</li>
+</ul>
+<p>At 30 Mbps (about 3.75 MB/s real download speed), a 100 GB game takes approximately 7.5 hours to download. A 50 GB update takes around 3.7 hours. That is not ideal if you want to play immediately, but it does not affect your experience once the game is running.</p>
+<p>Tip: Schedule large downloads overnight or while you are at work. Most platforms (Steam, PlayStation, Xbox) support automatic background updates.</p>
+
+<h2>The Real Bottlenecks for Gaming at 30 Mbps</h2>
+<h3>Shared Bandwidth</h3>
+<p>30 Mbps is fine for gaming alone, but problems arise when others on your network are simultaneously streaming 4K video, downloading files, or video calling. A single 4K Netflix stream uses about 25 Mbps — leaving only 5 Mbps for everything else. While 5 Mbps is technically enough for the game itself, the network congestion can spike your ping.</p>
+<p><strong>Fix:</strong> Enable QoS (Quality of Service) on your router to prioritize gaming traffic. This ensures your game packets get through first even when the connection is busy.</p>
+
+<h3>WiFi Instability</h3>
+<p>Playing on WiFi introduces variable latency and potential packet loss. Even with 30 Mbps of bandwidth, an unstable WiFi connection causes rubber-banding, disconnects, and hit registration issues.</p>
+<p><strong>Fix:</strong> Use a wired Ethernet connection for gaming whenever possible. If you must use WiFi, connect to the 5 GHz band and stay close to the router.</p>
+
+<h3>Upload Speed</h3>
+<p>Gaming requires a minimum upload speed of about 1-3 Mbps. Most 30 Mbps plans include at least 5 Mbps upload, which is sufficient. However, if you stream your gameplay on Twitch or YouTube, you need 4-6 Mbps upload on top of that. Check your upload speed with a <a href="https://howfastismy.net">speed test</a>.</p>
+
+<h2>Recommendations by Gaming Scenario</h2>
+<ul>
+<li><strong>Solo gamer, no other heavy users:</strong> 30 Mbps is perfectly fine. Focus on getting low ping.</li>
+<li><strong>Gamer in a shared household:</strong> 30 Mbps will work but QoS is essential. Consider upgrading to 100 Mbps for comfort.</li>
+<li><strong>Competitive/esports player:</strong> Speed does not matter much, but a fiber connection with sub-20 ms ping does. 30 Mbps on fiber is better than 300 Mbps on congested cable.</li>
+<li><strong>Game streamer (Twitch/YouTube):</strong> You will need more upload bandwidth. Look for plans with at least 10 Mbps upload.</li>
+<li><strong>Frequent game downloaders:</strong> The 30 Mbps speed means long waits for new games. If patience is thin, faster plans reduce download times significantly.</li>
+</ul>
+
+<h2>Bottom Line</h2>
+<p>For actually playing online games, 30 Mbps is more than sufficient across every genre. The gameplay itself uses minimal bandwidth. Your priorities should be: low ping first, stable connection second, and raw speed third. Use our <a href="https://howfastismy.net">speed test</a> to check all three metrics, and our <a href="https://howfastismy.net/tools/ping">ping test</a> to monitor your latency to game servers. If you are experiencing lag on 30 Mbps, the problem is almost certainly not your download speed.</p>
+`,
+  },
+  {
+    slug: "test-wifi-speed-on-phone",
+    title: "How to Test WiFi Speed on Your Phone",
+    description:
+      "Learn how to accurately test your WiFi speed on iPhone and Android. Covers browser-based tests, apps, tips for reliable results, and troubleshooting slow WiFi on mobile.",
+    date: "2025-03-18",
+    content: `
+<h2>Why Test WiFi Speed on Your Phone?</h2>
+<p>Your phone is probably the device you use most on WiFi. If websites load slowly, videos buffer, or video calls drop quality on your mobile device, the first step is measuring what speed you are actually getting. Testing on your phone specifically — rather than a desktop — tells you what your wireless experience is like where you typically use the device.</p>
+<p>WiFi speeds on phones are often lower than what your plan provides because of distance from the router, interference, and device limitations. A quick test tells you exactly where you stand.</p>
+
+<h2>Method 1: Browser-Based Speed Test (Recommended)</h2>
+<p>The simplest way to test WiFi speed on any phone is to open your browser and visit a speed test website. No app install required.</p>
+<h3>Steps:</h3>
+<ol>
+<li>Connect to your WiFi network (make sure you are not on mobile data)</li>
+<li>Open Safari (iPhone) or Chrome (Android)</li>
+<li>Go to <a href="https://howfastismy.net">howfastismy.net</a></li>
+<li>Tap the start button to begin the test</li>
+<li>Wait 15-30 seconds for results</li>
+</ol>
+<p>You will see your download speed, upload speed, and ping. These are the same metrics a desktop test measures, but reflecting your phone's WiFi performance specifically.</p>
+<p>Browser-based tests work on every phone — iPhone, Android, old or new — without installing anything. They also avoid the permissions and ads that many speed test apps bundle in.</p>
+
+<h2>Method 2: Speed Test Apps</h2>
+<p>If you prefer a dedicated app, here are reliable options:</p>
+<h3>iPhone (iOS)</h3>
+<ul>
+<li><strong>Speedtest by Ookla</strong> — The most popular option. Detailed results and history tracking.</li>
+<li><strong>Fast.com</strong> — Netflix's speed test. Minimal interface, focuses on download speed.</li>
+</ul>
+<h3>Android</h3>
+<ul>
+<li><strong>Speedtest by Ookla</strong> — Same as iOS. Available on Google Play.</li>
+<li><strong>Internet Speed Meter</strong> — Lightweight option with a persistent notification showing current speed.</li>
+</ul>
+<p>The advantage of apps is result history — you can track performance over time. The disadvantage is that many free speed test apps show ads and request unnecessary permissions. A browser-based test like <a href="https://howfastismy.net">howfastismy.net</a> gives you the same data without that overhead.</p>
+
+<h2>Tips for Accurate Results</h2>
+<p>Speed test results can vary significantly depending on conditions. Follow these tips for the most accurate measurement:</p>
+<ul>
+<li><strong>Close other apps:</strong> Background apps consuming bandwidth will lower your results. Close streaming, social media, and cloud backup apps before testing.</li>
+<li><strong>Confirm you are on WiFi:</strong> Check your phone's status bar for the WiFi icon. On iPhone, go to Settings &gt; WiFi to confirm. On Android, pull down the notification shade to verify.</li>
+<li><strong>Stand where you normally use your phone:</strong> Do not walk next to the router just for the test. Test from your couch, desk, or bedroom — wherever you typically experience slow speeds.</li>
+<li><strong>Test multiple times:</strong> Run 3-4 tests spaced a minute apart. Network conditions fluctuate, so an average gives you a more reliable picture.</li>
+<li><strong>Test at different times:</strong> Speeds often drop during evening peak hours (7-10 PM). Test during both peak and off-peak to see the range.</li>
+<li><strong>Disconnect other devices temporarily:</strong> If you want to see your phone's maximum WiFi speed, temporarily disconnect other heavy-use devices from the network.</li>
+</ul>
+
+<h2>WiFi Speed vs Mobile Data Speed</h2>
+<p>If your WiFi test shows slow results, try switching to mobile data and running the test again. This tells you whether the problem is your internet connection or your WiFi specifically:</p>
+<ul>
+<li><strong>WiFi slow, mobile data fast:</strong> The problem is your WiFi setup (router, interference, distance). Your ISP connection itself may be fine.</li>
+<li><strong>Both slow:</strong> Could be ISP-side congestion, a plan limitation, or your area's infrastructure.</li>
+<li><strong>WiFi fast, mobile data slow:</strong> Normal — mobile data speeds depend on cell tower proximity and network load.</li>
+</ul>
+
+<h2>Why WiFi Is Slower on Your Phone Than Your Computer</h2>
+<p>It is common to see lower speeds on phones compared to laptops or desktops, even on the same network. Reasons include:</p>
+<ul>
+<li><strong>Antenna size:</strong> Phones have smaller WiFi antennas than laptops, which limits signal reception.</li>
+<li><strong>WiFi standard support:</strong> Older phones may only support WiFi 5 (802.11ac) while newer routers broadcast WiFi 6. Check your phone's specs.</li>
+<li><strong>Band selection:</strong> Phones sometimes connect to the slower 2.4 GHz band instead of the faster 5 GHz band, especially when further from the router.</li>
+<li><strong>Processing power:</strong> Budget phones may have slower WiFi chipsets that cap throughput below what the network provides.</li>
+</ul>
+
+<h2>Troubleshooting Slow WiFi on Your Phone</h2>
+<p>If your speed test shows poor results, try these fixes in order:</p>
+<ol>
+<li><strong>Toggle WiFi off and on:</strong> This forces your phone to reconnect and sometimes picks a better channel or band.</li>
+<li><strong>Forget and reconnect to the network:</strong> Go to WiFi settings, forget the network, then rejoin. This clears any corrupted connection parameters.</li>
+<li><strong>Switch to 5 GHz:</strong> If your router broadcasts separate 2.4 GHz and 5 GHz networks, connect to the 5 GHz one (often labeled with "5G" in the network name). It is faster at close range.</li>
+<li><strong>Move closer to the router:</strong> Test speed at different distances. If speed improves dramatically near the router, you have a coverage problem. Consider a mesh WiFi system or repeater.</li>
+<li><strong>Restart your router:</strong> Unplug it for 30 seconds, then plug back in. This clears memory and resolves many intermittent issues.</li>
+<li><strong>Check for interference:</strong> Microwaves, baby monitors, and Bluetooth devices can interfere with WiFi. Move the router away from these.</li>
+<li><strong>Update your phone's software:</strong> WiFi performance improvements are often included in OS updates.</li>
+</ol>
+
+<h2>What Speed Should You Expect on Your Phone?</h2>
+<p>As a rough guide, you can expect your phone to achieve 50-80% of your plan speed over WiFi under good conditions. So if you pay for 100 Mbps, getting 50-80 Mbps on your phone is normal. Getting under 30% of your plan speed indicates a problem worth investigating.</p>
+<p>For perspective on what speeds you need for different activities on your phone, check our guide on <a href="/blog/good-internet-speed">what internet speed is good enough</a>.</p>
+
+<h2>Test Your Phone's WiFi Now</h2>
+<p>Open <a href="https://howfastismy.net">howfastismy.net</a> on your phone right now to see what speed you are getting. It takes under 30 seconds, works in any browser, and gives you download speed, upload speed, and ping in one quick test. If the numbers look low, work through the troubleshooting steps above to identify and fix the issue.</p>
+`,
+  },
+  {
+    slug: "what-is-jitter",
+    title: "What Is Jitter and How Does It Affect Your Connection?",
+    description:
+      "Understand what jitter means for your internet connection, how it differs from ping, what causes it, and practical steps to reduce it for smoother gaming and video calls.",
+    date: "2025-04-02",
+    content: `
+<h2>Jitter Defined: The Inconsistency in Your Connection</h2>
+<p><strong>Jitter</strong> is the variation in time between data packets arriving at your device. In simpler terms: if your ping is normally 30 ms but sometimes jumps to 80 ms and drops to 10 ms, that fluctuation is jitter. It measures how consistent (or inconsistent) your connection timing is.</p>
+<p>A connection with low jitter delivers packets at steady, predictable intervals. A connection with high jitter delivers them erratically — some arrive quickly, others are delayed. This inconsistency causes real problems for anything requiring real-time data: gaming, video calls, VoIP phone calls, and live streaming.</p>
+<p>You can measure your jitter alongside ping and speed with a <a href="https://howfastismy.net">quick internet speed test</a>.</p>
+
+<h2>How Jitter Differs from Ping</h2>
+<p>Ping and jitter are related but measure different things:</p>
+<ul>
+<li><strong>Ping (latency):</strong> The average time for a data packet to travel to a server and back. A single number, like "35 ms."</li>
+<li><strong>Jitter:</strong> How much that travel time varies from packet to packet. If packets arrive at 30 ms, 35 ms, 32 ms, 31 ms — jitter is low (about 2-3 ms). If they arrive at 30 ms, 80 ms, 15 ms, 65 ms — jitter is high (30+ ms).</li>
+</ul>
+<p>Think of it this way: ping is your average commute time, jitter is how unpredictable your commute is day to day. You can plan around a consistent 40-minute commute, but a commute that randomly takes between 15 and 90 minutes is much harder to deal with — even if the average is the same.</p>
+
+<h2>What Causes Jitter?</h2>
+<h3>Network Congestion</h3>
+<p>When too many packets compete for limited bandwidth — on your local network or at your ISP — some packets get queued and delayed while others pass through immediately. This creates uneven packet delivery timing.</p>
+
+<h3>WiFi Interference</h3>
+<p>Wireless connections are inherently less stable than wired ones. Radio interference from neighboring networks, microwaves, Bluetooth devices, and physical obstacles causes sporadic delays in packet transmission.</p>
+
+<h3>Outdated or Overloaded Hardware</h3>
+<p>An old router struggling to manage many connections may process packets inconsistently. When the router's CPU spikes, some packets wait longer than others.</p>
+
+<h3>Long or Complex Network Routes</h3>
+<p>Packets traveling through many network hops have more opportunities for variable delays. Each router in the path can introduce its own inconsistency depending on its current load.</p>
+
+<h3>ISP Infrastructure Issues</h3>
+<p>Congested peering points, oversubscribed nodes, or degraded lines at your ISP can introduce jitter that is outside your control.</p>
+
+<h2>Acceptable Jitter Ranges</h2>
+<table>
+<thead>
+<tr><th>Jitter (ms)</th><th>Rating</th><th>Impact</th></tr>
+</thead>
+<tbody>
+<tr><td>0-5 ms</td><td>Excellent</td><td>Imperceptible. Ideal for all real-time applications.</td></tr>
+<tr><td>5-15 ms</td><td>Good</td><td>No noticeable issues for most users.</td></tr>
+<tr><td>15-30 ms</td><td>Fair</td><td>May cause minor glitches in video calls or competitive gaming.</td></tr>
+<tr><td>30-50 ms</td><td>Poor</td><td>Noticeable audio/video distortion. Gaming feels inconsistent.</td></tr>
+<tr><td>50+ ms</td><td>Bad</td><td>Calls break up, games rubber-band, streaming buffers unpredictably.</td></tr>
+</tbody>
+</table>
+<p>For VoIP calls and video conferencing, most providers recommend jitter under 15 ms for acceptable quality. For competitive gaming, under 10 ms is ideal.</p>
+
+<h2>How Jitter Affects Video Calls</h2>
+<p>Video conferencing apps (Zoom, Teams, Google Meet) rely on a steady stream of audio and video packets arriving in order and on time. High jitter causes:</p>
+<ul>
+<li><strong>Choppy audio:</strong> Words cut out or arrive garbled as packets arrive out of order.</li>
+<li><strong>Frozen video:</strong> The image freezes while the app waits for delayed video packets.</li>
+<li><strong>Audio/video desync:</strong> Lips and voice fall out of alignment.</li>
+<li><strong>Dropped calls:</strong> Extreme jitter can cause the connection to fail entirely.</li>
+</ul>
+<p>If you experience these issues despite having fast download speeds, jitter is the most likely culprit. Check your jitter by running a <a href="https://howfastismy.net">speed test that measures it</a>.</p>
+
+<h2>How Jitter Affects Gaming</h2>
+<p>In online games, jitter manifests as:</p>
+<ul>
+<li><strong>Rubber-banding:</strong> Your character snaps back to a previous position as delayed packets catch up.</li>
+<li><strong>Hit registration issues:</strong> Shots that should connect do not because your action packets arrived late.</li>
+<li><strong>Inconsistent movement:</strong> Other players appear to teleport or stutter rather than moving smoothly.</li>
+<li><strong>Unpredictable performance:</strong> The game feels smooth one moment and laggy the next, making it impossible to time actions reliably.</li>
+</ul>
+<p>A player with 50 ms ping and 5 ms jitter will have a smoother experience than one with 30 ms ping and 40 ms jitter. Consistency matters as much as raw speed. Learn more about gaming latency in our <a href="/blog/what-is-ping">guide to ping</a>.</p>
+
+<h2>How to Reduce Jitter</h2>
+<p>Most jitter problems can be improved or eliminated with these steps:</p>
+
+<h3>1. Use a Wired Connection</h3>
+<p>Ethernet eliminates WiFi-related jitter entirely. If you are on WiFi and experiencing jitter, plugging in a cable is the single most effective fix. Even a long Ethernet cable to another room is better than WiFi for real-time applications.</p>
+
+<h3>2. Enable QoS on Your Router</h3>
+<p>Quality of Service settings prioritize real-time traffic (gaming, video calls) over bulk transfers (downloads, backups). This prevents large file transfers from causing packet queuing delays that increase jitter.</p>
+
+<h3>3. Reduce Network Congestion</h3>
+<p>Pause or schedule large downloads, cloud backups, and system updates during times when you need low jitter. Even one device uploading a large backup can spike jitter for everyone on the network.</p>
+
+<h3>4. Upgrade Your Router</h3>
+<p>Older routers with limited processing power handle traffic less efficiently, especially under load. A modern WiFi 6 router with a good processor manages multiple streams more consistently.</p>
+
+<h3>5. Switch DNS Providers</h3>
+<p>While DNS does not directly cause jitter in data streams, a slow DNS resolver can contribute to inconsistent page load behavior. Switch to Cloudflare (1.1.1.1) or Google (8.8.8.8) for more reliable resolution.</p>
+
+<h3>6. Contact Your ISP</h3>
+<p>If jitter persists despite optimizing your home network, the issue may be with your ISP's infrastructure. Document your test results (run speed tests at different times) and contact them with specific data showing the problem.</p>
+
+<h2>Measuring Your Jitter</h2>
+<p>Run a <a href="https://howfastismy.net">speed test at howfastismy.net</a> to see your jitter alongside download speed, upload speed, and ping. Test multiple times throughout the day — jitter often increases during peak usage hours. If your jitter is consistently above 15 ms, work through the reduction steps above to bring it down.</p>
+<p>For a deeper look at latency, try our dedicated <a href="https://howfastismy.net/tools/ping">ping test tool</a> which shows individual packet timing so you can visualize the variation yourself.</p>
+`,
+  },
+  {
+    slug: "fiber-vs-cable-vs-dsl",
+    title: "Fiber vs Cable vs DSL — Which Internet Type Is Best?",
+    description:
+      "Compare fiber, cable, and DSL internet connections. Covers speed, latency, reliability, pricing, and which type works best for different use cases.",
+    date: "2025-04-15",
+    content: `
+<h2>Three Technologies, Very Different Experiences</h2>
+<p>Not all internet connections are created equal. Fiber, cable, and DSL use fundamentally different technologies to deliver data to your home, and those differences affect speed, latency, reliability, and price. Understanding what each offers helps you choose the right connection — or understand why your current one behaves the way it does.</p>
+<p>Whatever connection type you have, you can measure its real-world performance with a <a href="https://howfastismy.net">free speed test</a> to see how it compares to advertised speeds.</p>
+
+<h2>How Each Technology Works</h2>
+
+<h3>Fiber Optic</h3>
+<p>Fiber uses thin glass strands to transmit data as pulses of light. This allows data to travel at near light speed with minimal signal loss over long distances. Fiber connections typically run directly from the ISP to your home (FTTH — Fiber to the Home), providing a dedicated line.</p>
+
+<h3>Cable (Coaxial)</h3>
+<p>Cable internet runs over the same coaxial cables originally installed for cable television. It uses DOCSIS technology (currently DOCSIS 3.1 or 4.0) to carry internet data alongside TV signals. Cable is a shared medium — you and your neighbors share bandwidth capacity on the same local line.</p>
+
+<h3>DSL (Digital Subscriber Line)</h3>
+<p>DSL transmits data over existing copper telephone wires. It provides a dedicated line from your home to the local telephone exchange. However, signal quality degrades significantly with distance — the further you are from the exchange, the slower your connection.</p>
+
+<h2>Speed Comparison</h2>
+<table>
+<thead>
+<tr><th>Connection Type</th><th>Typical Download Speed</th><th>Typical Upload Speed</th><th>Maximum Available</th></tr>
+</thead>
+<tbody>
+<tr><td>Fiber</td><td>100-2000 Mbps</td><td>100-2000 Mbps</td><td>10 Gbps (some areas)</td></tr>
+<tr><td>Cable</td><td>50-1200 Mbps</td><td>5-50 Mbps</td><td>2 Gbps (DOCSIS 4.0)</td></tr>
+<tr><td>DSL (VDSL)</td><td>10-100 Mbps</td><td>1-10 Mbps</td><td>300 Mbps (short distance)</td></tr>
+<tr><td>DSL (ADSL)</td><td>1-24 Mbps</td><td>0.5-3 Mbps</td><td>24 Mbps</td></tr>
+</tbody>
+</table>
+<p>The biggest difference: fiber offers <strong>symmetric speeds</strong> — upload matches download. Cable and DSL are highly asymmetric, with upload speeds a fraction of download. This matters for video calls, live streaming, cloud backups, and working from home.</p>
+
+<h2>Latency (Ping) Comparison</h2>
+<p>Connection type significantly affects your baseline latency:</p>
+<ul>
+<li><strong>Fiber:</strong> 1-10 ms to nearby servers. The lowest latency available to consumers.</li>
+<li><strong>Cable:</strong> 10-30 ms typically. Good, but higher than fiber due to signal conversion overhead.</li>
+<li><strong>DSL:</strong> 20-50 ms typically. Copper wire introduces more propagation delay than fiber.</li>
+</ul>
+<p>For gaming and real-time applications, fiber's latency advantage is meaningful. A 5 ms fiber ping versus a 25 ms cable ping is noticeable in competitive games. Test your current latency with our <a href="https://howfastismy.net/tools/ping">ping test tool</a>.</p>
+
+<h2>Reliability and Consistency</h2>
+
+<h3>Fiber: Most Reliable</h3>
+<ul>
+<li>Not affected by electrical interference or weather</li>
+<li>Dedicated line means no shared congestion with neighbors</li>
+<li>Consistent speeds 24/7 — peak hours rarely cause slowdowns</li>
+<li>Glass cables do not corrode or degrade over time</li>
+</ul>
+
+<h3>Cable: Generally Reliable with Peak-Hour Variability</h3>
+<ul>
+<li>Shared bandwidth means speeds can drop during peak evening hours when neighbors are streaming</li>
+<li>Modern DOCSIS 3.1 handles congestion better than older versions</li>
+<li>Coaxial cable is durable but connections can corrode over time</li>
+<li>Susceptible to localized outages if neighborhood node fails</li>
+</ul>
+
+<h3>DSL: Consistent but Limited</h3>
+<ul>
+<li>Dedicated line means no shared congestion — you get the same speed at all times</li>
+<li>Performance depends heavily on distance from the exchange — cannot be improved</li>
+<li>Aging copper infrastructure prone to line noise and water damage</li>
+<li>More frequent line issues in older neighborhoods</li>
+</ul>
+
+<h2>Pricing Overview</h2>
+<p>Prices vary significantly by region and provider, but general patterns hold:</p>
+<ul>
+<li><strong>DSL:</strong> Often the cheapest option ($30-60/month). Lower speeds mean lower prices, but limited upgrade paths.</li>
+<li><strong>Cable:</strong> Mid-range pricing ($50-100/month). Offers a good speed-to-price ratio for most households. Bundles with TV service can reduce costs.</li>
+<li><strong>Fiber:</strong> Increasingly competitive ($50-80/month for gigabit in many areas). Was expensive when first introduced but prices have dropped as availability has expanded. Often the best value per Mbps.</li>
+</ul>
+<p>Equipment costs also differ. Cable often requires renting a modem/router from the ISP ($10-15/month) or purchasing your own. Fiber typically includes the ONT (optical terminal) at no extra charge. DSL modems are inexpensive to purchase outright.</p>
+
+<h2>Availability</h2>
+<ul>
+<li><strong>DSL:</strong> Widest availability. Works anywhere with a phone line. Covers most rural and urban areas.</li>
+<li><strong>Cable:</strong> Available in most urban and suburban areas. Limited in rural locations.</li>
+<li><strong>Fiber:</strong> Growing rapidly but still limited. Major cities and newer developments often have coverage. Rural areas rarely do. Check with local providers for availability.</li>
+</ul>
+
+<h2>Which Type Is Best for Your Use Case?</h2>
+
+<h3>Best for Gaming</h3>
+<p><strong>Fiber</strong> wins here. Low latency, minimal jitter, and consistent performance make it ideal for competitive online gaming. Cable is a solid second choice. DSL can work for casual gaming but higher latency puts you at a disadvantage in fast-paced titles. Read more in our <a href="/blog/is-30-mbps-good-for-gaming">guide to gaming speeds</a>.</p>
+
+<h3>Best for Working from Home</h3>
+<p><strong>Fiber</strong> is ideal thanks to symmetric upload speeds — essential for video calls, screen sharing, and cloud app uploads. Cable works well for download-heavy work but may struggle with upload-intensive tasks. DSL's limited upload (1-10 Mbps) can bottleneck video conferencing.</p>
+
+<h3>Best for Streaming</h3>
+<p><strong>Cable or Fiber.</strong> Streaming primarily needs download bandwidth. Cable's speeds (100-500+ Mbps) handle multiple 4K streams easily. Fiber is overkill for streaming alone but provides headroom. DSL may limit you to one HD stream or struggle with 4K.</p>
+
+<h3>Best for Large Households</h3>
+<p><strong>Fiber</strong> provides the bandwidth and consistency to handle many devices without degradation. Cable can work at higher tiers (500 Mbps+) but may slow during neighborhood peak hours. DSL struggles to serve more than 2-3 active users.</p>
+
+<h3>Best on a Budget</h3>
+<p><strong>Cable</strong> at a mid-tier plan (100-200 Mbps) often provides the best balance of speed, reliability, and cost. DSL is cheapest but the speed limitations are increasingly noticeable. Fiber pricing is increasingly competitive — check if entry-level fiber plans are available in your area.</p>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr><th>Factor</th><th>Fiber</th><th>Cable</th><th>DSL</th></tr>
+</thead>
+<tbody>
+<tr><td>Speed</td><td>Fastest</td><td>Fast</td><td>Slowest</td></tr>
+<tr><td>Upload speed</td><td>Symmetric (fast)</td><td>Asymmetric (limited)</td><td>Asymmetric (very limited)</td></tr>
+<tr><td>Latency</td><td>Lowest</td><td>Low</td><td>Moderate</td></tr>
+<tr><td>Reliability</td><td>Best</td><td>Good</td><td>Consistent but aging</td></tr>
+<tr><td>Peak-hour impact</td><td>None</td><td>Possible slowdowns</td><td>None (dedicated line)</td></tr>
+<tr><td>Price</td><td>Competitive</td><td>Mid-range</td><td>Cheapest</td></tr>
+<tr><td>Availability</td><td>Limited</td><td>Widespread</td><td>Widest</td></tr>
+</tbody>
+</table>
+
+<h2>Check What You Are Getting Now</h2>
+<p>Regardless of connection type, your real-world speeds may differ from advertised ones. Run a <a href="https://howfastismy.net">speed test</a> to see your actual download speed, upload speed, and ping. Compare those numbers to what your plan promises. If there is a significant gap, check our <a href="/blog/why-is-my-internet-slow">troubleshooting guide</a> for steps to improve your connection — or use your test results as leverage to hold your ISP accountable.</p>
+`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
