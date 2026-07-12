@@ -12,7 +12,7 @@ export const posts: BlogPost[] = [
     title: "What Is a Good Internet Speed?",
     description:
       "Find out what internet speed you actually need for streaming, gaming, video calls, and working from home. Includes recommended speeds per activity.",
-    date: "2025-01-15",
+    date: "2026-07-06",
     content: `
 <h2>What Counts as a "Good" Internet Speed?</h2>
 <p>Internet speed requirements depend entirely on what you do online. A solo web browser needs far less bandwidth than a household of four streaming 4K video simultaneously. The key metric is <strong>download speed</strong>, measured in Megabits per second (Mbps), though upload speed and latency matter too.</p>
@@ -66,7 +66,7 @@ export const posts: BlogPost[] = [
     title: "Why Is My Internet So Slow?",
     description:
       "Diagnose common causes of slow internet including WiFi interference, ISP throttling, outdated routers, and peak-hour congestion. Practical troubleshooting steps included.",
-    date: "2025-01-22",
+    date: "2026-07-06",
     content: `
 <h2>Slow Internet Is Frustrating — But Usually Fixable</h2>
 <p>Few things are more annoying than watching a loading spinner when you are trying to work, stream, or game. Slow internet has many possible causes, and most of them are within your control. The first step is measuring your actual speed with a <a href="https://howfastismy.net">quick speed test</a> so you know where you stand.</p>
@@ -123,7 +123,7 @@ export const posts: BlogPost[] = [
     title: "Mbps vs MB/s — What's the Difference?",
     description:
       "Understand the difference between Megabits per second (Mbps) and Megabytes per second (MB/s), why ISPs use Mbps, and how to convert between them.",
-    date: "2025-02-05",
+    date: "2026-07-06",
     content: `
 <h2>Why Internet Speeds Are Confusing</h2>
 <p>You pay for "100 Mbps" internet, but when you download a file, your browser shows 12 MB/s. Did you get ripped off? Not at all — those are two different units measuring the same thing. Understanding the difference between <strong>Megabits per second (Mbps)</strong> and <strong>Megabytes per second (MB/s)</strong> clears up a lot of confusion.</p>
@@ -201,7 +201,7 @@ export const posts: BlogPost[] = [
     title: "What Is Ping and Why Does It Matter?",
     description:
       "Learn what ping (latency) means, how it works, what affects it, and what constitutes good vs bad ping for gaming, video calls, and browsing.",
-    date: "2025-02-18",
+    date: "2026-07-06",
     content: `
 <h2>Ping Explained Simply</h2>
 <p><strong>Ping</strong> measures the time it takes for a small packet of data to travel from your device to a server and back. It is measured in milliseconds (ms) and is also called <strong>latency</strong>. A lower ping means a more responsive connection.</p>
@@ -279,7 +279,7 @@ export const posts: BlogPost[] = [
     title: "Is 30 Mbps Good Enough for Gaming?",
     description:
       "Find out if 30 Mbps is fast enough for online gaming across FPS, MMO, and battle royale games. Learn why ping matters more than speed and what to look for.",
-    date: "2025-03-05",
+    date: "2026-07-06",
     content: `
 <h2>The Short Answer: Yes, 30 Mbps Is Enough for Playing Online Games</h2>
 <p>If you have a 30 Mbps connection, you have more than enough bandwidth for online gaming. Most games use between 20 and 80 KB/s (yes, kilobytes) of bandwidth during active play. That is a tiny fraction of your available speed. The real factors that determine your gaming experience are <strong>ping</strong> (latency) and <strong>packet loss</strong>, not raw download speed.</p>
@@ -354,7 +354,7 @@ export const posts: BlogPost[] = [
     title: "How to Test WiFi Speed on Your Phone",
     description:
       "Learn how to accurately test your WiFi speed on iPhone and Android. Covers browser-based tests, apps, tips for reliable results, and troubleshooting slow WiFi on mobile.",
-    date: "2025-03-18",
+    date: "2026-07-06",
     content: `
 <h2>Why Test WiFi Speed on Your Phone?</h2>
 <p>Your phone is probably the device you use most on WiFi. If websites load slowly, videos buffer, or video calls drop quality on your mobile device, the first step is measuring what speed you are actually getting. Testing on your phone specifically — rather than a desktop — tells you what your wireless experience is like where you typically use the device.</p>
@@ -440,7 +440,7 @@ export const posts: BlogPost[] = [
     title: "What Is Jitter and How Does It Affect Your Connection?",
     description:
       "Understand what jitter means for your internet connection, how it differs from ping, what causes it, and practical steps to reduce it for smoother gaming and video calls.",
-    date: "2025-04-02",
+    date: "2026-07-06",
     content: `
 <h2>Jitter Defined: The Inconsistency in Your Connection</h2>
 <p><strong>Jitter</strong> is the variation in time between data packets arriving at your device. In simpler terms: if your ping is normally 30 ms but sometimes jumps to 80 ms and drops to 10 ms, that fluctuation is jitter. It measures how consistent (or inconsistent) your connection timing is.</p>
@@ -537,7 +537,7 @@ export const posts: BlogPost[] = [
     title: "Fiber vs Cable vs DSL — Which Internet Type Is Best?",
     description:
       "Compare fiber, cable, and DSL internet connections. Covers speed, latency, reliability, pricing, and which type works best for different use cases.",
-    date: "2025-04-15",
+    date: "2026-07-06",
     content: `
 <h2>Three Technologies, Very Different Experiences</h2>
 <p>Not all internet connections are created equal. Fiber, cable, and DSL use fundamentally different technologies to deliver data to your home, and those differences affect speed, latency, reliability, and price. Understanding what each offers helps you choose the right connection — or understand why your current one behaves the way it does.</p>
@@ -661,7 +661,7 @@ export const posts: BlogPost[] = [
     title: "How to Fix High Ping on PC: 7 Proven Ways to Reduce Gaming Lag",
     description:
       "Struggling with game lag? Learn how to fix high ping on your PC with easy, step-by-step optimization steps to lower latency and stop stuttering.",
-    date: "2025-05-01",
+    date: "2026-07-06",
     content: `
 <h2>Why Is Your Ping So High?</h2>
 <p>You are in a firefight, you have the perfect shot lined up, and then — rubber-band. Your character teleports back two steps. The kill that should have been yours registers for the other player instead. High ping ruins online gaming more than any other single factor.</p>
@@ -807,7 +807,7 @@ export const posts: BlogPost[] = [
     title: "Why Is My Upload Speed So Slow? Causes and Fixes",
     description:
       "Discover why your upload speed is much slower than download, common causes of slow uploads, and practical steps to fix it.",
-    date: "2025-05-15",
+    date: "2026-07-12",
     content: `
 <h2>Why Is My Upload Speed So Much Slower Than Download?</h2>
 <p>If you have ever tried to upload a large video, share files to the cloud, or stream yourself on Twitch, you have probably noticed something frustrating: your upload speed is a fraction of your download speed. You are not imagining it, and it is not a glitch. For most internet connections, this asymmetry is by design.</p>
@@ -885,7 +885,7 @@ export const posts: BlogPost[] = [
     title: "How to Check If Your ISP Is Throttling Your Internet",
     description:
       "Learn the signs of ISP throttling, how to test for it, and what you can do about it. Includes step-by-step detection methods.",
-    date: "2025-05-28",
+    date: "2026-07-12",
     content: `
 <h2>What Is ISP Throttling?</h2>
 <p>ISP throttling is when your Internet Service Provider intentionally slows down your connection. They might reduce speeds for specific activities (like streaming or torrenting), during certain times of day, or after you hit a data usage threshold. It is a real practice, and it is more common than most people think.</p>
@@ -974,7 +974,7 @@ export const posts: BlogPost[] = [
     title: "Is 100 Mbps Fast Enough for a Family of 4?",
     description:
       "Find out if a 100 Mbps internet plan can handle 4 people streaming, gaming, and working from home simultaneously.",
-    date: "2025-06-10",
+    date: "2026-07-12",
     content: `
 <h2>The Quick Answer</h2>
 <p>For most families of four, 100 Mbps is enough — but just barely. It works well if your household has moderate usage patterns. But if multiple people are streaming 4K, gaming online, and on video calls simultaneously, you will start hitting the ceiling. Let's break down the math and real-world scenarios.</p>
@@ -1079,7 +1079,7 @@ export const posts: BlogPost[] = [
     title: "How to Reduce Buffering on Netflix: 8 Quick Fixes",
     description:
       "Stop Netflix buffering with these practical fixes. From checking your speed to optimizing your WiFi, get back to smooth streaming.",
-    date: "2025-06-22",
+    date: "2026-07-12",
     content: `
 <h2>Why Does Netflix Buffer?</h2>
 <p>Buffering happens when Netflix cannot download video data fast enough to keep up with playback. The spinning circle appears while your device waits for the next chunk of video to arrive. The most common cause is insufficient bandwidth, but there are many other factors that can interrupt smooth streaming even on a fast connection.</p>
@@ -1168,7 +1168,7 @@ export const posts: BlogPost[] = [
     title: "Ethernet vs WiFi for Gaming — Does the Cable Really Matter?",
     description:
       "Compare Ethernet and WiFi for online gaming. See real latency differences, when WiFi is good enough, and when you need a cable.",
-    date: "2025-07-05",
+    date: "2026-07-12",
     content: `
 <h2>The Short Answer: Yes, the Cable Matters</h2>
 <p>For competitive online gaming, Ethernet provides a measurable advantage over WiFi. The difference is not about download speed — it is about latency consistency, jitter reduction, and packet loss elimination. If you play ranked matches in fast-paced games, a wired connection makes a noticeable difference. For casual gaming, WiFi is usually fine.</p>
