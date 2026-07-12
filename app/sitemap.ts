@@ -130,5 +130,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/act-fibernet-vs-jio-fiber-vs-airtel-vs-hathway`,
+      lastModified: new Date("2026-07-12"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }
