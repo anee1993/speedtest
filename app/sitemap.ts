@@ -100,5 +100,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/why-is-my-upload-speed-so-slow`,
+      lastModified: new Date("2025-05-15"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/is-my-isp-throttling-me`,
+      lastModified: new Date("2025-05-28"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/is-100-mbps-enough-for-family`,
+      lastModified: new Date("2025-06-10"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/how-to-reduce-buffering-netflix`,
+      lastModified: new Date("2025-06-22"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/ethernet-vs-wifi-gaming`,
+      lastModified: new Date("2025-07-05"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

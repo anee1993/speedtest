@@ -802,6 +802,465 @@ export const posts: BlogPost[] = [
 <p>Stop accepting lag. Measure it, fix it, and dominate.</p>
 `,
   },
+  {
+    slug: "why-is-my-upload-speed-so-slow",
+    title: "Why Is My Upload Speed So Slow? Causes and Fixes",
+    description:
+      "Discover why your upload speed is much slower than download, common causes of slow uploads, and practical steps to fix it.",
+    date: "2025-05-15",
+    content: `
+<h2>Why Is My Upload Speed So Much Slower Than Download?</h2>
+<p>If you have ever tried to upload a large video, share files to the cloud, or stream yourself on Twitch, you have probably noticed something frustrating: your upload speed is a fraction of your download speed. You are not imagining it, and it is not a glitch. For most internet connections, this asymmetry is by design.</p>
+<p>Before diagnosing the issue, measure your current upload speed. Run a <a href="https://howfastismy.net">free speed test</a> — it measures both download and upload separately so you can see exactly where you stand.</p>
+
+<h2>Why ISPs Give You Asymmetric Speeds</h2>
+<p>Most residential internet plans are intentionally asymmetric — fast downloads, slower uploads. A typical cable plan might offer 200 Mbps download but only 10 Mbps upload. Here is why:</p>
+<ul>
+<li><strong>Consumer behavior:</strong> The average user downloads far more than they upload. Streaming video, loading web pages, and downloading files are all download-heavy activities.</li>
+<li><strong>Infrastructure economics:</strong> Cable (DOCSIS) and DSL technologies allocate more channel capacity to downstream traffic because that is where demand is highest.</li>
+<li><strong>Business segmentation:</strong> ISPs sell symmetric connections (equal upload and download) as premium business plans at higher prices. Keeping residential upload slow creates a reason to upgrade.</li>
+</ul>
+<p>Fiber connections are the exception. Many fiber plans offer symmetric speeds — 100 Mbps down and 100 Mbps up, or even gigabit in both directions. If upload matters to you, fiber is the best option.</p>
+
+<h2>Common Causes of Slow Upload Speed</h2>
+
+<h3>1. Your Plan Has Low Upload Limits</h3>
+<p>Check what upload speed your ISP plan actually includes. Many people focus on the download number when choosing a plan and overlook the upload specification. A "100 Mbps" plan might only include 5 Mbps upload — that is not a problem with your connection, it is what you are paying for.</p>
+
+<h3>2. WiFi Interference and Distance</h3>
+<p>WiFi affects upload and download equally, but since upload is already slower, any WiFi degradation makes it feel much worse. Walls, distance from the router, and interference from other devices can cut your effective upload speed in half or more.</p>
+<p><strong>Fix:</strong> Test your upload speed while connected via Ethernet cable directly to your router. If wired upload is significantly faster, your WiFi is the bottleneck.</p>
+
+<h3>3. Background Apps Consuming Upload Bandwidth</h3>
+<p>Cloud backup services are notorious upload hogs. Dropbox, Google Drive, iCloud, OneDrive, and similar services constantly sync files in the background. A single cloud backup running can saturate a 5 Mbps upload connection entirely.</p>
+<p><strong>Fix:</strong> Check your system's network monitor for upload activity. Pause cloud sync during important uploads or video calls. Schedule backups for overnight.</p>
+
+<h3>4. Router or Modem Limitations</h3>
+<p>Older routers may have upload throughput limitations, especially under load. Similarly, if your ISP-provided modem is outdated (DOCSIS 3.0 on a cable connection), it may not support the upload speeds your plan allows.</p>
+<p><strong>Fix:</strong> Check your router specifications against your plan speed. Upgrade to a DOCSIS 3.1 modem for cable, or a WiFi 6 router for better wireless upload performance.</p>
+
+<h3>5. ISP Throttling</h3>
+<p>Some ISPs throttle upload speeds during peak hours or for specific services (like video streaming platforms). If your upload is noticeably slower at certain times, throttling may be the cause.</p>
+<p><strong>Fix:</strong> Test at different times of day. Compare speeds with and without a VPN. If a VPN improves upload speed, your ISP is likely throttling specific traffic.</p>
+
+<h3>6. Network Congestion</h3>
+<p>Cable internet shares bandwidth with neighbors. During peak evening hours, both download and upload can degrade. Upload is hit harder because there is less capacity allocated to it in the first place.</p>
+
+<h2>How to Test Upload Speed Separately</h2>
+<p>A good speed test measures upload independently from download. When you run a test on <a href="https://howfastismy.net">howfastismy.net</a>, you will see both results clearly labeled. For reliable results:</p>
+<ol>
+<li>Close all other applications and browser tabs</li>
+<li>Pause any cloud sync or backup services</li>
+<li>Connect via Ethernet if possible</li>
+<li>Run the test 3 times and average the results</li>
+<li>Test at different times of day to check for congestion patterns</li>
+</ol>
+
+<h2>When to Upgrade Your Plan</h2>
+<p>Consider upgrading if:</p>
+<ul>
+<li>You regularly video call for work (Zoom recommends 3.8 Mbps upload for HD group calls)</li>
+<li>You livestream on Twitch or YouTube (requires 4-8 Mbps upload for good quality)</li>
+<li>You upload large files frequently (video editing, photography, backups)</li>
+<li>Multiple people in your household need upload simultaneously</li>
+</ul>
+<p>If upload speed is critical to your workflow, look for fiber plans with symmetric speeds. Even a 100/100 Mbps fiber plan outperforms a 500/20 Mbps cable plan for upload-heavy tasks.</p>
+
+<h2>Quick Fixes to Try Right Now</h2>
+<ol>
+<li><strong>Restart your router</strong> — clears congestion and resets connections</li>
+<li><strong>Switch to Ethernet</strong> — eliminates WiFi overhead</li>
+<li><strong>Pause cloud sync</strong> — frees up upload bandwidth immediately</li>
+<li><strong>Update router firmware</strong> — manufacturers fix upload performance bugs</li>
+<li><strong>Change WiFi channel</strong> — reduces interference from neighbors</li>
+<li><strong>Enable QoS</strong> — prioritize upload for critical applications</li>
+</ol>
+
+<h2>Check Your Upload Speed Now</h2>
+<p>Start with a measurement. <a href="https://howfastismy.net">Run a speed test</a> to see your actual upload speed, then compare it to your plan. If it matches your plan but is still too slow, you need a plan upgrade. If it is lower than your plan promises, work through the fixes above. Either way, you will know exactly what to do next.</p>
+`,
+  },
+  {
+    slug: "is-my-isp-throttling-me",
+    title: "How to Check If Your ISP Is Throttling Your Internet",
+    description:
+      "Learn the signs of ISP throttling, how to test for it, and what you can do about it. Includes step-by-step detection methods.",
+    date: "2025-05-28",
+    content: `
+<h2>What Is ISP Throttling?</h2>
+<p>ISP throttling is when your Internet Service Provider intentionally slows down your connection. They might reduce speeds for specific activities (like streaming or torrenting), during certain times of day, or after you hit a data usage threshold. It is a real practice, and it is more common than most people think.</p>
+<p>The tricky part is proving it. Slow internet has many causes — but if your connection seems selectively slow for certain sites or at specific times, throttling might be the culprit. Let's walk through how to detect it and what you can do.</p>
+
+<h2>Signs Your ISP Might Be Throttling You</h2>
+<p>Throttling often looks different from general slow internet. Here are the telltale signs:</p>
+<ul>
+<li><strong>Specific services are slow:</strong> Netflix buffers but other sites load fine. YouTube is low quality but speed tests show normal speeds.</li>
+<li><strong>Slowdowns at predictable times:</strong> Your connection drops every evening between 7-11 PM (peak hours) but is fast during the day.</li>
+<li><strong>Speed drops after heavy usage:</strong> Your connection is fast at the start of the month but slows down after using a certain amount of data.</li>
+<li><strong>Speed tests show normal results:</strong> Ironically, some ISPs exempt speed test servers from throttling — so your test looks fine while actual usage is slow.</li>
+<li><strong>VPN fixes the problem:</strong> If connecting through a VPN restores full speed, your ISP was likely throttling specific traffic types.</li>
+</ul>
+
+<h2>How to Test for ISP Throttling</h2>
+
+<h3>Method 1: The VPN Comparison Test</h3>
+<p>This is the most reliable detection method for content-based throttling:</p>
+<ol>
+<li>Run a <a href="https://howfastismy.net">speed test</a> without a VPN — note your results</li>
+<li>Connect to a reputable VPN service</li>
+<li>Run the same speed test again</li>
+<li>Compare the results</li>
+</ol>
+<p>If your speeds are significantly faster with the VPN (especially for specific services), your ISP is likely throttling based on traffic type. The VPN encrypts your traffic so your ISP cannot identify what you are doing, preventing targeted throttling.</p>
+<p><strong>Important:</strong> VPNs add some overhead, so expect speeds to be slightly lower with a VPN. But if speeds are <em>faster</em> with a VPN, that is a strong indicator of throttling.</p>
+
+<h3>Method 2: Speed Tests at Different Times</h3>
+<p>Test your connection at various times throughout the day:</p>
+<ol>
+<li>Early morning (6-8 AM)</li>
+<li>Midday (12-2 PM)</li>
+<li>Evening peak (7-10 PM)</li>
+<li>Late night (11 PM-1 AM)</li>
+</ol>
+<p>Use <a href="https://howfastismy.net">howfastismy.net</a> each time and record the results. If there is a dramatic, consistent drop during peak hours (more than 50% reduction), congestion-based throttling may be at play. Some speed variation is normal, but extreme drops suggest intentional management.</p>
+
+<h3>Method 3: Test Specific Services</h3>
+<p>If you suspect throttling of a particular service:</p>
+<ul>
+<li>Use Netflix's own speed test at fast.com (tests Netflix server speeds specifically)</li>
+<li>Compare that result to a general speed test</li>
+<li>If fast.com shows dramatically lower speeds than a general test, Netflix traffic may be throttled</li>
+</ul>
+
+<h3>Method 4: Monitor After Data Thresholds</h3>
+<p>Some ISPs throttle after you exceed a monthly data cap — even on "unlimited" plans. Track your usage through your ISP's portal and note if speeds drop after hitting a certain amount. Many "unlimited" plans have soft caps at 1-1.5 TB where speeds get reduced.</p>
+
+<h2>Why ISPs Throttle</h2>
+<p>Understanding the motivations helps you know what you are dealing with:</p>
+<ul>
+<li><strong>Network management:</strong> During peak congestion, ISPs may slow heavy users to maintain baseline service for everyone. This is the most defensible reason.</li>
+<li><strong>Data cap enforcement:</strong> Soft caps on "unlimited" plans reduce speeds after a threshold to discourage heavy use without hard cutoffs.</li>
+<li><strong>Business interests:</strong> An ISP that also offers a streaming service might slow competing services. This was more common before net neutrality rules (and again after their repeal).</li>
+<li><strong>Paid prioritization:</strong> Some ISPs offer "fast lanes" to content providers who pay extra, effectively throttling those who do not pay.</li>
+</ul>
+
+<h2>What You Can Do About Throttling</h2>
+
+<h3>Use a VPN</h3>
+<p>A VPN encrypts all your traffic, preventing your ISP from identifying and selectively slowing specific services. This works for content-based throttling but not for blanket speed reductions. Choose a VPN with fast servers near your location to minimize the performance overhead.</p>
+
+<h3>Contact Your ISP</h3>
+<p>Armed with your test data (speed comparisons with dates, times, and VPN vs no-VPN results), contact your ISP. Ask directly about traffic management policies. They are often required to disclose these practices. Sometimes just asking prompts them to resolve the issue.</p>
+
+<h3>File an FCC Complaint (US)</h3>
+<p>In the United States, you can file a complaint with the FCC if you believe your ISP is engaging in unfair throttling practices. The FCC requires ISPs to be transparent about network management. Filing a complaint often gets a faster response from your ISP than normal customer service.</p>
+
+<h3>Switch Providers</h3>
+<p>If throttling is severe and persistent, switching ISPs is the most effective solution — if you have options. Fiber providers generally throttle less than cable. Check what is available in your area and look for plans that explicitly advertise no throttling or data caps.</p>
+
+<h3>Upgrade Your Plan</h3>
+<p>Some ISPs throttle lower-tier plans more aggressively. If you are on a budget plan, upgrading to a mid-tier or premium plan may reduce or eliminate throttling. Ask your ISP specifically whether higher-tier plans have different traffic management policies.</p>
+
+<h2>The Legal Landscape</h2>
+<p>Net neutrality rules — which prohibited most forms of throttling — were repealed in the US in 2017. Currently, ISPs are legally allowed to throttle in most cases, though they must disclose their practices. Some states have enacted their own net neutrality protections. In the EU, net neutrality remains law, and blanket throttling of specific services is prohibited.</p>
+<p>Regardless of the legal framework, documenting throttling with clear speed test evidence strengthens any complaint you file.</p>
+
+<h2>Start Testing Now</h2>
+<p><a href="https://howfastismy.net">Run a speed test</a> right now and save the result. Then test again during peak evening hours and compare. If you notice consistent patterns, try the VPN comparison method. Evidence is everything — and our speed test gives you the data you need to prove whether your ISP is delivering what you pay for.</p>
+`,
+  },
+  {
+    slug: "is-100-mbps-enough-for-family",
+    title: "Is 100 Mbps Fast Enough for a Family of 4?",
+    description:
+      "Find out if a 100 Mbps internet plan can handle 4 people streaming, gaming, and working from home simultaneously.",
+    date: "2025-06-10",
+    content: `
+<h2>The Quick Answer</h2>
+<p>For most families of four, 100 Mbps is enough — but just barely. It works well if your household has moderate usage patterns. But if multiple people are streaming 4K, gaming online, and on video calls simultaneously, you will start hitting the ceiling. Let's break down the math and real-world scenarios.</p>
+<p>First, check what you are actually getting. Your plan says 100 Mbps, but your real speed may differ. <a href="https://howfastismy.net">Run a speed test</a> to see your actual download speed before making any decisions.</p>
+
+<h2>How Much Bandwidth Each Activity Uses</h2>
+<p>To figure out if 100 Mbps is enough, you need to add up what everyone in your household does simultaneously during peak usage (typically evenings):</p>
+<table>
+<thead>
+<tr><th>Activity</th><th>Bandwidth Per Device</th></tr>
+</thead>
+<tbody>
+<tr><td>4K streaming (Netflix, Disney+)</td><td>25 Mbps</td></tr>
+<tr><td>HD streaming (1080p)</td><td>5-8 Mbps</td></tr>
+<tr><td>Video call (Zoom, Teams)</td><td>3-5 Mbps down + 3-4 Mbps up</td></tr>
+<tr><td>Online gaming</td><td>3-6 Mbps (but needs low latency)</td></tr>
+<tr><td>Web browsing and social media</td><td>2-5 Mbps</td></tr>
+<tr><td>Music streaming</td><td>0.5-1 Mbps</td></tr>
+<tr><td>Smart home devices (each)</td><td>0.5-2 Mbps</td></tr>
+<tr><td>Cloud backup / file sync</td><td>5-20 Mbps (variable)</td></tr>
+</tbody>
+</table>
+
+<h2>Real-World Family Scenarios</h2>
+
+<h3>Scenario 1: Two 4K Streams + Gaming + Video Call</h3>
+<p>A typical weeknight: two parents streaming 4K shows on different TVs, a teenager gaming online, and a college student on a Zoom study group.</p>
+<ul>
+<li>4K stream #1: 25 Mbps</li>
+<li>4K stream #2: 25 Mbps</li>
+<li>Online gaming: 5 Mbps</li>
+<li>Video call: 5 Mbps</li>
+<li>Background devices (phones, smart home): 10 Mbps</li>
+<li><strong>Total: ~70 Mbps</strong></li>
+</ul>
+<p>This works on a 100 Mbps connection with 30 Mbps of headroom. You should be fine in this scenario.</p>
+
+<h3>Scenario 2: Three 4K Streams + Large Download</h3>
+<p>Movie night stretched across rooms: three 4K streams going, plus someone downloading a game update.</p>
+<ul>
+<li>4K stream #1: 25 Mbps</li>
+<li>4K stream #2: 25 Mbps</li>
+<li>4K stream #3: 25 Mbps</li>
+<li>Game download: uses all remaining bandwidth</li>
+<li>Background devices: 10 Mbps</li>
+<li><strong>Total: 85+ Mbps (leaving 15 Mbps for the download)</strong></li>
+</ul>
+<p>The streams work but the game download crawls. Someone might see quality drops if the connection fluctuates. This pushes the limits.</p>
+
+<h3>Scenario 3: Two Work-From-Home Parents + Two Kids Streaming</h3>
+<p>Both parents on video calls with screen sharing, both kids watching YouTube or streaming shows:</p>
+<ul>
+<li>Video call #1 (with screen share): 8 Mbps</li>
+<li>Video call #2 (with screen share): 8 Mbps</li>
+<li>HD stream #1: 8 Mbps</li>
+<li>HD stream #2: 8 Mbps</li>
+<li>Cloud sync, email, web apps: 15 Mbps</li>
+<li>Background: 10 Mbps</li>
+<li><strong>Total: ~57 Mbps</strong></li>
+</ul>
+<p>Comfortable at 100 Mbps. The key constraint here is actually upload speed — both video calls need 3-4 Mbps upload each, and many 100 Mbps plans only include 10-15 Mbps upload.</p>
+
+<h2>When 100 Mbps Is Enough</h2>
+<ul>
+<li>Family streams mostly in HD (1080p), not 4K</li>
+<li>No more than two simultaneous 4K streams</li>
+<li>One or fewer work-from-home video callers</li>
+<li>Gaming is casual (not while everyone else is streaming 4K)</li>
+<li>Large downloads can wait or happen during off-hours</li>
+</ul>
+
+<h2>When You Need More Than 100 Mbps</h2>
+<ul>
+<li>Three or more simultaneous 4K streams are common</li>
+<li>Two or more people regularly on video calls while others stream</li>
+<li>Frequent large file downloads or uploads (video editing, cloud backups)</li>
+<li>Household has 20+ connected devices</li>
+<li>You want headroom — no buffering even in worst-case scenarios</li>
+</ul>
+<p>If you consistently need more, a 200-300 Mbps plan gives comfortable headroom for a family of four. Gigabit is overkill for most families but provides future-proofing.</p>
+
+<h2>The Upload Speed Factor</h2>
+<p>An often-overlooked problem: many 100 Mbps plans come with only 5-15 Mbps upload. If two family members are on video calls simultaneously (each needing 3-4 Mbps upload), you can exhaust upload capacity even while download bandwidth is fine. This causes choppy outgoing video and audio for callers.</p>
+<p>Check your upload speed with our <a href="https://howfastismy.net">speed test</a>. If upload is a bottleneck, look for plans with higher upload or consider fiber (which typically offers symmetric speeds).</p>
+
+<h2>Tips to Make 100 Mbps Work Better</h2>
+<ol>
+<li><strong>Enable QoS on your router:</strong> Prioritize video calls and gaming over bulk downloads.</li>
+<li><strong>Schedule downloads:</strong> Set game updates, cloud backups, and large downloads for overnight or when the family is away.</li>
+<li><strong>Use 1080p instead of 4K:</strong> Honestly, on a phone or tablet, you cannot tell the difference. Save 4K for the big TV.</li>
+<li><strong>Use Ethernet for critical devices:</strong> The work computer and gaming PC should be wired — it reduces congestion for WiFi devices.</li>
+<li><strong>Upgrade your router:</strong> A WiFi 6 router handles multiple simultaneous connections far better than older models.</li>
+</ol>
+
+<h2>Test Your Actual Speed</h2>
+<p>The number on your plan is the maximum — real-world speeds vary by time of day, WiFi quality, and network congestion. <a href="https://howfastismy.net">Run a speed test</a> during your household's peak usage time (usually 7-9 PM) to see what you actually get. If you are only seeing 60-70 Mbps on a 100 Mbps plan, your effective capacity is even lower than the scenarios above suggest.</p>
+<p>For most families of four with moderate habits, 100 Mbps works. But if evening buffering is a regular frustration, the math might be telling you it is time for an upgrade.</p>
+`,
+  },
+  {
+    slug: "how-to-reduce-buffering-netflix",
+    title: "How to Reduce Buffering on Netflix: 8 Quick Fixes",
+    description:
+      "Stop Netflix buffering with these practical fixes. From checking your speed to optimizing your WiFi, get back to smooth streaming.",
+    date: "2025-06-22",
+    content: `
+<h2>Why Does Netflix Buffer?</h2>
+<p>Buffering happens when Netflix cannot download video data fast enough to keep up with playback. The spinning circle appears while your device waits for the next chunk of video to arrive. The most common cause is insufficient bandwidth, but there are many other factors that can interrupt smooth streaming even on a fast connection.</p>
+<p>The first thing to do is check your speed. <a href="https://howfastismy.net">Run a quick speed test</a> to see if your connection meets Netflix's requirements. If your speed looks fine, work through the fixes below — the problem is likely somewhere else in the chain.</p>
+
+<h2>What Speed Does Netflix Actually Need?</h2>
+<table>
+<thead>
+<tr><th>Quality Level</th><th>Required Speed</th></tr>
+</thead>
+<tbody>
+<tr><td>SD (480p)</td><td>3 Mbps</td></tr>
+<tr><td>HD (720p)</td><td>5 Mbps</td></tr>
+<tr><td>Full HD (1080p)</td><td>10 Mbps</td></tr>
+<tr><td>4K Ultra HD</td><td>25 Mbps</td></tr>
+<tr><td>4K with HDR</td><td>25 Mbps</td></tr>
+</tbody>
+</table>
+<p>These are per-stream requirements. Two people streaming 4K simultaneously need 50 Mbps total. If your <a href="https://howfastismy.net">speed test results</a> exceed these thresholds and you still buffer, the problem is not raw bandwidth.</p>
+
+<h2>8 Fixes to Stop Netflix Buffering</h2>
+
+<h3>1. Restart Your Router and Modem</h3>
+<p>The classic fix works more often than you would expect. Routers accumulate memory bloat, connection tables fill up, and firmware glitches cause slowdowns over time. A power cycle clears all of this.</p>
+<p><strong>How:</strong> Unplug your router and modem (if separate) for 30 seconds. Plug the modem back in first, wait for it to fully connect, then plug in the router. Wait 2-3 minutes for everything to stabilize before testing Netflix again.</p>
+
+<h3>2. Use a Wired Ethernet Connection</h3>
+<p>WiFi is convenient but introduces latency, interference, and bandwidth fluctuations. If your streaming device (smart TV, game console, laptop) is near your router, connecting via Ethernet cable provides a faster, more stable connection.</p>
+<p><strong>Why it helps:</strong> Wired connections eliminate WiFi congestion, interference from neighbors' networks, and signal degradation through walls. Many buffering issues disappear entirely when switching to Ethernet.</p>
+
+<h3>3. Close Other Apps and Devices Using Bandwidth</h3>
+<p>Your connection is shared across all devices. A game downloading updates, cloud backup running, or someone on a video call can consume enough bandwidth to starve Netflix of what it needs.</p>
+<p><strong>How to check:</strong> Look at your router's admin panel (usually 192.168.1.1) to see which devices are using the most bandwidth. Pause downloads, close unused browser tabs, and temporarily stop cloud sync services.</p>
+
+<h3>4. Lower Netflix Streaming Quality</h3>
+<p>If your connection cannot sustain 4K reliably, manually setting a lower quality eliminates buffering while you troubleshoot the root cause.</p>
+<p><strong>How:</strong> In Netflix, go to your profile icon → Account → Playback settings. Set data usage to "Medium" (SD) or "High" (HD) instead of "Auto." On mobile, check the App Settings for download quality options. This is a temporary fix — but it gets you watching immediately.</p>
+
+<h3>5. Clear the Netflix App Cache</h3>
+<p>Corrupted cache data can cause playback issues even when your connection is fine.</p>
+<p><strong>Smart TVs and streaming devices:</strong> Uninstall and reinstall the Netflix app. On most platforms, this is the only way to fully clear the cache.</p>
+<p><strong>Android:</strong> Settings → Apps → Netflix → Storage → Clear Cache.</p>
+<p><strong>iPhone/iPad:</strong> Delete the app and reinstall from the App Store.</p>
+<p><strong>Web browser:</strong> Clear your browser cache and cookies, then restart the browser.</p>
+
+<h3>6. Update the Netflix App</h3>
+<p>Outdated app versions can have streaming bugs that newer versions have fixed. Netflix regularly releases performance updates.</p>
+<p><strong>How:</strong> Check your device's app store for pending Netflix updates. On smart TVs, check the TV's app update section. On game consoles, the system usually auto-updates apps, but you can trigger a manual check.</p>
+
+<h3>7. Check If Your ISP Is Throttling Netflix</h3>
+<p>Some ISPs intentionally slow down streaming traffic during peak hours. If Netflix specifically buffers while other sites work fine, throttling may be the cause.</p>
+<p><strong>How to test:</strong> Run a regular <a href="https://howfastismy.net">speed test</a> and compare the result to Netflix's own test at fast.com. If your general speed is much higher than fast.com shows, your ISP may be throttling Netflix traffic specifically. A VPN can bypass this by encrypting your traffic so your ISP cannot identify it as streaming.</p>
+<p>For more details, see our guide on <a href="/blog/is-my-isp-throttling-me">how to detect ISP throttling</a>.</p>
+
+<h3>8. Change Your DNS Server</h3>
+<p>Your DNS server resolves Netflix's domain names to server IP addresses. A slow or overloaded DNS can add delay to the initial connection and server selection process.</p>
+<p><strong>How:</strong> Switch to a faster DNS provider:</p>
+<ul>
+<li>Cloudflare: 1.1.1.1 and 1.0.0.1</li>
+<li>Google: 8.8.8.8 and 8.8.4.4</li>
+</ul>
+<p>Change this in your router settings to apply network-wide, or on individual devices in their network settings. This can also help Netflix connect to a faster CDN server in your region.</p>
+
+<h2>Is It Netflix's Problem or Yours?</h2>
+<p>Sometimes buffering is on Netflix's end — their servers can get overloaded during major show releases or outages. Here is how to tell:</p>
+<ul>
+<li><strong>Your problem:</strong> Other streaming services (YouTube, Disney+) also buffer. Speed test shows low results. Affecting all devices.</li>
+<li><strong>Netflix's problem:</strong> Only Netflix buffers. Other services work fine. Speed test shows normal results. Check <a href="https://downdetector.com/status/netflix/">Downdetector</a> for reported Netflix outages.</li>
+<li><strong>Your device's problem:</strong> Netflix works fine on other devices in your home but buffers on one specific device. Update or reinstall the app on that device.</li>
+</ul>
+
+<h2>Prevent Future Buffering</h2>
+<p>Once you have fixed the immediate issue, prevent it from recurring:</p>
+<ul>
+<li>Use Ethernet for your primary streaming device</li>
+<li>Upgrade your router if it is more than 4-5 years old</li>
+<li>Schedule large downloads for off-hours</li>
+<li>Consider a plan upgrade if you regularly have multiple 4K streams</li>
+<li>Place your router centrally if WiFi is your only option</li>
+</ul>
+<p>Start with a <a href="https://howfastismy.net">speed test</a> to establish your baseline, then work through the fixes in order. Most buffering issues resolve within the first three steps.</p>
+`,
+  },
+  {
+    slug: "ethernet-vs-wifi-gaming",
+    title: "Ethernet vs WiFi for Gaming — Does the Cable Really Matter?",
+    description:
+      "Compare Ethernet and WiFi for online gaming. See real latency differences, when WiFi is good enough, and when you need a cable.",
+    date: "2025-07-05",
+    content: `
+<h2>The Short Answer: Yes, the Cable Matters</h2>
+<p>For competitive online gaming, Ethernet provides a measurable advantage over WiFi. The difference is not about download speed — it is about latency consistency, jitter reduction, and packet loss elimination. If you play ranked matches in fast-paced games, a wired connection makes a noticeable difference. For casual gaming, WiFi is usually fine.</p>
+<p>Curious about your current connection quality? <a href="https://howfastismy.net/tools/ping">Test your ping</a> on both wired and wireless to see the difference for yourself.</p>
+
+<h2>Real Latency Comparison: Ethernet vs WiFi</h2>
+<p>Here are typical latency numbers you can expect in real-world home setups:</p>
+<table>
+<thead>
+<tr><th>Metric</th><th>Ethernet</th><th>WiFi (5 GHz, same room)</th><th>WiFi (5 GHz, through walls)</th><th>WiFi (2.4 GHz)</th></tr>
+</thead>
+<tbody>
+<tr><td>Ping to game server</td><td>15-30 ms</td><td>18-35 ms</td><td>25-60 ms</td><td>30-80 ms</td></tr>
+<tr><td>Jitter</td><td>1-3 ms</td><td>3-10 ms</td><td>5-25 ms</td><td>10-40 ms</td></tr>
+<tr><td>Packet loss</td><td>0%</td><td>0-0.5%</td><td>0.5-2%</td><td>1-5%</td></tr>
+<tr><td>Latency spikes</td><td>Rare</td><td>Occasional</td><td>Common</td><td>Frequent</td></tr>
+</tbody>
+</table>
+<p>The raw ping difference (5-15 ms) might look small, but jitter is the real story. A wired connection holds steady at 1-3 ms jitter, meaning your ping barely varies frame to frame. WiFi can swing 20+ ms between packets, causing the rubberbanding and inconsistency that drives gamers crazy.</p>
+
+<h2>Why Jitter Matters More Than Raw Ping</h2>
+<p>A stable 40 ms ping on Ethernet feels better than a WiFi connection that bounces between 20 ms and 70 ms. Game netcode and servers interpolate player positions based on expected latency. When your ping is inconsistent (high jitter), the game's predictions are wrong more often, causing:</p>
+<ul>
+<li><strong>Rubberbanding:</strong> Your character snaps back to a previous position</li>
+<li><strong>Hit registration failures:</strong> Your shots land on your screen but miss on the server</li>
+<li><strong>Teleporting opponents:</strong> Other players seem to skip between positions</li>
+<li><strong>Delayed input:</strong> Actions feel sluggish or unresponsive at unpredictable moments</li>
+</ul>
+<p>Ethernet virtually eliminates jitter because electrical signals through a cable are not subject to interference, congestion, or signal degradation. For a deeper dive, check our guide on <a href="/blog/what-is-jitter">what jitter is and why it matters</a>.</p>
+
+<h2>Packet Loss: The Silent Killer</h2>
+<p>Packet loss means some data never arrives at its destination. On WiFi, packets get lost due to interference, signal weakness, and channel congestion. Even 1% packet loss — which sounds tiny — causes noticeable issues in fast-paced games.</p>
+<p>In an FPS running at a 64-tick server rate, 1% packet loss means roughly one lost update every 1.5 seconds. That is one moment every 1.5 seconds where the game has to guess what happened. Ethernet connections typically show 0% packet loss on a properly functioning network.</p>
+
+<h2>When WiFi Is Good Enough</h2>
+<p>Not everyone needs to run cables through their house. WiFi works perfectly fine for:</p>
+<ul>
+<li><strong>Single-player games:</strong> No network dependency at all</li>
+<li><strong>Turn-based games:</strong> Chess, card games, strategy games — latency does not matter</li>
+<li><strong>Casual multiplayer:</strong> Minecraft, Animal Crossing, co-op games where milliseconds are irrelevant</li>
+<li><strong>MMOs (non-raiding):</strong> Questing and casual play in WoW or FFXIV</li>
+<li><strong>Mobile gaming:</strong> WiFi on your phone is typically fine for mobile titles</li>
+</ul>
+<p>If you have a WiFi 6 router, are in the same room or one room away, and use the 5 GHz band, WiFi performs well for most gaming. The problems emerge with distance, walls, interference, and congestion from other devices.</p>
+
+<h2>When Ethernet Is Essential</h2>
+<p>You should strongly consider a wired connection for:</p>
+<ul>
+<li><strong>Competitive FPS:</strong> Valorant, CS2, Apex Legends, Call of Duty ranked — every millisecond of consistency counts</li>
+<li><strong>Fighting games:</strong> Rollback netcode amplifies the feel of inconsistent connections</li>
+<li><strong>Battle royale ranked modes:</strong> Late-game fights with many players stress both your connection and the server</li>
+<li><strong>Game streaming (Twitch/YouTube):</strong> Streaming requires stable upload — WiFi drops cause stream stutters</li>
+<li><strong>Esports/tournament play:</strong> Tournaments universally require wired connections for a reason</li>
+</ul>
+
+<h2>Practical Setup Solutions</h2>
+<p>Running a long Ethernet cable is not always practical. Here are your options ranked by performance:</p>
+
+<h3>1. Long Ethernet Cable (Best)</h3>
+<p>A flat Cat6 Ethernet cable can be routed along baseboards, under carpet edges, or through cable raceways. A 50-foot (15m) Cat6 cable costs about $15 and provides full performance with zero compromise. Cat6 supports gigabit speeds up to 55 meters — plenty for any home.</p>
+
+<h3>2. MoCA Adapters (Excellent)</h3>
+<p>If your home has coaxial cable (TV cable) running to different rooms, MoCA adapters convert those existing cables into a high-speed Ethernet network. They deliver up to 2.5 Gbps with latency comparable to direct Ethernet. No new wiring needed — just plug adapters into coax outlets at each end.</p>
+
+<h3>3. Powerline Adapters (Good)</h3>
+<p>Powerline adapters send network signals through your home's electrical wiring. Modern versions (AV2 standard) deliver 300-600 Mbps real-world speeds with lower latency than WiFi. Performance depends on your home's wiring quality and age. They work well in homes built after 2000 with good electrical infrastructure.</p>
+
+<h3>4. WiFi 6/6E with Optimal Setup (Acceptable)</h3>
+<p>If wired options are impossible, optimize your WiFi:</p>
+<ul>
+<li>Use 5 GHz or 6 GHz band only</li>
+<li>Place the router in line-of-sight to your gaming setup</li>
+<li>Use QoS to prioritize gaming traffic</li>
+<li>Minimize other devices on the same band</li>
+<li>A dedicated WiFi 6E access point near your gaming area outperforms a distant router</li>
+</ul>
+
+<h2>How to Test the Difference Yourself</h2>
+<ol>
+<li>Connect your PC or console via WiFi as usual</li>
+<li>Run our <a href="https://howfastismy.net/tools/ping">ping test</a> — note your ping, jitter, and any packet loss</li>
+<li>Run a full <a href="https://howfastismy.net">speed test</a> — note download, upload, and ping</li>
+<li>Connect via Ethernet cable to your router</li>
+<li>Run both tests again</li>
+<li>Compare results — pay special attention to jitter and packet loss, not just ping</li>
+</ol>
+<p>Most gamers see 5-20 ms lower ping, 60-80% reduction in jitter, and packet loss drop to 0% on Ethernet. The improvement is immediate and consistent.</p>
+
+<h2>Bottom Line</h2>
+<p>Does the cable really matter? For competitive gaming — absolutely yes. The difference is not theoretical; it is felt in every firefight, every trade kill, every clutch moment. For casual gaming, WiFi works fine if your setup is decent. But if you care about ranked performance and have been blaming your skills for missed shots, your WiFi might be the actual problem. Test it, measure the difference, and decide for yourself.</p>
+`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
