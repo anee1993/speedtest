@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { posts, getPostBySlug, getAllSlugs } from "../_lib/posts";
+import PostAnimation from "../_components/PostAnimations";
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -64,6 +65,9 @@ export default async function BlogPost({
         <h1 className="text-3xl font-bold text-white mt-2">{post.title}</h1>
         <p className="text-slate-400 mt-2">{post.description}</p>
       </header>
+
+      {/* Animated diagram (if available for this article) */}
+      <PostAnimation slug={slug} />
 
       <div
         className="prose prose-invert max-w-none
