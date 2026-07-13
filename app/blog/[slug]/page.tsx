@@ -109,10 +109,12 @@ export default async function BlogPost({
           More articles
         </h3>
         <div className="flex flex-col gap-3">
-          {posts
-            .filter((p) => p.slug !== post.slug)
-            .slice(0, 3)
-            .map((p) => (
+          {(post.relatedSlugs
+            ? post.relatedSlugs
+                .map((s) => posts.find((p) => p.slug === s))
+                .filter((p): p is typeof posts[number] => !!p)
+            : posts.filter((p) => p.slug !== post.slug).slice(0, 3)
+          ).map((p) => (
               <Link
                 key={p.slug}
                 href={`/blog/${p.slug}`}

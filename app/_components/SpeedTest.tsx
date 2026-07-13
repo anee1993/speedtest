@@ -197,13 +197,32 @@ interface HistoryEntry {
   score: number;
 }
 
+interface VersionedHistory {
+  version: number;
+  tests: HistoryEntry[];
+}
+
 const HISTORY_KEY = "speedtest_history";
 const MAX_HISTORY = 10;
+const HISTORY_VERSION = 1;
 
 function loadHistory(): HistoryEntry[] {
   try {
     const raw = localStorage.getItem(HISTORY_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    // Versioned format
+    if (parsed && typeof parsed === "object" && "version" in parsed && Array.isArray(parsed.tests)) {
+      return parsed.tests;
+    }
+    // Legacy format: plain array — migrate it
+    if (Array.isArray(parsed)) {
+      const migrated: VersionedHistory = { version: HISTORY_VERSION, tests: parsed };
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(migrated));
+      return parsed;
+    }
+    // Corrupt data
+    return [];
   } catch { return []; }
 }
 
@@ -211,7 +230,8 @@ function saveToHistory(entry: HistoryEntry) {
   const hist = loadHistory();
   hist.unshift(entry);
   if (hist.length > MAX_HISTORY) hist.length = MAX_HISTORY;
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+  const versioned: VersionedHistory = { version: HISTORY_VERSION, tests: hist };
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(versioned));
   return hist;
 }
 
@@ -771,8 +791,21 @@ export default function SpeedTest() {
                 <span className="text-slate-400">
                   {new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </span>
-                <span className="text-slate-300">
-                  ↓{h.dl} ↑{h.ul} <span className="text-slate-400">| {h.ping}ms | {h.score}/100</span>
+                <span className="text-slate-300 flex items-center gap-2">
+                  <span>↓{h.dl} ↑{h.ul} <span className="text-slate-400">| {h.ping}ms | {h.score}/100</span></span>
+                  <button
+                    onClick={() => {
+                      const updated = history.filter((_, idx) => idx !== i);
+                      const versioned: { version: number; tests: HistoryEntry[] } = { version: 1, tests: updated };
+                      localStorage.setItem(HISTORY_KEY, JSON.stringify(versioned));
+                      setHistory(updated);
+                    }}
+                    className="text-slate-500 hover:text-red-400 transition ml-1"
+                    title="Delete this entry"
+                    aria-label="Delete this history entry"
+                  >
+                    ✕
+                  </button>
                 </span>
               </div>
             ))}
@@ -786,6 +819,10 @@ export default function SpeedTest() {
               Clear history
             </button>
           )}
+
+          <p className="mt-3 text-[0.6rem] text-slate-500 leading-relaxed">
+            Test history is stored only on this device and is never transmitted to our servers.
+          </p>
         </div>
       )}
     </div>
