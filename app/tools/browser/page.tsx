@@ -15,5 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default function BrowserPage() {
-  return <BrowserTool />;
+  return (
+    <div className="max-w-lg w-full">
+      <h1 className="text-2xl font-bold mb-2 text-center">🖥️ What Browser Am I Using?</h1>
+      <p className="text-sm text-slate-400 mb-6 text-center">See what your browser reveals about you — version, OS, screen size, and device capabilities</p>
+      <BrowserTool />
+    </div>
+  );
 }

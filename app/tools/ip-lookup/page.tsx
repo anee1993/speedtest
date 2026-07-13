@@ -15,5 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default function IPLookupPage() {
-  return <IPLookupTool />;
+  return (
+    <div className="max-w-lg w-full">
+      <h1 className="text-2xl font-bold mb-2 text-center">🌍 What Is My IP Address?</h1>
+      <p className="text-sm text-slate-400 mb-6 text-center">Find your public IP, ISP, and location — or look up any IP address or domain name</p>
+      <IPLookupTool />
+    </div>
+  );
 }

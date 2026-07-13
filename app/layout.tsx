@@ -63,7 +63,7 @@ export default function RootLayout({
 
         {/* Footer */}
         <footer className="w-full border-t border-white/5 py-6 px-6 text-center text-xs text-slate-400">
-          <p>© 2024 howfastismy.net — Free Internet Speed & Network Diagnostics</p>
+          <p>© {new Date().getFullYear()} howfastismy.net — Free Internet Speed & Network Diagnostics</p>
           <div className="mt-2 flex justify-center gap-4">
             <Link href="/about" className="hover:text-slate-300 transition">About</Link>
             <Link href="/privacy" className="hover:text-slate-300 transition">Privacy</Link>

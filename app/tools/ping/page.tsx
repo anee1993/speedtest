@@ -15,5 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default function PingPage() {
-  return <PingTool />;
+  return (
+    <div className="max-w-lg w-full">
+      <h1 className="text-2xl font-bold mb-2 text-center">🏓 Ping Test</h1>
+      <p className="text-sm text-slate-400 mb-6 text-center">Measure your latency and jitter to multiple servers — 10 pings each with detailed analysis</p>
+      <PingTool />
+    </div>
+  );
 }

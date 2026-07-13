@@ -15,5 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default function IPv6Page() {
-  return <IPv6Tool />;
+  return (
+    <div className="max-w-lg w-full">
+      <h1 className="text-2xl font-bold mb-2 text-center">🌐 IPv6 Test</h1>
+      <p className="text-sm text-slate-400 mb-6 text-center">Check if your internet connection supports IPv6 — the next generation of internet addressing</p>
+      <IPv6Tool />
+    </div>
+  );
 }
