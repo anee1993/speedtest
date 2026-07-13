@@ -69,6 +69,24 @@ export default async function BlogPost({
       {/* Animated diagram (if available for this article) */}
       <PostAnimation slug={slug} />
 
+      {/* BlogPosting JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.description,
+            datePublished: post.date,
+            dateModified: post.date,
+            author: { "@type": "Organization", name: "howfastismy.net" },
+            publisher: { "@type": "Organization", name: "howfastismy.net", url: "https://howfastismy.net" },
+            mainEntityOfPage: { "@type": "WebPage", "@id": `https://howfastismy.net/blog/${post.slug}` },
+          }),
+        }}
+      />
+
       <div
         className="prose prose-invert max-w-none
           [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-white [&>h2]:mt-10 [&>h2]:mb-4
