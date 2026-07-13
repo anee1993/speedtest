@@ -114,62 +114,77 @@ function getRecommendations(dl: number, ul: number, ping: number, jitter: number
   return r;
 }
 
-// ── Share as image ─────────────────────────────────────────────────────────────
-function shareAsImage(dl: string, ul: string, ping: string, jitter: string, score: number) {
+// ── Native Share with fallback chain ───────────────────────────────────────────
+async function nativeShare(dl: string, ul: string, ping: string, jitter: string, score: number) {
+  const assessment = score >= 85 ? "Excellent for gaming & 4K streaming." :
+    score >= 60 ? "Good for streaming & video calls." : "May struggle with demanding tasks.";
+
+  const shareText = `⚡ My Internet Health Score: ${score}/100\n↓ ${dl} Mbps ↑ ${ul} Mbps Ping: ${ping} ms Jitter: ${jitter} ms\n${assessment}\nTested with howfastismy.net`;
+
+  // Generate image
   const canvas = document.createElement("canvas");
-  canvas.width = 600; canvas.height = 340;
+  canvas.width = 600; canvas.height = 320;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (ctx) {
+    const bg = ctx.createLinearGradient(0, 0, 600, 320);
+    bg.addColorStop(0, "#0f0c29"); bg.addColorStop(0.5, "#1e1b4b"); bg.addColorStop(1, "#0f172a");
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, 600, 320);
 
-  // Background
-  const bg = ctx.createLinearGradient(0, 0, 600, 340);
-  bg.addColorStop(0, "#0f0c29"); bg.addColorStop(0.5, "#1e1b4b"); bg.addColorStop(1, "#0f172a");
-  ctx.fillStyle = bg; ctx.fillRect(0, 0, 600, 340);
+    ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.lineWidth = 2;
+    ctx.roundRect(10, 10, 580, 300, 16); ctx.stroke();
 
-  // Border
-  ctx.strokeStyle = "rgba(255,255,255,0.1)"; ctx.lineWidth = 2;
-  ctx.roundRect(10, 10, 580, 320, 20); ctx.stroke();
+    ctx.fillStyle = "#a78bfa"; ctx.font = "bold 20px system-ui, sans-serif";
+    ctx.fillText("⚡ howfastismy.net", 36, 44);
 
-  // Title
-  ctx.fillStyle = "#a78bfa"; ctx.font = "bold 22px system-ui, sans-serif";
-  ctx.fillText("⚡ howfastismy.net", 40, 50);
-  ctx.fillStyle = "#64748b"; ctx.font = "14px system-ui, sans-serif";
-  ctx.fillText("Internet Speed Test Results", 40, 74);
+    const scoreColor = score >= 85 ? "#34d399" : score >= 60 ? "#fbbf24" : "#f87171";
+    ctx.fillStyle = scoreColor; ctx.font = "bold 52px system-ui, sans-serif";
+    ctx.fillText(`${score}/100`, 36, 110);
+    ctx.fillStyle = "#94a3b8"; ctx.font = "12px system-ui, sans-serif";
+    ctx.fillText("INTERNET HEALTH SCORE", 36, 130);
 
-  // Metrics
-  const y = 120;
-  ctx.font = "bold 42px system-ui, sans-serif";
-  ctx.fillStyle = "#60a5fa"; ctx.fillText(dl, 40, y);
-  ctx.fillStyle = "#a78bfa"; ctx.fillText(ul, 220, y);
-  ctx.fillStyle = "#34d399"; ctx.fillText(ping, 400, y);
+    ctx.font = "bold 36px system-ui, sans-serif";
+    ctx.fillStyle = "#60a5fa"; ctx.fillText(`↓ ${dl}`, 36, 185);
+    ctx.fillStyle = "#a78bfa"; ctx.fillText(`↑ ${ul}`, 220, 185);
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px system-ui"; ctx.fillText("Mbps", 36, 200); ctx.fillText("Mbps", 220, 200);
 
-  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
-  ctx.fillText("DOWNLOAD (Mbps)", 40, y + 22);
-  ctx.fillText("UPLOAD (Mbps)", 220, y + 22);
-  ctx.fillText("PING (ms)", 400, y + 22);
+    ctx.fillStyle = "#34d399"; ctx.font = "bold 24px system-ui"; ctx.fillText(`${ping} ms`, 36, 240);
+    ctx.fillStyle = "#94a3b8"; ctx.font = "10px system-ui"; ctx.fillText("PING", 36, 255);
+    ctx.fillStyle = "#34d399"; ctx.font = "bold 24px system-ui"; ctx.fillText(`${jitter} ms`, 160, 240);
+    ctx.fillStyle = "#94a3b8"; ctx.font = "10px system-ui"; ctx.fillText("JITTER", 160, 255);
 
-  // Jitter
-  ctx.font = "bold 28px system-ui, sans-serif"; ctx.fillStyle = "#34d399";
-  ctx.fillText(jitter, 400, y + 70);
-  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
-  ctx.fillText("JITTER (ms)", 400, y + 90);
+    ctx.fillStyle = "#e2e8f0"; ctx.font = "14px system-ui"; ctx.fillText(assessment, 36, 290);
+  }
 
-  // Health score
-  const scoreColor = score >= 85 ? "#34d399" : score >= 60 ? "#fbbf24" : "#f87171";
-  ctx.font = "bold 48px system-ui, sans-serif"; ctx.fillStyle = scoreColor;
-  ctx.fillText(`${score}/100`, 40, y + 80);
-  ctx.font = "12px system-ui, sans-serif"; ctx.fillStyle = "#94a3b8";
-  ctx.fillText("HEALTH SCORE", 40, y + 100);
+  // Try native share with file
+  try {
+    const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, "image/png"));
+    if (blob && navigator.share) {
+      const file = new File([blob], "speed-test-result.png", { type: "image/png" });
+      const shareData: ShareData = { title: "My Internet Speed", text: shareText, files: [file] };
 
-  // Date
-  ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = "#475569";
-  ctx.fillText(new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" }), 40, 310);
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        return;
+      }
 
-  // Download
-  const link = document.createElement("a");
-  link.download = "speed-test-results.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+      // Fallback: share without file
+      try {
+        await navigator.share({ title: "My Internet Speed", text: shareText, url: "https://howfastismy.net" });
+        return;
+      } catch (e) {
+        if (e instanceof Error && e.name === "AbortError") return; // user cancelled
+      }
+    }
+  } catch (e) {
+    if (e instanceof Error && e.name === "AbortError") return; // user cancelled
+  }
+
+  // Final fallback: copy to clipboard
+  try {
+    await navigator.clipboard.writeText(shareText);
+    const btn = document.getElementById("share-result-btn");
+    if (btn) { btn.textContent = "✓ Result copied"; setTimeout(() => { btn.textContent = "📤 Share Result"; }, 2000); }
+  } catch { /* silent */ }
 }
 
 // ── History ────────────────────────────────────────────────────────────────────
@@ -233,12 +248,14 @@ export default function SpeedTest() {
   const liveMbpsRef = useRef(0);
   const runningRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const autoStarted = useRef(false);
 
-  // ── Load SVG inline so we can manipulate hair color ──
+  // ── Load history on mount ──
   useEffect(() => {
     setHistory(loadHistory());
   }, []);
 
+  // ── Load SVG inline so we can manipulate hair color ──
   useEffect(() => {
     const container = gokuRef.current;
     if (!container) return;
@@ -598,6 +615,24 @@ export default function SpeedTest() {
     setTesting(false);
   }, []);
 
+  // ── Auto-start speed test on first visit ──
+  useEffect(() => {
+    if (autoStarted.current) return;
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (nav.connection?.saveData) {
+      setStatusText("Automatic testing skipped — reduced data mode enabled. Tap Start Test to begin.");
+      return;
+    }
+    if (sessionStorage.getItem("speedtest_ran")) return;
+    autoStarted.current = true;
+    const timer = setTimeout(() => {
+      sessionStorage.setItem("speedtest_ran", "1");
+      runTest();
+    }, 700);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="w-full max-w-lg">
       {/* Scene */}
@@ -625,7 +660,7 @@ export default function SpeedTest() {
       </div>
 
       {/* Status */}
-      <p className="text-center text-sm text-indigo-300 mb-5 min-h-5">{status}</p>
+      <p className="text-center text-sm text-indigo-300 mb-5 min-h-5" aria-live="polite" aria-atomic="true">{status}</p>
 
       {/* Button */}
       <button
@@ -689,24 +724,14 @@ export default function SpeedTest() {
             </div>
           )}
 
-          {/* Share buttons */}
-          <div className="mt-4 flex gap-2">
-            <button
-              onClick={() => {
-                const text = `🚀 My Internet Speed (howfastismy.net)\nDownload: ${dlSpeed} Mbps\nUpload: ${ulSpeed} Mbps\nPing: ${pingMs} ms\nHealth: ${healthScore}/100`;
-                navigator.clipboard.writeText(text).catch(() => {});
-              }}
-              className="flex-1 py-2.5 rounded-xl border border-white/10 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-white/[0.03] transition"
-            >
-              📋 Copy Text
-            </button>
-            <button
-              onClick={() => shareAsImage(dlSpeed, ulSpeed, pingMs, jitterMs, healthScore)}
-              className="flex-1 py-2.5 rounded-xl border border-white/10 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-white/[0.03] transition"
-            >
-              🖼️ Save Image
-            </button>
-          </div>
+          {/* Share button — native Web Share API with fallbacks */}
+          <button
+            onClick={() => nativeShare(dlSpeed, ulSpeed, pingMs, jitterMs, healthScore)}
+            className="mt-4 w-full py-2.5 rounded-xl bg-gradient-to-br from-indigo-400/20 to-blue-400/20 border border-indigo-400/30 text-indigo-300 text-sm font-semibold tracking-wide hover:bg-indigo-400/10 transition"
+            id="share-result-btn"
+          >
+            📤 Share Result
+          </button>
         </div>
       )}
 
