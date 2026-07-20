@@ -515,11 +515,12 @@ export default function SpeedTest() {
       setProgressVal(60);
       // Gap handled inside upload section (2s wait)
 
-      // 3. Upload — sequential to Cloudflare with proper error visibility
+      // 3. Upload — parallel connections (staggered start to avoid connection pool issues)
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UL_DURATION_MS = 8000; // 8 seconds for upload
-      const UL_CHUNK_SIZE = 512 * 1024; // 512KB
+      const UL_CONNECTIONS = 4;
+      const UL_DURATION_MS = 8000;
+      const UL_CHUNK_SIZE = 256 * 1024; // 256KB per request — smaller for faster round-trips
 
       // Build upload payload
       const ulBuf = new Uint8Array(UL_CHUNK_SIZE);
@@ -529,33 +530,54 @@ export default function SpeedTest() {
       const ulBlob = new Blob([ulBuf]);
 
       // Wait for browser to fully release download connections
-      await new Promise(r => setTimeout(r, 2000));
+      await new Promise(r => setTimeout(r, 2500));
 
       let ulTotalBytes = 0;
       const ulStartTime = performance.now();
-      let consecutiveFailures = 0;
+      let ulRunning = true;
 
-      while (performance.now() - ulStartTime < UL_DURATION_MS) {
-        try {
-          await fetch(UL_URL, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain" },
-            body: ulBlob,
-            mode: "no-cors",
-          });
-          // no-cors means we can't verify, but if fetch resolved, data was sent
-          ulTotalBytes += UL_CHUNK_SIZE;
-          consecutiveFailures = 0;
-          const elapsed = (performance.now() - ulStartTime) / 1000;
-          liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
-          setUlSpeed(liveMbpsRef.current.toFixed(1));
-        } catch {
-          consecutiveFailures++;
-          if (consecutiveFailures > 5) break; // give up if too many failures
-          await new Promise(r => setTimeout(r, 200));
+      async function ulWorker(stagger: number) {
+        await new Promise(r => setTimeout(r, stagger)); // stagger start
+        while (ulRunning) {
+          try {
+            await fetch(UL_URL, {
+              method: "POST",
+              headers: { "Content-Type": "text/plain" },
+              body: ulBlob,
+              mode: "no-cors",
+            });
+            ulTotalBytes += UL_CHUNK_SIZE;
+          } catch {
+            if (!ulRunning) break;
+            await new Promise(r => setTimeout(r, 100));
+          }
         }
       }
 
+      // Live display updater
+      const ulDisplay = setInterval(() => {
+        const elapsed = (performance.now() - ulStartTime) / 1000;
+        if (elapsed > 0.5 && ulTotalBytes > 0) {
+          liveMbpsRef.current = (ulTotalBytes * 8 / 1e6) / elapsed;
+          setUlSpeed(liveMbpsRef.current.toFixed(1));
+        }
+      }, 300);
+
+      // Launch workers with staggered starts (0, 100, 200, 300ms)
+      const ulWorkers = Array.from({ length: UL_CONNECTIONS }, (_, i) => ulWorker(i * 100));
+
+      // Stop after duration
+      await new Promise<void>(resolve => {
+        setTimeout(() => { ulRunning = false; resolve(); }, UL_DURATION_MS);
+      });
+
+      // Grace period for in-flight requests
+      await Promise.race([
+        Promise.allSettled(ulWorkers),
+        new Promise(r => setTimeout(r, 2000)),
+      ]);
+
+      clearInterval(ulDisplay);
       const ulTotalSec = (performance.now() - ulStartTime) / 1000;
       const ul = ulTotalBytes > 0 ? (ulTotalBytes * 8 / 1e6) / ulTotalSec : 0;
       runningRef.current = false; liveMbpsRef.current = 0;
