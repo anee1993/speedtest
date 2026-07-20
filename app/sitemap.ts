@@ -136,5 +136,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/blog/internet-speed-for-zoom`,
+      lastModified: new Date("2026-07-14"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/internet-slow-at-night`,
+      lastModified: new Date("2026-07-16"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog/how-much-data-does-streaming-use`,
+      lastModified: new Date("2026-07-18"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

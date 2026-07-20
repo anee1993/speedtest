@@ -1356,6 +1356,341 @@ export const posts: BlogPost[] = [
 <p><em>Disclaimer: Prices and plans may vary by city and change without notice. Check provider websites for current offers. Content was rephrased for compliance with licensing restrictions.</em></p>
 `,
   },
+  {
+    slug: "internet-speed-for-zoom",
+    title: "What Internet Speed Do I Need for Zoom?",
+    description:
+      "Find out the exact internet speed requirements for Zoom calls — from 1-on-1 video to group meetings with screen sharing.",
+    date: "2026-07-14",
+    relatedSlugs: ["good-internet-speed", "why-is-my-upload-speed-so-slow", "why-is-my-internet-slow"],
+    content: `
+<h2>Zoom Speed Requirements: The Official Numbers</h2>
+<p>Zoom publishes minimum and recommended internet speeds for different call types. Here is what you actually need for a smooth experience:</p>
+<table>
+<thead>
+<tr><th>Call Type</th><th>Minimum Download</th><th>Minimum Upload</th><th>Recommended</th></tr>
+</thead>
+<tbody>
+<tr><td>1-on-1 video (720p)</td><td>1.2 Mbps</td><td>1.2 Mbps</td><td>1.8 Mbps up+down</td></tr>
+<tr><td>1-on-1 video (1080p HD)</td><td>3.8 Mbps</td><td>3.8 Mbps</td><td>3.8 Mbps up+down</td></tr>
+<tr><td>Group video (720p)</td><td>2.6 Mbps</td><td>1.8 Mbps</td><td>3.0 Mbps down / 3.0 Mbps up</td></tr>
+<tr><td>Group video (1080p)</td><td>3.8 Mbps</td><td>3.8 Mbps</td><td>3.8 Mbps up+down</td></tr>
+<tr><td>Screen sharing only</td><td>150 Kbps</td><td>150 Kbps</td><td>300 Kbps up+down</td></tr>
+<tr><td>Screen sharing + video</td><td>2.5 Mbps</td><td>2.5 Mbps</td><td>3.0 Mbps up+down</td></tr>
+</tbody>
+</table>
+<p>These numbers might look modest, but there is a catch: Zoom needs these speeds <strong>consistently</strong> throughout your call, not just as peak values. If your connection fluctuates — dropping below these thresholds even briefly — you will experience frozen video, pixelation, or audio dropouts.</p>
+<p>Not sure where you stand? <a href="https://howfastismy.net">Run a speed test</a> to check both your download and upload speeds right now.</p>
+
+<h2>Why Upload Speed Matters More for Zoom</h2>
+<p>Most internet plans are asymmetric — download speed is much higher than upload. A typical cable plan might offer 100 Mbps down but only 5-10 Mbps up. For general browsing and streaming, this works fine because you are mostly receiving data.</p>
+<p>Zoom is different. When you are on a video call, your camera feed is being <strong>uploaded</strong> continuously to Zoom's servers, which then distribute it to other participants. If your upload speed is insufficient, other people see you freeze, pixelate, or disappear entirely — even if your download is blazing fast.</p>
+<p>This is the number one reason people have bad Zoom experiences on connections that otherwise feel fast. You might have 200 Mbps download but only 5 Mbps upload. During a group HD call requiring 3.8 Mbps upload, that leaves very little headroom — especially if anyone else in your household is also uploading (cloud backups, other video calls, file syncing).</p>
+<p>Check your upload speed specifically. If it is below 5 Mbps, you are at risk of Zoom quality issues during group calls. Read more about <a href="/blog/why-is-my-upload-speed-so-slow">why upload speeds are often slow</a> and how to improve them.</p>
+
+<h2>What Actually Causes Choppy, Frozen Zoom Calls</h2>
+<p>When Zoom goes bad, it goes bad in specific ways. Understanding the symptoms helps diagnose the cause:</p>
+
+<h3>Frozen or Pixelated Video</h3>
+<p>This happens when bandwidth drops below what Zoom needs to transmit full video frames. Zoom automatically reduces resolution to compensate, but if bandwidth drops further, it freezes the frame entirely until enough data gets through.</p>
+<p><strong>Cause:</strong> Insufficient upload speed, network congestion, or bandwidth competition from other devices/applications.</p>
+
+<h3>Audio Cutting Out or Robotic Sound</h3>
+<p>Audio requires very little bandwidth (roughly 60-100 Kbps), so when audio breaks, the problem is usually <strong>packet loss</strong> or <strong>jitter</strong> rather than raw speed. Packets arrive out of order or not at all, creating gaps in the audio stream.</p>
+<p><strong>Cause:</strong> WiFi interference, high jitter, unstable connection, or severe congestion.</p>
+
+<h3>Lag and Delay in Conversation</h3>
+<p>When there is a noticeable delay between speaking and being heard, you are dealing with <strong>high ping (latency)</strong>. This is the round-trip time between your device and Zoom's servers. Anything above 150 ms makes conversations feel out of sync — people talk over each other because responses are delayed.</p>
+<p><strong>Cause:</strong> Long physical distance to Zoom servers, too many network hops, congested ISP routing, or satellite internet.</p>
+
+<h3>The "Your internet connection is unstable" Warning</h3>
+<p>Zoom displays this when it detects fluctuating bandwidth or increasing packet loss. It typically means your connection is varying too much for Zoom to maintain consistent quality.</p>
+<p><strong>Cause:</strong> WiFi signal strength varying, ISP congestion, background downloads competing for bandwidth.</p>
+
+<h2>Zoom Speed Recommendations: What We Actually Suggest</h2>
+<p>Zoom's official minimums are just that — minimums. In the real world, you want headroom. Here is what we recommend for a reliably good Zoom experience:</p>
+<ul>
+<li><strong>For 1-on-1 calls:</strong> At least 5 Mbps download and 5 Mbps upload</li>
+<li><strong>For group calls (3-10 people):</strong> At least 10 Mbps download and 5 Mbps upload</li>
+<li><strong>For large meetings or webinars:</strong> At least 15 Mbps download and 5 Mbps upload</li>
+<li><strong>For screen sharing with HD video:</strong> At least 10 Mbps download and 5 Mbps upload</li>
+</ul>
+<p>These recommendations assume your Zoom call is not the only thing using your connection. With headroom built in, background activities (email syncing, notifications, Slack) will not interrupt your call.</p>
+
+<h2>Ping and Jitter: The Hidden Zoom Killers</h2>
+<p>Speed tests measure bandwidth, but for Zoom, two other metrics matter just as much:</p>
+<ul>
+<li><strong>Ping (latency):</strong> Should be under 100 ms for comfortable conversation. Under 50 ms is ideal. Above 150 ms and conversations become awkward with people talking over each other.</li>
+<li><strong>Jitter:</strong> The variation in ping over time. Should be under 30 ms. High jitter means your connection quality is unpredictable — some packets arrive quickly, others are delayed, causing audio and video glitches.</li>
+</ul>
+<p>A <a href="https://howfastismy.net">speed test</a> that reports ping and jitter alongside download/upload gives you the complete picture of your Zoom readiness.</p>
+
+<h2>Tips for Better Zoom Calls</h2>
+<p>If you are experiencing Zoom issues, try these fixes roughly in order of impact:</p>
+
+<h3>1. Use a Wired Ethernet Connection</h3>
+<p>WiFi is the single biggest source of Zoom problems. It introduces variable latency, packet loss, and bandwidth fluctuations. Plugging directly into your router with an Ethernet cable eliminates all WiFi-related issues instantly. If your laptop lacks an Ethernet port, a USB-C to Ethernet adapter costs under $20 and is worth every penny for frequent callers.</p>
+
+<h3>2. Close Bandwidth-Hungry Applications</h3>
+<p>Before important calls, close or pause: cloud backup services (Dropbox, OneDrive, iCloud), streaming video on other devices, large downloads or updates, file syncing services. Each of these competes for your upload bandwidth.</p>
+
+<h3>3. Lower Your Zoom Video Resolution</h3>
+<p>In Zoom Settings → Video, you can disable HD video. Dropping from 1080p to 720p cuts bandwidth requirements roughly in half while still looking good on most screens. For audio-focused meetings, turning off your camera entirely reduces bandwidth needs to under 100 Kbps.</p>
+
+<h3>4. Reduce Network Competition</h3>
+<p>If others share your internet connection, coordinate during important calls. A single 4K Netflix stream uses 25 Mbps of download bandwidth. Someone uploading large files to Google Drive can saturate your upload. Ask household members to pause heavy usage during critical meetings, or set up QoS (Quality of Service) on your router to prioritize video calling traffic.</p>
+
+<h3>5. Position Closer to Your Router</h3>
+<p>If wired is not possible, minimize the distance and obstacles between your device and the WiFi router. Every wall reduces signal strength. The 5 GHz band offers faster speeds but shorter range — if you are more than two rooms away, the 2.4 GHz band may actually be more reliable despite being slower.</p>
+
+<h3>6. Restart Your Router Before Important Calls</h3>
+<p>Routers accumulate connection state and memory usage over time. A quick restart (unplug for 30 seconds) before a critical meeting clears the slate and often improves performance.</p>
+
+<h2>When Your Internet Plan Is Not Enough</h2>
+<p>If you have tried all the fixes above and still experience issues, your internet plan may genuinely be too slow — particularly on the upload side. Plans with less than 5 Mbps upload will struggle with HD group calls, especially in shared households.</p>
+<p>Consider upgrading to a plan with at least 10 Mbps upload for reliable video conferencing. Fiber connections are ideal because they typically offer symmetric speeds (equal download and upload). Check our comparison of <a href="/blog/fiber-vs-cable-vs-dsl">fiber vs cable vs DSL</a> to understand your options.</p>
+
+<h2>Test Your Zoom Readiness Now</h2>
+<p>The best way to prepare for smooth Zoom calls is to know your actual connection performance. <a href="https://howfastismy.net">Run a speed test</a> and pay attention to all four metrics: download speed, upload speed, ping, and jitter. If your upload is above 5 Mbps, ping is under 100 ms, and jitter is under 30 ms, you are well-equipped for quality Zoom calls. If any of those fall short, the tips above will help you get there.</p>
+`,
+  },
+  {
+    slug: "internet-slow-at-night",
+    title: "Why Is My Internet Slow at Night? Causes & Fixes",
+    description:
+      "Discover why your internet slows down every evening and what you can do about it. Common causes include ISP congestion, peak-hour throttling, and shared bandwidth.",
+    date: "2026-07-16",
+    relatedSlugs: ["why-is-my-internet-slow", "is-my-isp-throttling-me", "fiber-vs-cable-vs-dsl"],
+    content: `
+<h2>Why Does Internet Get Slower at Night?</h2>
+<p>If your internet feels fast in the morning but crawls after dinner, you are not imagining things. Evening slowdowns between 7 PM and 11 PM are one of the most common internet complaints, and the cause is almost always the same: <strong>network congestion</strong>. Too many people in your area are using the internet at once, and the infrastructure cannot deliver full speeds to everyone simultaneously.</p>
+<p>To confirm the pattern, <a href="https://howfastismy.net">run a speed test</a> at different times of day — morning, afternoon, and evening. If you see a significant drop in the evening, congestion is your problem.</p>
+
+<h2>How Cable Internet Congestion Works</h2>
+<p>The most common cause of nighttime slowdowns is the shared nature of cable internet infrastructure. Here is how it works:</p>
+<p>Cable internet uses a system called a <strong>shared node</strong>. Your connection runs from your home to a neighborhood node, and that node has a fixed amount of total bandwidth shared among all subscribers connected to it. During the day, when many people are at work, fewer users are active and everyone gets close to their plan speed. In the evening, when everyone comes home and starts streaming Netflix, downloading, and video calling simultaneously, that shared pool gets divided among far more users.</p>
+<p>Think of it like a highway: at 10 AM it is mostly empty and you cruise at full speed. At 6 PM during rush hour, the same highway is bumper to bumper. The road did not get narrower — it just has too many cars.</p>
+<p>This affects cable internet (Xfinity, Spectrum, Cox, Hathway, etc.) far more than fiber. Each cable node might serve 100 to 500 homes, and the total capacity of that node is fixed. When utilization crosses a threshold, everyone on that node experiences reduced speeds.</p>
+
+<h2>Peak Hours: The 7-11 PM Crunch</h2>
+<p>Network traffic data consistently shows the same pattern worldwide: usage ramps up starting around 6-7 PM as people get home from work, peaks between 8-10 PM, and drops off after 11 PM. During peak hours, a node that is barely utilized at 50% during the day can hit 90%+ utilization.</p>
+<p>What everyone is doing during peak hours:</p>
+<ul>
+<li><strong>Streaming video:</strong> Netflix, YouTube, Disney+, and other services account for over 50% of all evening internet traffic. A single 4K stream uses 25 Mbps.</li>
+<li><strong>Gaming:</strong> While gameplay uses little bandwidth, game downloads and updates are massive (50-100 GB). Many consoles auto-update in the evening.</li>
+<li><strong>Video calls:</strong> Evening catch-ups with family, remote meetings across time zones.</li>
+<li><strong>Social media:</strong> Short-form video (TikTok, Instagram Reels, YouTube Shorts) uses surprising amounts of bandwidth when scrolled continuously.</li>
+<li><strong>Smart home devices:</strong> Security cameras uploading footage, smart TVs phoning home, IoT devices syncing data.</li>
+</ul>
+
+<h2>ISP Congestion at the Node Level</h2>
+<p>Beyond your local neighborhood node, congestion can occur at other points in your ISP's network:</p>
+
+<h3>Backhaul Congestion</h3>
+<p>The connection between your neighborhood node and your ISP's core network (called backhaul) can also become saturated. If your ISP has not invested in sufficient backhaul capacity for your area, the bottleneck might not be your local node but the pipe connecting it to the wider internet.</p>
+
+<h3>Peering Congestion</h3>
+<p>ISPs connect to content providers (Netflix, YouTube, etc.) through peering arrangements. If these interconnection points become saturated during peak hours, traffic from specific services slows down even if your local connection has capacity. This is less common now that major streaming services use CDNs (Content Delivery Networks) that cache content inside ISP networks, but it still occurs.</p>
+
+<h3>Intentional Throttling</h3>
+<p>Some ISPs manage peak-hour congestion by actively throttling certain types of traffic — particularly video streaming. This is different from passive congestion: your ISP is deliberately reducing speeds for specific services to manage overall network load. If you suspect this, check our guide on <a href="/blog/is-my-isp-throttling-me">how to tell if your ISP is throttling you</a>.</p>
+
+<h2>Fiber vs Cable: Why Fiber Does Not Slow Down at Night</h2>
+<p>Fiber optic internet handles peak hours fundamentally differently from cable. Here is why:</p>
+<ul>
+<li><strong>Dedicated lines:</strong> Most FTTH (Fiber to the Home) deployments provide a dedicated fiber strand to each home, meaning you do not share last-mile bandwidth with neighbors.</li>
+<li><strong>Massive capacity:</strong> Fiber has orders of magnitude more total capacity than coaxial cable. Even when shared (in PON architectures), the total pool is so large that congestion is rare.</li>
+<li><strong>Symmetric speeds:</strong> Fiber typically offers equal upload and download speeds, avoiding the upload bottlenecks common on cable during peak hours.</li>
+<li><strong>Lower latency:</strong> Fiber maintains consistent low latency regardless of network load, while cable latency can spike during congestion.</li>
+</ul>
+<p>If your cable connection reliably slows down every evening, switching to fiber (where available) is the most effective permanent solution. Compare your options in our <a href="/blog/fiber-vs-cable-vs-dsl">fiber vs cable vs DSL comparison</a>.</p>
+
+<h2>How to Test and Confirm Nighttime Slowdowns</h2>
+<p>Before trying fixes, document the problem:</p>
+<ol>
+<li><strong>Run speed tests at multiple times:</strong> Test at 8 AM, 12 PM, 5 PM, 8 PM, and 10 PM using <a href="https://howfastismy.net">howfastismy.net</a>. Record download speed, upload speed, and ping each time.</li>
+<li><strong>Test on a wired connection:</strong> Connect directly to your router via Ethernet to eliminate WiFi as a variable. If wired speeds also drop at night, the issue is your ISP — not your home network.</li>
+<li><strong>Test over several days:</strong> One evening of slow speeds could be a fluke. A pattern over a week confirms congestion.</li>
+<li><strong>Compare to your plan:</strong> If you pay for 200 Mbps and get 180 Mbps at 8 AM but 40 Mbps at 9 PM, that is a clear congestion signal.</li>
+</ol>
+<p>Keep a simple log with date, time, and speeds. This data is also useful if you need to complain to your ISP — concrete measurements are harder to dismiss than "it feels slow."</p>
+
+<h2>Solutions for Slow Internet at Night</h2>
+
+<h3>1. Enable QoS (Quality of Service) on Your Router</h3>
+<p>QoS settings let you prioritize certain types of traffic. If you are trying to make a video call while family members stream video, QoS can ensure your call gets priority. This does not increase your total bandwidth, but it makes sure the most important traffic gets through first.</p>
+
+<h3>2. Schedule Heavy Downloads for Off-Peak Hours</h3>
+<p>Game updates, system updates, cloud backups, and large file downloads can all be scheduled for early morning hours (2-6 AM) when network congestion is minimal. Most gaming platforms, operating systems, and backup services support scheduled downloads.</p>
+
+<h3>3. Switch to Fiber Internet</h3>
+<p>If fiber is available at your address, switching eliminates shared-node congestion entirely. Fiber connections maintain consistent speeds regardless of what your neighbors are doing. Check availability with providers in your area.</p>
+
+<h3>4. Call Your ISP and Complain</h3>
+<p>ISPs monitor node utilization and can split overloaded nodes (serving fewer homes per node) or upgrade backhaul capacity. However, they typically only do this when enough customers complain. Call with your speed test data showing the pattern. Ask specifically: "Is my node over-utilized during peak hours?" Some ISPs will upgrade you to a less congested node or provide a discount if they cannot resolve the issue.</p>
+
+<h3>5. Try a Different DNS Server</h3>
+<p>While DNS does not affect raw throughput, overloaded ISP DNS servers during peak hours can make websites feel slow to load (high time-to-first-byte). Switching to Cloudflare (1.1.1.1) or Google (8.8.8.8) DNS can eliminate this specific bottleneck.</p>
+
+<h3>6. Reduce Streaming Quality</h3>
+<p>If multiple people are streaming during peak hours on a congested connection, dropping from 4K to 1080p frees up significant bandwidth. Netflix at 1080p uses about 5 Mbps versus 25 Mbps for 4K — an 80% reduction. This gives more headroom for everyone on the network.</p>
+
+<h3>7. Consider a Different ISP or Plan</h3>
+<p>If your ISP consistently fails to deliver advertised speeds during peak hours and does not fix the issue, it may be time to switch. Different providers may have less congested infrastructure in your area. A higher-tier plan on the same ISP sometimes routes through less congested equipment, though this is not guaranteed.</p>
+
+<h2>When Nighttime Slowdowns Are NOT ISP Congestion</h2>
+<p>Before blaming your ISP, rule out local causes:</p>
+<ul>
+<li><strong>Household usage:</strong> If everyone in your home starts streaming at 8 PM, your router or plan speed may simply not have enough capacity — even without ISP congestion.</li>
+<li><strong>WiFi congestion:</strong> Evening is when neighbors are also home using WiFi. Overlapping WiFi channels can cause interference that degrades your wireless speeds. Try changing your router's WiFi channel.</li>
+<li><strong>Background processes:</strong> Many devices schedule updates, backups, and syncs for evening hours. Check what your devices are doing in the background.</li>
+</ul>
+<p>If wired speeds to your router are fine but WiFi is slow at night, the problem is local wireless congestion, not your ISP.</p>
+
+<h2>Test Your Speed Now</h2>
+<p>Start by measuring what is actually happening. <a href="https://howfastismy.net">Run a speed test right now</a>, then run another one during tonight's peak hours. The difference between those two numbers tells you exactly how much congestion affects your connection. If the gap is significant, work through the solutions above — starting with the ones that do not cost anything (QoS, scheduling downloads, reducing quality) before considering a provider switch.</p>
+`,
+  },
+  {
+    slug: "how-much-data-does-streaming-use",
+    title: "How Much Data Does Streaming Actually Use?",
+    description:
+      "Find out exactly how much data Netflix, YouTube, Spotify, and video calls consume per hour at different quality levels.",
+    date: "2026-07-18",
+    relatedSlugs: ["good-internet-speed", "is-100-mbps-enough-for-family", "how-to-reduce-buffering-netflix"],
+    content: `
+<h2>Streaming Data Usage: The Quick Answer</h2>
+<p>Streaming video is the biggest data consumer in most households. At standard HD quality, expect roughly 3 GB per hour for Netflix and similar services. At 4K, that jumps to about 7 GB per hour. But the exact numbers depend on the service, quality setting, and content type. Below is a comprehensive breakdown of what every major streaming activity actually costs in data.</p>
+<p>Before worrying about data usage, check whether your connection can actually handle the speeds required. A quick <a href="https://howfastismy.net">speed test</a> tells you if you have enough bandwidth for your preferred streaming quality.</p>
+
+<h2>Netflix Data Usage Per Hour</h2>
+<p>Netflix is transparent about its data consumption at different quality levels:</p>
+<table>
+<thead>
+<tr><th>Quality Setting</th><th>Data Per Hour</th><th>Speed Required</th></tr>
+</thead>
+<tbody>
+<tr><td>Low (240p)</td><td>0.3 GB</td><td>0.5 Mbps</td></tr>
+<tr><td>Medium (SD, 480p)</td><td>0.7 GB</td><td>1.5 Mbps</td></tr>
+<tr><td>High (HD, 1080p)</td><td>3 GB</td><td>5 Mbps</td></tr>
+<tr><td>Ultra HD (4K)</td><td>7 GB</td><td>25 Mbps</td></tr>
+<tr><td>4K with HDR/Dolby Vision</td><td>7-10 GB</td><td>25 Mbps</td></tr>
+</tbody>
+</table>
+<p>Netflix automatically adjusts quality based on your connection speed. If you are on a data-capped plan, you can force lower quality in your Netflix account settings under "Data usage per screen." The "Auto" setting uses up to 7 GB/hr on a capable connection.</p>
+<p>A two-hour movie in 4K uses about 14 GB of data. Binge-watching a 10-episode season in HD uses roughly 30 GB. These numbers add up fast on capped plans.</p>
+
+<h2>YouTube Data Usage Per Hour</h2>
+<p>YouTube varies more than Netflix because video content ranges from static talking-head videos (lower bitrate) to fast-motion gaming content (higher bitrate). Average values:</p>
+<table>
+<thead>
+<tr><th>Resolution</th><th>Data Per Hour (Approximate)</th><th>Speed Required</th></tr>
+</thead>
+<tbody>
+<tr><td>240p</td><td>0.15 GB</td><td>0.4 Mbps</td></tr>
+<tr><td>360p</td><td>0.3 GB</td><td>0.7 Mbps</td></tr>
+<tr><td>480p</td><td>0.5 GB</td><td>1.1 Mbps</td></tr>
+<tr><td>720p</td><td>1.5 GB</td><td>2.5 Mbps</td></tr>
+<tr><td>1080p</td><td>3 GB</td><td>5 Mbps</td></tr>
+<tr><td>1440p (2K)</td><td>5 GB</td><td>10 Mbps</td></tr>
+<tr><td>2160p (4K)</td><td>7 GB</td><td>20 Mbps</td></tr>
+</tbody>
+</table>
+<p>YouTube defaults to "Auto" quality, which adjusts based on your connection. On mobile, you can set a default quality cap in Settings → Video quality preferences to control data usage on WiFi and cellular separately.</p>
+
+<h2>Spotify and Music Streaming Data Usage</h2>
+<p>Music streaming uses far less data than video, but it adds up over long listening sessions:</p>
+<table>
+<thead>
+<tr><th>Quality Level</th><th>Bitrate</th><th>Data Per Hour</th></tr>
+</thead>
+<tbody>
+<tr><td>Low (Spotify)</td><td>24 kbps</td><td>~0.01 GB (10 MB)</td></tr>
+<tr><td>Normal (Spotify)</td><td>96 kbps</td><td>~0.04 GB (43 MB)</td></tr>
+<tr><td>High (Spotify)</td><td>160 kbps</td><td>~0.07 GB (72 MB)</td></tr>
+<tr><td>Very High (Spotify Premium)</td><td>320 kbps</td><td>~0.14 GB (144 MB)</td></tr>
+<tr><td>Apple Music (AAC)</td><td>256 kbps</td><td>~0.11 GB (115 MB)</td></tr>
+<tr><td>Apple Music Lossless</td><td>~1411 kbps</td><td>~0.63 GB</td></tr>
+</tbody>
+</table>
+<p>At the default "High" quality on Spotify, eight hours of daily listening uses about 0.6 GB per day or roughly 17 GB per month. That is minimal compared to video, but lossless audio (Apple Music Lossless, Tidal HiFi) uses 5-10x more data and can add up significantly.</p>
+
+<h2>Video Calls: Zoom, Teams, and FaceTime</h2>
+<p>Video calls consume data in both directions — you are simultaneously downloading other participants' video and uploading your own:</p>
+<table>
+<thead>
+<tr><th>Service / Quality</th><th>Data Per Hour (Approximate)</th></tr>
+</thead>
+<tbody>
+<tr><td>Zoom audio only</td><td>0.03 GB (30 MB)</td></tr>
+<tr><td>Zoom 720p (1-on-1)</td><td>0.5-0.8 GB</td></tr>
+<tr><td>Zoom HD (group call)</td><td>1.0-1.5 GB</td></tr>
+<tr><td>Zoom 1080p</td><td>1.5-2.5 GB</td></tr>
+<tr><td>Microsoft Teams video</td><td>0.7-1.2 GB</td></tr>
+<tr><td>FaceTime video</td><td>0.7-1.0 GB</td></tr>
+<tr><td>Google Meet HD</td><td>0.8-1.3 GB</td></tr>
+</tbody>
+</table>
+<p>A one-hour daily Zoom meeting in HD uses roughly 1-1.5 GB per day, or 20-30 GB per month. For remote workers on multiple calls daily, video conferencing can become a significant data consumer. If data is a concern, turning off your camera saves about 60-80% of the data used per call. For more detail, see our guide on <a href="/blog/internet-speed-for-zoom">internet speed requirements for Zoom</a>.</p>
+
+<h2>Gaming: Surprisingly Low Data Usage</h2>
+<p>Online gaming uses far less data than most people expect during active gameplay:</p>
+<table>
+<thead>
+<tr><th>Game Type</th><th>Data Per Hour</th></tr>
+</thead>
+<tbody>
+<tr><td>Multiplayer FPS (Valorant, CS2, CoD)</td><td>0.04-0.10 GB (40-100 MB)</td></tr>
+<tr><td>Battle Royale (Fortnite, Apex)</td><td>0.05-0.10 GB (50-100 MB)</td></tr>
+<tr><td>MMO (WoW, FFXIV)</td><td>0.02-0.05 GB (20-50 MB)</td></tr>
+<tr><td>Racing games online</td><td>0.03-0.05 GB (30-50 MB)</td></tr>
+<tr><td>Cloud gaming (GeForce NOW, Xbox Cloud)</td><td>5-15 GB</td></tr>
+</tbody>
+</table>
+<p>Traditional online gaming uses roughly 40-100 MB per hour — negligible compared to streaming video. The big data consumers are game downloads and updates, which can be 50-150 GB per game. Cloud gaming (where the game runs on a remote server and streams video to you) uses as much data as video streaming: 5-15 GB per hour depending on quality.</p>
+
+<h2>Summary: Monthly Data Usage Estimates</h2>
+<p>Here is what typical usage patterns add up to monthly:</p>
+<table>
+<thead>
+<tr><th>Activity</th><th>Usage Pattern</th><th>Monthly Data</th></tr>
+</thead>
+<tbody>
+<tr><td>Netflix (HD)</td><td>2 hours/day</td><td>~180 GB</td></tr>
+<tr><td>Netflix (4K)</td><td>2 hours/day</td><td>~420 GB</td></tr>
+<tr><td>YouTube (1080p)</td><td>1 hour/day</td><td>~90 GB</td></tr>
+<tr><td>Spotify (High)</td><td>4 hours/day</td><td>~8.5 GB</td></tr>
+<tr><td>Zoom HD calls</td><td>3 hours/day (workdays)</td><td>~66 GB</td></tr>
+<tr><td>Online gaming</td><td>2 hours/day</td><td>~6 GB (gameplay only)</td></tr>
+<tr><td>Cloud gaming</td><td>2 hours/day</td><td>~300 GB</td></tr>
+</tbody>
+</table>
+
+<h2>What This Means for Data Caps</h2>
+<p>Many ISPs impose monthly data caps, commonly at 1 TB (1,000 GB) or 1.2 TB for home internet. Here is how quickly different households might hit those limits:</p>
+<ul>
+<li><strong>Light user (browsing, email, music):</strong> 50-100 GB/month. Data cap is irrelevant.</li>
+<li><strong>Moderate household (HD streaming, some video calls):</strong> 300-500 GB/month. Comfortably under most caps.</li>
+<li><strong>Heavy household (4K streaming, multiple users, gaming downloads):</strong> 800-1,500 GB/month. May hit or exceed a 1 TB cap.</li>
+<li><strong>Power users (4K everywhere, cloud gaming, large downloads):</strong> 2,000+ GB/month. Need an unlimited plan.</li>
+</ul>
+<p>If you regularly approach your data cap, the most impactful change is reducing streaming quality from 4K to 1080p. This alone cuts video streaming data by more than half while still looking great on most TVs under 65 inches.</p>
+
+<h2>Tips to Reduce Data Usage</h2>
+<ol>
+<li><strong>Set streaming services to HD (1080p) instead of Auto or 4K</strong> — saves 4+ GB per hour of video.</li>
+<li><strong>Download content for offline viewing</strong> — Netflix, YouTube, and Spotify all support downloads that use your data once instead of every time you watch/listen.</li>
+<li><strong>Disable auto-play</strong> — prevents streaming services from playing the next episode when you have fallen asleep.</li>
+<li><strong>Schedule game updates for off-peak times</strong> — does not reduce total data but avoids congesting your connection during active use.</li>
+<li><strong>Use WiFi for mobile devices</strong> — ensures streaming on phones uses your home internet (with its larger cap) rather than cellular data.</li>
+<li><strong>Monitor usage</strong> — most routers and ISPs provide monthly usage dashboards. Check them weekly if you are near your cap.</li>
+</ol>
+
+<h2>Speed vs Data: They Are Different Things</h2>
+<p>A common point of confusion: internet speed (Mbps) and data usage (GB) are not the same thing. Speed determines how fast data flows. Data usage determines how much total data you consume. A faster connection does not automatically use more data — it just delivers the same data more quickly. However, faster connections do enable higher-quality streaming, which uses more data per hour.</p>
+<p>To check whether your connection is fast enough for your preferred streaming quality, <a href="https://howfastismy.net">run a speed test</a>. If you want to understand what speed you need for your household, see our guide on <a href="/blog/good-internet-speed">what constitutes a good internet speed</a> or whether <a href="/blog/is-100-mbps-enough-for-family">100 Mbps is enough for a family</a>.</p>
+`,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
