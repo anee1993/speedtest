@@ -518,7 +518,7 @@ export default function SpeedTest() {
       // 3. Upload — parallel connections (staggered start to avoid connection pool issues)
       setStatusText("Testing upload speed…"); setProgressVal(65);
       runningRef.current = true; liveMbpsRef.current = 0;
-      const UL_CONNECTIONS = 8;
+      const UL_CONNECTIONS = 4;
       const UL_DURATION_MS = 8000;
       const UL_CHUNK_SIZE = 256 * 1024; // 256KB per request — smaller for faster round-trips
 
